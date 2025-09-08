@@ -2,6 +2,8 @@
 
 This is my personal website built with Pelican, a static site generator written in Python.
 
+> **Note**: Theme paths have been fixed for proper GitHub Pages deployment.
+
 ## Features
 
 - **About Me Page**: Professional background and skills
