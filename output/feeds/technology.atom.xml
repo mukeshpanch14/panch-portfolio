@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom"><title>Panch Mukesh - Technology</title><link href="/" rel="alternate"/><link href="/feeds/technology.atom.xml" rel="self"/><id>/</id><updated>2024-01-15T00:00:00+05:30</updated><subtitle>Personal Website &amp; Blog</subtitle><entry><title>Building Static Sites with Pelican</title><link href="/building-static-sites-with-pelican.html" rel="alternate"/><published>2024-01-15T00:00:00+05:30</published><updated>2024-01-15T00:00:00+05:30</updated><author><name>Panch Mukesh</name></author><id>tag:None,2024-01-15:/building-static-sites-with-pelican.html</id><summary type="html">&lt;h1&gt;Building Static Sites with Pelican&lt;/h1&gt;
+&lt;p&gt;Pelican is a powerful static site generator that makes it easy to create fast, secure, and maintainable websites. In this post, I'll share why I chose Pelican for my personal website and some of its key features.&lt;/p&gt;
+&lt;h2&gt;Why Pelican?&lt;/h2&gt;
+&lt;h3&gt;1. &lt;strong&gt;Python-based&lt;/strong&gt;&lt;/h3&gt;
+&lt;p&gt;Since I'm comfortable with …&lt;/p&gt;</summary><content type="html">&lt;h1&gt;Building Static Sites with Pelican&lt;/h1&gt;
+&lt;p&gt;Pelican is a powerful static site generator that makes it easy to create fast, secure, and maintainable websites. In this post, I'll share why I chose Pelican for my personal website and some of its key features.&lt;/p&gt;
+&lt;h2&gt;Why Pelican?&lt;/h2&gt;
+&lt;h3&gt;1. &lt;strong&gt;Python-based&lt;/strong&gt;&lt;/h3&gt;
+&lt;p&gt;Since I'm comfortable with Python, using Pelican was a natural choice. It integrates well with my existing Python workflow.&lt;/p&gt;
+&lt;h3&gt;2. &lt;strong&gt;Markdown Support&lt;/strong&gt;&lt;/h3&gt;
+&lt;p&gt;Writing content in Markdown is simple and allows me to focus on content rather than formatting.&lt;/p&gt;
+&lt;h3&gt;3. &lt;strong&gt;Static Generation&lt;/strong&gt;&lt;/h3&gt;
+&lt;p&gt;Static sites are fast, secure, and can be easily hosted on various platforms like GitHub Pages, Netlify, or AWS S3.&lt;/p&gt;
+&lt;h3&gt;4. &lt;strong&gt;Flexible Theming&lt;/strong&gt;&lt;/h3&gt;
+&lt;p&gt;Pelican supports custom themes, allowing for complete control over the design and layout.&lt;/p&gt;
+&lt;h2&gt;Key Features&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;Article and Page Support&lt;/strong&gt;: Distinguish between blog posts and static pages&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Category and Tag System&lt;/strong&gt;: Organize content effectively&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;RSS/Atom Feeds&lt;/strong&gt;: Automatic feed generation for subscribers&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Plugin System&lt;/strong&gt;: Extend functionality with plugins&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Multi-language Support&lt;/strong&gt;: Create multilingual sites&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Draft Support&lt;/strong&gt;: Work on posts before publishing&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2&gt;Getting Started&lt;/h2&gt;
+&lt;p&gt;Setting up a Pelican site is straightforward:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;Install Pelican: &lt;code&gt;pip install pelican markdown&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;Initialize: &lt;code&gt;pelican-quickstart&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;Create content in Markdown&lt;/li&gt;
+&lt;li&gt;Generate site: &lt;code&gt;pelican content&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;Serve locally: &lt;code&gt;pelican --listen&lt;/code&gt;&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h2&gt;Conclusion&lt;/h2&gt;
+&lt;p&gt;Pelican has been an excellent choice for my personal website. It provides the perfect balance of simplicity and power, allowing me to focus on creating content while maintaining a professional-looking site.&lt;/p&gt;
+&lt;hr&gt;
+&lt;p&gt;&lt;em&gt;This is another sample blog post demonstrating the blog functionality.&lt;/em&gt;&lt;/p&gt;</content><category term="Technology"/><category term="pelican"/><category term="static-sites"/><category term="python"/><category term="web-development"/></entry></feed>
