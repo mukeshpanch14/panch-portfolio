@@ -48,6 +48,10 @@ jobs:
         run: |
           pelican content -s publishconf.py
           
+      - name: Create .nojekyll file
+        run: |
+          touch output/.nojekyll
+          
       - name: Setup Pages
         uses: actions/configure-pages@v3
         
