@@ -9,7 +9,7 @@ TIMEZONE = 'Asia/Kolkata'
 DEFAULT_LANG = 'en'
 
 # Static files configuration
-STATIC_PATHS = ['images']
+STATIC_PATHS = ['images', 'extra']
 
 # Feed generation
 FEED_ALL_ATOM = 'feeds/all.atom.xml'
