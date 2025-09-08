@@ -1,45 +1,147 @@
+
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-        <title>Panch Mukesh - Building Static Sites with Pelican</title>
-      <meta charset="utf-8" />
-      <meta name="generator" content="Pelican" />
-      <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <meta name="description" content="Personal Website & Blog" />
-        <link href="https://mukeshpanch14.github.io/panch-portfolio/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="Panch Mukesh Full Atom Feed" />
-        <link href="https://mukeshpanch14.github.io/panch-portfolio/feeds/technology.atom.xml" type="application/atom+xml" rel="alternate" title="Panch Mukesh Categories Atom Feed" />
+<head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="HandheldFriendly" content="True" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="robots" content="" />
+
+  <link href="https://fonts.googleapis.com/css2?family=Source+Code+Pro:ital,wght@0,400;0,700;1,400&family=Source+Sans+Pro:ital,wght@0,300;0,400;0,700;1,400&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" type="text/css" href="./theme/stylesheet/style.min.css">
+
+
+    <link id="pygments-light-theme" rel="stylesheet" type="text/css"
+          href="./theme/pygments/github.min.css">
+
+
+
+  <link rel="stylesheet" type="text/css" href="./theme/font-awesome/css/fontawesome.css">
+  <link rel="stylesheet" type="text/css" href="./theme/font-awesome/css/brands.css">
+  <link rel="stylesheet" type="text/css" href="./theme/font-awesome/css/solid.css">
 
 
 
 
-    <meta name="tags" content="pelican" />
-    <meta name="tags" content="static-sites" />
-    <meta name="tags" content="python" />
-    <meta name="tags" content="web-development" />
+  <link href="https://mukeshpanch14.github.io/panch-portfolio/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="Panch Mukesh Atom">
 
-  </head>
 
-  <body>
-      <header>
-          <hgroup><h1><a href="./">Panch Mukesh</a></h1><p>Personal Website & Blog</p></hgroup>
-          <nav><ul>
-              <li><a href="/pages/about.html">About</a></li>
-              <li><a href="/archives.html">Archives</a></li>
-              <li><a href="/categories.html">Categories</a></li>
-              <li><a href="/tags.html">Tags</a></li>
-                <li><a href="./pages/about.html" >About Me</a></li>
-                <li><a href="./category/general.html" >General</a></li>
-                <li><a href="./category/technology.html"  aria-current="page" >Technology</a></li>
-          </ul></nav>
-      </header>
-      <main>
-  <article>
-    <header>
-      <h2>
-        <a href="./building-static-sites-with-pelican.html" rel="bookmark"
-           title="Permalink to Building Static Sites with Pelican">Building Static Sites with Pelican</a></h2>
+
+
+
+
+
+
+ 
+
+<meta name="author" content="Panch Mukesh" />
+<meta name="description" content="Building Static Sites with Pelican Pelican is a powerful static site generator that makes it easy to create fast, secure, and maintainable websites. In this post, I&#39;ll share why I chose Pelican for my personal website and some of its key features. Why Pelican? 1. Python-based Since I&#39;m comfortable with …" />
+<meta name="keywords" content="pelican, static-sites, python, web-development">
+
+
+  <meta property="og:site_name" content="Panch Mukesh"/>
+  <meta property="og:title" content="Building Static Sites with Pelican"/>
+  <meta property="og:description" content="Building Static Sites with Pelican Pelican is a powerful static site generator that makes it easy to create fast, secure, and maintainable websites. In this post, I&#39;ll share why I chose Pelican for my personal website and some of its key features. Why Pelican? 1. Python-based Since I&#39;m comfortable with …"/>
+  <meta property="og:locale" content="en_US"/>
+  <meta property="og:url" content="./building-static-sites-with-pelican.html"/>
+  <meta property="og:type" content="article"/>
+  <meta property="article:published_time" content="2024-01-15 00:00:00+05:30"/>
+  <meta property="article:modified_time" content="2024-01-15 00:00:00+05:30"/>
+  <meta property="article:author" content="./author/panch-mukesh.html">
+  <meta property="article:section" content="Technology"/>
+  <meta property="article:tag" content="pelican"/>
+  <meta property="article:tag" content="static-sites"/>
+  <meta property="article:tag" content="python"/>
+  <meta property="article:tag" content="web-development"/>
+  <meta property="og:image" content="images/profile.png">
+
+  <title>Panch Mukesh &ndash; Building Static Sites with Pelican</title>
+
+
+</head>
+<body class="light-theme">
+
+<aside>
+  <div>
+    <a href="./">
+      <img src="images/profile.png" alt="Panch Mukesh" title="Panch Mukesh">
+    </a>
+
+    <h1>
+      <a href="./">Panch Mukesh</a>
+    </h1>
+
+    <p>Personal Website & Blog</p>
+
+
+    <nav>
+      <ul class="list">
+
+
+            <li>
+              <a target="_self"
+                 href="./pages/about.html#about">
+                About Me
+              </a>
+            </li>
+
+      </ul>
+    </nav>
+
+    <ul class="social">
+      <li>
+        <a class="sc-github"
+           href="#"
+           target="_blank">
+          <i class="fa-brands fa-github"></i>
+        </a>
+      </li>
+      <li>
+        <a class="sc-linkedin"
+           href="#"
+           target="_blank">
+          <i class="fa-brands fa-linkedin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="sc-envelope"
+rel="me"           href="mailto:your-email@example.com"
+           target="_blank">
+          <i class="fa-solid fa-envelope"></i>
+        </a>
+      </li>
+    </ul>
+  </div>
+
+</aside>
+  <main>
+
+<nav>
+  <a href="./">Home</a>
+
+  <a href="/pages/about.html">About</a>
+  <a href="/archives.html">Archives</a>
+  <a href="/categories.html">Categories</a>
+  <a href="/tags.html">Tags</a>
+
+  <a href="https://mukeshpanch14.github.io/panch-portfolio/feeds/all.atom.xml">Atom</a>
+
+</nav>
+
+<article class="single">
+  <header>
       
-    </header>
+    <h1 id="building-static-sites-with-pelican">Building Static Sites with Pelican</h1>
+    <p>
+      Posted on Mon 15 January 2024 in <a href="./category/technology.html">Technology</a>
+
+    </p>
+  </header>
+
+
+  <div>
     <h1>Building Static Sites with Pelican</h1>
 <p>Pelican is a powerful static site generator that makes it easy to create fast, secure, and maintainable websites. In this post, I'll share why I chose Pelican for my personal website and some of its key features.</p>
 <h2>Why Pelican?</h2>
@@ -73,34 +175,52 @@
 <p>Pelican has been an excellent choice for my personal website. It provides the perfect balance of simplicity and power, allowing me to focus on creating content while maintaining a professional-looking site.</p>
 <hr>
 <p><em>This is another sample blog post demonstrating the blog functionality.</em></p>
-    <footer>
-      <p>Published: <time datetime="2024-01-15T00:00:00+05:30">
-        Mon 15 January 2024
-      </time></p>
-        <p>Last updated: <time datetime="2024-01-15T00:00:00+05:30">
-          Mon 15 January 2024
-        </time></p>
-        <address>
-          By             <a href="./author/panch-mukesh.html">Panch Mukesh</a>
-        </address>
-        <p>
-          Category: <a href="./category/technology.html">Technology</a>
-        </p>
-        <p>
-          Tags:
-            <a href="./tag/pelican.html">pelican</a>
-            <a href="./tag/static-sites.html">static-sites</a>
-            <a href="./tag/python.html">python</a>
-            <a href="./tag/web-development.html">web-development</a>
-        </p>
-    </footer>
-  </article>
-      </main>
-      <footer>
-          <address>
-            Proudly powered by <a rel="nofollow" href="https://getpelican.com/">Pelican</a>,
-            which takes great advantage of <a rel="nofollow" href="https://www.python.org/">Python</a>.
-          </address>
-      </footer>
-  </body>
+  </div>
+  <div class="tag-cloud">
+    <p>
+      <a href="./tag/pelican.html">pelican</a>
+      <a href="./tag/static-sites.html">static-sites</a>
+      <a href="./tag/python.html">python</a>
+      <a href="./tag/web-development.html">web-development</a>
+    </p>
+  </div>
+
+
+
+
+
+
+
+</article>
+
+<footer>
+<p>
+  &copy; 2025 Panch Mukesh - This work is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/deed.en_US" target="_blank">Creative Commons Attribution-ShareAlike</a>
+</p>
+<p>
+Built with <a href="http://getpelican.com" target="_blank">Pelican</a> using <a href="http://bit.ly/flex-pelican" target="_blank">Flex</a> theme
+</p><p>
+  <a rel="license"
+     href="http://creativecommons.org/licenses/by-sa/4.0/"
+     target="_blank">
+    <img alt="Creative Commons License"
+         title="Creative Commons License"
+         style="border-width:0"
+           src="https://i.creativecommons.org/l/by-sa/4.0/80x15.png"
+         width="80"
+         height="15"/>
+  </a>
+</p></footer>  </main>
+
+<script type="application/ld+json">
+{
+  "@context" : "http://schema.org",
+  "@type" : "Blog",
+  "name": " Panch Mukesh ",
+  "url" : ".",
+  "image": "images/profile.png",
+  "description": "Welcome to my personal website where I share my thoughts on technology, programming, and more."
+}
+</script>
+</body>
 </html>
