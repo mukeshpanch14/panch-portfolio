@@ -31,7 +31,7 @@ RECENT_POST_COUNT = 5
 THEME = 'themes/flex'
 
 # Flex theme specific settings
-SITELOGO = '/images/profile.png'  # You can add your profile image
+SITELOGO = 'images/profile.png'  # You can add your profile image
 SITETITLE = 'Panch Mukesh'
 SITESUBTITLE = 'Personal Website & Blog'
 SITEDESCRIPTION = 'Welcome to my personal website where I share my thoughts on technology, programming, and more.'
@@ -77,5 +77,5 @@ MARKDOWN = {
     'output_format': 'html5',
 }
 
-# Uncomment following line if you want document-relative URLs when developing
-# RELATIVE_URLS = True
+# Use relative URLs for proper theme loading
+RELATIVE_URLS = True
