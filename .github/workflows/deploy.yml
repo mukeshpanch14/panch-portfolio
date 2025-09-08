@@ -48,6 +48,15 @@ jobs:
         run: |
           pelican content -s publishconf.py
           
+      - name: Debug build output
+        run: |
+          echo "=== Build output contents ==="
+          ls -la output/
+          echo "=== Theme directory ==="
+          ls -la output/theme/ || echo "Theme directory not found"
+          echo "=== CSS files ==="
+          find output/ -name "*.css" | head -10
+          
       - name: Create .nojekyll file
         run: |
           touch output/.nojekyll
