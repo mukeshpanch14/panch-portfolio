@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom"><title>Panch Mukesh - General</title><link href="https://mukeshpanch14.github.io/panch-portfolio/" rel="alternate"/><link href="https://mukeshpanch14.github.io/panch-portfolio/feeds/general.atom.xml" rel="self"/><id>https://mukeshpanch14.github.io/panch-portfolio/</id><updated>2024-01-15T00:00:00+05:30</updated><subtitle>Personal Website &amp; Blog</subtitle><entry><title>Welcome to My Blog</title><link href="https://mukeshpanch14.github.io/panch-portfolio/welcome-to-my-blog.html" rel="alternate"/><published>2024-01-15T00:00:00+05:30</published><updated>2024-01-15T00:00:00+05:30</updated><author><name>Panch Mukesh</name></author><id>tag:mukeshpanch14.github.io,2024-01-15:/panch-portfolio/welcome-to-my-blog.html</id><summary type="html">&lt;h1&gt;Welcome to My Blog&lt;/h1&gt;
+&lt;p&gt;Welcome to my personal blog! This is where I'll be sharing my thoughts, experiences, and insights about technology, programming, and various other topics that interest me.&lt;/p&gt;
+&lt;h2&gt;What You Can Expect&lt;/h2&gt;
+&lt;p&gt;In this blog, I plan to write about:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;Technology Insights&lt;/strong&gt;: My experiences with different programming languages …&lt;/li&gt;&lt;/ul&gt;</summary><content type="html">&lt;h1&gt;Welcome to My Blog&lt;/h1&gt;
+&lt;p&gt;Welcome to my personal blog! This is where I'll be sharing my thoughts, experiences, and insights about technology, programming, and various other topics that interest me.&lt;/p&gt;
+&lt;h2&gt;What You Can Expect&lt;/h2&gt;
+&lt;p&gt;In this blog, I plan to write about:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;Technology Insights&lt;/strong&gt;: My experiences with different programming languages, frameworks, and tools&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Project Showcases&lt;/strong&gt;: Details about projects I'm working on or have completed&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Learning Journey&lt;/strong&gt;: My continuous learning process and the resources I find valuable&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Industry Trends&lt;/strong&gt;: Thoughts on current trends in software development and technology&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Tutorials&lt;/strong&gt;: Step-by-step guides for common development tasks&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2&gt;Getting Started&lt;/h2&gt;
+&lt;p&gt;This blog is built using Pelican, a static site generator written in Python. It allows me to write content in Markdown and automatically generates a beautiful, fast-loading website.&lt;/p&gt;
+&lt;h2&gt;Stay Connected&lt;/h2&gt;
+&lt;p&gt;If you find any of my posts interesting or helpful, feel free to reach out! I'm always interested in connecting with fellow developers and technology enthusiasts.&lt;/p&gt;
+&lt;p&gt;Happy reading!&lt;/p&gt;
+&lt;hr&gt;
+&lt;p&gt;&lt;em&gt;This is a sample blog post. You can replace this with your own content by creating new &lt;code&gt;.md&lt;/code&gt; files in the &lt;code&gt;content/posts/&lt;/code&gt; directory.&lt;/em&gt;&lt;/p&gt;</content><category term="General"/><category term="welcome"/><category term="blog"/><category term="introduction"/></entry></feed>
