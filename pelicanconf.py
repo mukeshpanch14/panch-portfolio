@@ -31,7 +31,7 @@ RECENT_POST_COUNT = 5
 THEME = 'themes/flex'
 
 # Flex theme specific settings
-SITELOGO = 'images/profile.png'  # You can add your profile image
+SITELOGO = '/images/profile.png'  # You can add your profile image
 SITETITLE = 'Panch Mukesh'
 SITESUBTITLE = 'Personal Website & Blog'
 SITEDESCRIPTION = 'Welcome to my personal website where I share my thoughts on technology, programming, and more.'
