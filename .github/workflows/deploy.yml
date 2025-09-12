@@ -1,4 +1,4 @@
-name: Deploy to GitHub Pages
+name: Build and Deploy to GitHub Pages
 
 on:
   push:
@@ -19,7 +19,7 @@ concurrency:
   cancel-in-progress: false
 
 jobs:
-  # Build job
+  # Build job - runs on both push and pull requests
   build:
     runs-on: ubuntu-latest
     steps:
@@ -64,8 +64,9 @@ jobs:
         with:
           path: ./output
 
-  # Deployment job
+  # Deployment job - only runs on push to main branch
   deploy:
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
