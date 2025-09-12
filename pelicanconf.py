@@ -48,9 +48,8 @@ MENUITEMS = (
 
 # Flex theme social links
 SOCIAL = (
-    ('github', '#'),
-    ('linkedin', '#'),
-    ('envelope', 'mailto:your-email@example.com'),
+    ('github', 'https://github.com/mukeshpanch14'),
+    ('linkedin', 'https://www.linkedin.com/in/p-panch-mukesh-b59b4432/'),
 )
 
 # Flex theme additional settings

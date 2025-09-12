@@ -54,6 +54,7 @@ When I'm not coding, I enjoy:
 ## Contact
 
 Feel free to reach out to me through:
-- LinkedIn: [https://www.linkedin.com/in/p-panch-mukesh-b59b4432/]
-- GitHub: [https://github.com/mukeshpanch14]
+
+- [LinkedIn](https://www.linkedin.com/in/p-panch-mukesh-b59b4432/)
+- [GitHub](https://github.com/mukeshpanch14)
 
