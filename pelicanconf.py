@@ -78,3 +78,9 @@ MARKDOWN = {
 
 # Use relative URLs for proper theme loading
 RELATIVE_URLS = True
+
+# Utterances Comments Configuration
+UTTERANCES_REPO = "mukeshpanch14/panch-portfolio"
+UTTERANCES_ISSUE_TERM = "pathname"
+UTTERANCES_LABEL = "Comments"
+UTTERANCES_THEME = "github-light"
