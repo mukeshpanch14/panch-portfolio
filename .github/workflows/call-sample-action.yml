@@ -6,7 +6,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Call Sample Action
-        uses: .github/workflows/sample-action.yml
+        uses: ./sample-action.yml
         with:
           input1: 'Hello'
           input2: 'World'
