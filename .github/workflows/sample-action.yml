@@ -1,0 +1,25 @@
+name: 'Sample Workflow'
+on:
+  workflow_dispatch:
+    inputs:
+      input1:
+        description: 'First input parameter'
+        required: true
+        type: string
+      input2:
+        description: 'Second input parameter'
+        required: false
+        type: string
+        default: 'default-value'
+
+jobs:
+  log-inputs:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Log Input Parameters
+        run: |
+          echo "Input 1: ${{ github.event.inputs.input1 }}"
+          echo "Input 2: ${{ github.event.inputs.input2 }}"
+          echo "Repository: ${{ github.repository }}"
+          echo "Ref: ${{ github.ref }}"
+          echo "SHA: ${{ github.sha }}"

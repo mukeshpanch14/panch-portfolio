@@ -1,0 +1,15 @@
+name: 'Call Sample Action'
+on:
+  workflow_dispatch:
+jobs:
+  call-sample-action:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Call Sample Action
+        uses: .github/workflows/sample-action.yml
+        with:
+          input1: 'Hello'
+          input2: 'World'
+        id: sample-action
+    outputs:
+      output1: ${{ steps.sample-action.outputs.output1 }}
