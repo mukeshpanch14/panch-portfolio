@@ -1,4 +1,4 @@
-Title: Configurable Virtual Environments
+Title: WSGI vs ASGI: How Python Web Applications Really Work
 Date: 2025-12-30 10:00
 Modified: 2025-12-30
 Category: Python
