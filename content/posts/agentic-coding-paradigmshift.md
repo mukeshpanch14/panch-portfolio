@@ -7,8 +7,6 @@ Slug: agentic-coding-paradigm-shift
 Summary: Software development is shifting from writing code to orchestrating AI agents. Why structured agentic workflows beat vibe coding, and what your role as an engineer actually becomes.
 Status: published
 
-# From Autocomplete to Orchestration: The New Era of AI Coding
-
 Remember when GitHub Copilot first came out and we all thought tab-completion with AI was revolutionary? That was 2021. We're now in 2026, and if you're still thinking about AI coding tools as "fancy autocomplete," you're missing what's actually happening.
 
 The game has changed. Completely.
