@@ -3,7 +3,8 @@ Date: 2025-12-30 10:00
 Modified: 2025-12-30
 Category: Python
 Tags: python, api, uvicorn, gunicorn
-Slug: wsgi and asgi, python
+Slug: wsgi-vs-asgi-python
+Summary: Understanding WSGI and ASGI interfaces in Python, comparing Gunicorn and Uvicorn servers, and choosing the right deployment setup for your web applications.
 Status: published
 
 # WSGI vs ASGI: How Python Web Applications Really Work
