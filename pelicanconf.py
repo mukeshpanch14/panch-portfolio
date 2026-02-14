@@ -85,3 +85,30 @@ UTTERANCES_REPO = "mukeshpanch14/panch-portfolio"
 UTTERANCES_ISSUE_TERM = "pathname"
 UTTERANCES_LABEL = "Comments"
 UTTERANCES_THEME = "github-light"
+
+# SEO Configuration
+ROBOTS = 'index, follow'
+
+# Plugins
+PLUGINS = ['sitemap']
+
+SITEMAP = {
+    'format': 'xml',
+    'priorities': {
+        'articles': 0.8,
+        'indexes': 0.5,
+        'pages': 0.6,
+    },
+    'changefreqs': {
+        'articles': 'monthly',
+        'indexes': 'daily',
+        'pages': 'monthly',
+    },
+}
+
+# Extra files (robots.txt, CNAME, .nojekyll)
+EXTRA_PATH_METADATA = {
+    'extra/robots.txt': {'path': 'robots.txt'},
+    'extra/CNAME': {'path': 'CNAME'},
+    'extra/.nojekyll': {'path': '.nojekyll'},
+}

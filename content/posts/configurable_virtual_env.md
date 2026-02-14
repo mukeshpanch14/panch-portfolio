@@ -4,6 +4,7 @@ Modified: 2025-09-12
 Category: Python
 Tags: python, pipenv, virtualenv
 Slug: configurable-virtual-environments
+Summary: How to use Pipenv categories and flags to create configurable virtual environments, keeping Docker images lightweight by installing only the dependencies you need.
 Status: published
 
 
