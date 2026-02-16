@@ -260,6 +260,62 @@ You develop intuition for this fast. Pay attention to what actually helps versus
 
 **Over-specifying**: Pasting a 200-line stack trace when the one-line error message tells the story.
 
+## The RPI Workflow: Research, Plan, Implement
+
+All these context patterns come together in a workflow that works especially well for real-world, "brownfield" codebases—the messy, lived-in projects where most of us actually spend our time.
+
+It's called **RPI: Research, Plan, Implement.** Three phases, each designed to keep you in the Smart Zone.
+
+### Research: Find the Vertical Slice of Truth
+
+Before you write a single line of code, you need to understand what's already there. In a brownfield codebase, that's harder than it sounds—there's legacy code, undocumented patterns, and decisions buried three abstraction layers deep.
+
+This is where sub-agents earn their keep. Spawn a research agent and let it do the noisy work:
+
+- Trace the flow you need to modify end-to-end
+- Find every file that touches the feature area
+- Identify the patterns the codebase actually uses (not what the wiki says it uses)
+- Note the tests that cover the relevant behavior
+
+The output isn't code. It's a **research document**—a vertical slice of truth about the specific area you're about to change. What files matter, what patterns are in play, what the tests expect, and what the gotchas are.
+
+This document becomes the compressed context for everything that follows. You've turned a 500-file codebase into a focused 2-page summary of what actually matters for your task.
+
+### Plan: Compress Your Intent
+
+Here's where most people skip straight to coding and regret it.
+
+A plan is a **compression of intent**. It's not a vague description like "refactor the auth module." It's an explicit, detailed blueprint that includes:
+
+- The specific files you'll modify and why
+- Code snippets showing the approach (not pseudocode—real patterns from the codebase)
+- The order of changes and dependencies between them
+- What the tests should look like when you're done
+
+Why does this matter for context engineering? Because a good plan means you don't need to keep the entire problem in context while implementing. Each step is self-contained. The agent can focus on one piece at a time without needing the full conversation history of how you got there.
+
+**Vibe coding** is "let's see what happens." **Planning** is "here's exactly what we're building and how each piece fits."
+
+The plan itself becomes an artifact you can hand to a fresh agent session. No history needed. No Dumb Zone. Just clean intent.
+
+### Implement: Execute Small, Test Often
+
+With research done and a plan in hand, implementation becomes almost mechanical:
+
+- **Work in small steps.** Each step from your plan gets its own focused execution. Small context in, small change out.
+- **Test at every step.** Run the relevant tests after each change. Don't batch up five modifications and hope they all work together.
+- **Reset context between steps.** If a step fills up your context with debugging, compress and restart before moving to the next one. The plan is your anchor—you can always pick up where you left off.
+- **Let the plan guide, not the conversation history.** The agent doesn't need to remember step 1 to execute step 5. The plan already captures the decisions.
+
+This is the opposite of a long, meandering conversation where you and the agent stumble toward a solution. It's structured, predictable, and keeps context lean throughout.
+
+**The RPI cycle in practice:**
+1. Research agent explores the codebase → produces a research doc
+2. You write a plan using the research → produces an implementation blueprint with code snippets
+3. You execute the plan step by step → each step is a small, testable change
+
+Each phase generates a clean artifact that feeds the next phase. No noise carries forward. You stay in the Smart Zone the entire time.
+
 ## Why Context Engineering Actually Matters
 
 This isn't just about making the AI "work better." Context engineering is the difference between:
