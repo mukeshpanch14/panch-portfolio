@@ -19,4 +19,5 @@ DELETE_OUTPUT_DIRECTORY = True
 # Following items are often useful when publishing
 
 # DISQUS_SITENAME = ""
-# GOOGLE_ANALYTICS = ""
+# GOOGLE_ANALYTICS = ""  # Old UA format (deprecated)
+GOOGLE_GLOBAL_SITE_TAG = "G-YQKJK4RJC4"
