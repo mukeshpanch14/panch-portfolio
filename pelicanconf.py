@@ -88,6 +88,7 @@ UTTERANCES_THEME = "github-light"
 
 # SEO Configuration
 ROBOTS = 'index, follow'
+GOOGLE_SEARCH_CONSOLE = '2E7Fcuz0shDd0Wb-Q_7L4bjdOWnRp0DjfONR-SMeRlk'
 
 # Plugins
 PLUGINS = ['sitemap']
