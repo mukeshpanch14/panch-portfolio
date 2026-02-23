@@ -34,9 +34,11 @@ Claude Code has several hook events, but these four are the ones that actually m
 
 **`Notification`** fires for specific situations Claude wants to flag — like when it hits a permission prompt and needs you to approve or deny something. This is the "I'm stuck, I need a human" notification.
 
-**`TaskCompleted`** fires when a sub-agent finishes its work. Useful if you're running multi-agent workflows and want to track individual agent completions.
+**`SubagentStop`** fires when a sub-agent finishes its work. Useful if you're running multi-agent workflows and want to track individual agent completions.
 
 **`UserPromptSubmit`** fires right after you send a message. Useful for logging, preprocessing, or tracking what you're asking Claude to do.
+
+**Note:** You can get more details and types of hooks supported in Claude are [here](https://code.claude.com/docs/en/hooks)
 
 ---
 
