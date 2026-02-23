@@ -63,6 +63,20 @@
   {% include "partial/share_post.html" %}
   {% endif %}
 
+  <div class="center social-share">
+    <p>{{ _('Found this helpful? Share it!') }}</p>
+    <a href="https://twitter.com/intent/tweet?url={{ SITEURL }}/{{ article.url }}&text={{ article.title|urlencode }}"
+       target="_blank" rel="noopener" title="Share on X / Twitter"
+       style="margin: 0 0.5em;">
+      <i class="fab fa-x-twitter fa-lg"></i>
+    </a>
+    <a href="https://www.linkedin.com/sharing/share-offsite/?url={{ SITEURL }}/{{ article.url }}"
+       target="_blank" rel="noopener" title="Share on LinkedIn"
+       style="margin: 0 0.5em;">
+      <i class="fab fa-linkedin fa-lg"></i>
+    </a>
+  </div>
+
   {% if ADD_THIS_ID %}
   <div class="center social-share">
     <p>{{ _('Like this article? Share it with your friends!') }}</p>
