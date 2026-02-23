@@ -1,5 +1,5 @@
 AUTHOR = 'Panch Mukesh'
-SITENAME = 'Panch Mukesh | Senior Software Developer & Tech Blogger'
+SITENAME = 'Panch Mukesh'
 SITEURL = ""
 
 PATH = "content"
@@ -33,7 +33,7 @@ THEME_TEMPLATES_OVERRIDES = ['custom_templates']
 
 # Flex theme specific settings
 SITELOGO = '/images/profile.png'  # You can add your profile image
-SITETITLE = 'Panch Mukesh — Senior Software Developer'
+SITETITLE = 'Panch Mukesh'
 SITESUBTITLE = 'Personal Website & Blog'
 SITEDESCRIPTION = 'Welcome to my personal website where I share my thoughts on technology, programming, and more.'
 SITEURL = ''
