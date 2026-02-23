@@ -1,5 +1,5 @@
 AUTHOR = 'Panch Mukesh'
-SITENAME = 'Panch Mukesh'
+SITENAME = 'Panch Mukesh | Senior Software Developer & Tech Blogger'
 SITEURL = ""
 
 PATH = "content"
@@ -33,7 +33,7 @@ THEME_TEMPLATES_OVERRIDES = ['custom_templates']
 
 # Flex theme specific settings
 SITELOGO = '/images/profile.png'  # You can add your profile image
-SITETITLE = 'Panch Mukesh'
+SITETITLE = 'Panch Mukesh — Senior Software Developer'
 SITESUBTITLE = 'Personal Website & Blog'
 SITEDESCRIPTION = 'Welcome to my personal website where I share my thoughts on technology, programming, and more.'
 SITEURL = ''
@@ -41,7 +41,7 @@ SITEURL = ''
 # Flex theme navigation
 MAIN_MENU = True
 MENUITEMS = (
-    ('About', '/pages/about.html'),
+    ('About Me', '/pages/about.html'),
     ('Archives', '/archives.html'),
     ('Categories', '/categories.html'),
     ('Tags', '/tags.html'),
@@ -89,6 +89,8 @@ UTTERANCES_THEME = "github-light"
 # SEO Configuration
 ROBOTS = 'index, follow'
 GOOGLE_SEARCH_CONSOLE = '2E7Fcuz0shDd0Wb-Q_7L4bjdOWnRp0DjfONR-SMeRlk'
+FAVICON = '/images/favicon.ico'
+APPLE_TOUCH_ICON = '/images/profile.png'
 
 # Plugins
 PLUGINS = ['sitemap']
@@ -112,4 +114,5 @@ EXTRA_PATH_METADATA = {
     'extra/robots.txt': {'path': 'robots.txt'},
     'extra/CNAME': {'path': 'CNAME'},
     'extra/.nojekyll': {'path': '.nojekyll'},
+    'extra/favicon.ico': {'path': 'favicon.ico'},
 }

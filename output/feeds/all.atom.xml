@@ -1,60 +1,1002 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>Panch Mukesh</title><link href="/" rel="alternate"/><link href="feeds/all.atom.xml" rel="self"/><id>/</id><updated>2024-01-15T00:00:00+05:30</updated><subtitle>Personal Website &amp; Blog</subtitle><entry><title>Building Static Sites with Pelican</title><link href="building-static-sites-with-pelican.html" rel="alternate"/><published>2024-01-15T00:00:00+05:30</published><updated>2024-01-15T00:00:00+05:30</updated><author><name>Panch Mukesh</name></author><id>tag:None,2024-01-15:building-static-sites-with-pelican.html</id><summary type="html">&lt;h1&gt;Building Static Sites with Pelican&lt;/h1&gt;
-&lt;p&gt;Pelican is a powerful static site generator that makes it easy to create fast, secure, and maintainable websites. In this post, I'll share why I chose Pelican for my personal website and some of its key features.&lt;/p&gt;
-&lt;h2&gt;Why Pelican?&lt;/h2&gt;
-&lt;h3&gt;1. &lt;strong&gt;Python-based&lt;/strong&gt;&lt;/h3&gt;
-&lt;p&gt;Since I'm comfortable with …&lt;/p&gt;</summary><content type="html">&lt;h1&gt;Building Static Sites with Pelican&lt;/h1&gt;
-&lt;p&gt;Pelican is a powerful static site generator that makes it easy to create fast, secure, and maintainable websites. In this post, I'll share why I chose Pelican for my personal website and some of its key features.&lt;/p&gt;
-&lt;h2&gt;Why Pelican?&lt;/h2&gt;
-&lt;h3&gt;1. &lt;strong&gt;Python-based&lt;/strong&gt;&lt;/h3&gt;
-&lt;p&gt;Since I'm comfortable with Python, using Pelican was a natural choice. It integrates well with my existing Python workflow.&lt;/p&gt;
-&lt;h3&gt;2. &lt;strong&gt;Markdown Support&lt;/strong&gt;&lt;/h3&gt;
-&lt;p&gt;Writing content in Markdown is simple and allows me to focus on content rather than formatting.&lt;/p&gt;
-&lt;h3&gt;3. &lt;strong&gt;Static Generation&lt;/strong&gt;&lt;/h3&gt;
-&lt;p&gt;Static sites are fast, secure, and can be easily hosted on various platforms like GitHub Pages, Netlify, or AWS S3.&lt;/p&gt;
-&lt;h3&gt;4. &lt;strong&gt;Flexible Theming&lt;/strong&gt;&lt;/h3&gt;
-&lt;p&gt;Pelican supports custom themes, allowing for complete control over the design and layout.&lt;/p&gt;
-&lt;h2&gt;Key Features&lt;/h2&gt;
+<feed xmlns="http://www.w3.org/2005/Atom"><title>Panch Mukesh | Full Stack Developer &amp; Tech Blogger</title><link href="/" rel="alternate"/><link href="feeds/all.atom.xml" rel="self"/><id>/</id><updated>2026-02-23T10:00:00+05:30</updated><subtitle>Personal Website &amp; Blog</subtitle><entry><title>Claude Code Hooks: Get Notified When It Needs You</title><link href="claude-hooks-guide.html" rel="alternate"/><published>2026-02-23T10:00:00+05:30</published><updated>2026-02-23T00:00:00+05:30</updated><author><name>Panch Mukesh</name></author><id>tag:None,2026-02-23:claude-hooks-guide.html</id><summary type="html">&lt;p&gt;Stop babysitting the terminal. Claude Code hooks let you run scripts on task completion, permission prompts, and idle states — so you get notified the moment Claude needs you, no matter what you're doing.&lt;/p&gt;</summary><content type="html">&lt;p&gt;If you've been using Claude Code, you've probably done this at least once — kicked off a big task, switched to another window, and come back ten minutes later only to find Claude has been sitting idle, waiting for you to approve something.&lt;/p&gt;
+&lt;p&gt;It ran into a tool it needed permission to use. It had a question. It finished and was waiting for your next instruction. And it said nothing.&lt;/p&gt;
+&lt;p&gt;That's the problem hooks solve.&lt;/p&gt;
+&lt;hr&gt;
+&lt;h2&gt;What Are Hooks, Exactly?&lt;/h2&gt;
+&lt;p&gt;Hooks are scripts that Claude Code runs automatically when certain things happen during a session.&lt;/p&gt;
+&lt;p&gt;Think of them like event listeners, but for your AI assistant. When Claude finishes a task, a hook runs. When it needs your approval to use a tool, a hook runs. When it's sitting idle waiting for your input, a hook runs.&lt;/p&gt;
+&lt;p&gt;What that hook &lt;em&gt;does&lt;/em&gt; is entirely up to you. Most people use hooks to send themselves a notification so they can stop babysitting the terminal. But hooks can do anything a shell command can do — log to a file, call a webhook, send a Slack message, update a dashboard. The sky's the limit.&lt;/p&gt;
+&lt;hr&gt;
+&lt;h2&gt;The Four Events You'll Use Most&lt;/h2&gt;
+&lt;p&gt;Claude Code has several hook events, but these four are the ones that actually matter day-to-day:&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;&lt;code&gt;Stop&lt;/code&gt;&lt;/strong&gt; fires when Claude finishes its turn and is waiting for your next message. This is the "come back, I'm done" notification.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;&lt;code&gt;Notification&lt;/code&gt;&lt;/strong&gt; fires for specific situations Claude wants to flag — like when it hits a permission prompt and needs you to approve or deny something. This is the "I'm stuck, I need a human" notification.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;&lt;code&gt;SubagentStop&lt;/code&gt;&lt;/strong&gt; fires when a sub-agent finishes its work. Useful if you're running multi-agent workflows and want to track individual agent completions.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;&lt;code&gt;UserPromptSubmit&lt;/code&gt;&lt;/strong&gt; fires right after you send a message. Useful for logging, preprocessing, or tracking what you're asking Claude to do.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Note:&lt;/strong&gt; You can get more details and types of hooks supported in Claude are &lt;a href="https://code.claude.com/docs/en/hooks"&gt;here&lt;/a&gt;&lt;/p&gt;
+&lt;hr&gt;
+&lt;h2&gt;How to Set Up Your First Hook&lt;/h2&gt;
+&lt;p&gt;Hooks live in your &lt;code&gt;~/.claude/settings.json&lt;/code&gt; file. Here's the basic structure:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="p"&gt;{&lt;/span&gt;
+&lt;span class="w"&gt;  &lt;/span&gt;&lt;span class="nt"&gt;&amp;quot;hooks&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="p"&gt;{&lt;/span&gt;
+&lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="nt"&gt;&amp;quot;Stop&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;
+&lt;span class="w"&gt;      &lt;/span&gt;&lt;span class="p"&gt;{&lt;/span&gt;
+&lt;span class="w"&gt;        &lt;/span&gt;&lt;span class="nt"&gt;&amp;quot;hooks&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;
+&lt;span class="w"&gt;          &lt;/span&gt;&lt;span class="p"&gt;{&lt;/span&gt;
+&lt;span class="w"&gt;            &lt;/span&gt;&lt;span class="nt"&gt;&amp;quot;type&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;command&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+&lt;span class="w"&gt;            &lt;/span&gt;&lt;span class="nt"&gt;&amp;quot;command&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;python3 ~/.claude/hooks/notify.py&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+&lt;span class="w"&gt;            &lt;/span&gt;&lt;span class="nt"&gt;&amp;quot;timeout&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="mi"&gt;5&lt;/span&gt;
+&lt;span class="w"&gt;          &lt;/span&gt;&lt;span class="p"&gt;}&lt;/span&gt;
+&lt;span class="w"&gt;        &lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;
+&lt;span class="w"&gt;      &lt;/span&gt;&lt;span class="p"&gt;}&lt;/span&gt;
+&lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="p"&gt;],&lt;/span&gt;
+&lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="nt"&gt;&amp;quot;Notification&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;
+&lt;span class="w"&gt;      &lt;/span&gt;&lt;span class="p"&gt;{&lt;/span&gt;
+&lt;span class="w"&gt;        &lt;/span&gt;&lt;span class="nt"&gt;&amp;quot;matcher&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;permission_prompt&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+&lt;span class="w"&gt;        &lt;/span&gt;&lt;span class="nt"&gt;&amp;quot;hooks&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;
+&lt;span class="w"&gt;          &lt;/span&gt;&lt;span class="p"&gt;{&lt;/span&gt;
+&lt;span class="w"&gt;            &lt;/span&gt;&lt;span class="nt"&gt;&amp;quot;type&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;command&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+&lt;span class="w"&gt;            &lt;/span&gt;&lt;span class="nt"&gt;&amp;quot;command&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;python3 ~/.claude/hooks/notify.py&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+&lt;span class="w"&gt;            &lt;/span&gt;&lt;span class="nt"&gt;&amp;quot;timeout&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="mi"&gt;5&lt;/span&gt;
+&lt;span class="w"&gt;          &lt;/span&gt;&lt;span class="p"&gt;}&lt;/span&gt;
+&lt;span class="w"&gt;        &lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;
+&lt;span class="w"&gt;      &lt;/span&gt;&lt;span class="p"&gt;}&lt;/span&gt;
+&lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;
+&lt;span class="w"&gt;  &lt;/span&gt;&lt;span class="p"&gt;}&lt;/span&gt;
+&lt;span class="p"&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;The &lt;code&gt;matcher&lt;/code&gt; field on &lt;code&gt;Notification&lt;/code&gt; lets you filter — &lt;code&gt;permission_prompt&lt;/code&gt; fires when Claude needs approval for a tool, &lt;code&gt;idle_prompt&lt;/code&gt; fires when it's waiting for your input.&lt;/p&gt;
+&lt;p&gt;Notice the &lt;code&gt;timeout: 5&lt;/code&gt;. This is important. Claude Code waits for your hook to finish before moving on. Keep your hooks fast, or they'll slow down your workflow. Five seconds is plenty for sending a notification.&lt;/p&gt;
+&lt;hr&gt;
+&lt;h2&gt;Writing a Simple notify.py&lt;/h2&gt;
+&lt;p&gt;Claude Code sends your hook a JSON payload via stdin. Your script reads it, figures out what happened, and does something useful with that information.&lt;/p&gt;
+&lt;p&gt;Here's a minimal notification script for macOS:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="ch"&gt;#!/usr/bin/env python3&lt;/span&gt;
+&lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;json&lt;/span&gt;
+&lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;subprocess&lt;/span&gt;
+&lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;sys&lt;/span&gt;
+
+&lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;sanitize&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;text&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
+    &lt;span class="n"&gt;text&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="nb"&gt;str&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;text&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="n"&gt;text&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;text&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;replace&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;&lt;/span&gt;&lt;span class="se"&gt;\\&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;&lt;/span&gt;&lt;span class="se"&gt;\\\\&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="n"&gt;text&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;text&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;replace&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;&amp;quot;&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;&lt;/span&gt;&lt;span class="se"&gt;\\&lt;/span&gt;&lt;span class="s1"&gt;&amp;quot;&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="n"&gt;text&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;text&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;replace&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;&lt;/span&gt;&lt;span class="se"&gt;\n&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot; &amp;quot;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="n"&gt;text&lt;/span&gt;&lt;span class="p"&gt;[:&lt;/span&gt;&lt;span class="mi"&gt;200&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;
+
+&lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;notify&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;title&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;message&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
+    &lt;span class="n"&gt;script&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;
+        &lt;span class="sa"&gt;f&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;display notification &amp;quot;&lt;/span&gt;&lt;span class="si"&gt;{&lt;/span&gt;&lt;span class="n"&gt;sanitize&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;message&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="si"&gt;}&lt;/span&gt;&lt;span class="s1"&gt;&amp;quot; &amp;#39;&lt;/span&gt;
+        &lt;span class="sa"&gt;f&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;with title &amp;quot;&lt;/span&gt;&lt;span class="si"&gt;{&lt;/span&gt;&lt;span class="n"&gt;sanitize&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;title&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="si"&gt;}&lt;/span&gt;&lt;span class="s1"&gt;&amp;quot; &amp;#39;&lt;/span&gt;
+        &lt;span class="sa"&gt;f&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;sound name &amp;quot;default&amp;quot;&amp;#39;&lt;/span&gt;
+    &lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="n"&gt;subprocess&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;Popen&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;
+        &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;/usr/bin/osascript&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;-e&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;script&lt;/span&gt;&lt;span class="p"&gt;],&lt;/span&gt;
+        &lt;span class="n"&gt;stdout&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;subprocess&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;DEVNULL&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+        &lt;span class="n"&gt;stderr&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;subprocess&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;DEVNULL&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+    &lt;span class="p"&gt;)&lt;/span&gt;
+
+&lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;main&lt;/span&gt;&lt;span class="p"&gt;():&lt;/span&gt;
+    &lt;span class="k"&gt;try&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+        &lt;span class="n"&gt;data&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;json&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;loads&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;sys&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;stdin&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;read&lt;/span&gt;&lt;span class="p"&gt;())&lt;/span&gt;
+    &lt;span class="k"&gt;except&lt;/span&gt; &lt;span class="ne"&gt;Exception&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+        &lt;span class="k"&gt;return&lt;/span&gt;
+
+    &lt;span class="c1"&gt;# Don&amp;#39;t fire notifications from inside a Stop hook to avoid loops&lt;/span&gt;
+    &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="n"&gt;data&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;get&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;stop_hook_active&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
+        &lt;span class="k"&gt;return&lt;/span&gt;
+
+    &lt;span class="n"&gt;event&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;data&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;get&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;hook_event_name&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+
+    &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="n"&gt;event&lt;/span&gt; &lt;span class="o"&gt;==&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;Stop&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+        &lt;span class="n"&gt;notify&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;Claude Code&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;Task complete — ready for your next instruction&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+
+    &lt;span class="k"&gt;elif&lt;/span&gt; &lt;span class="n"&gt;event&lt;/span&gt; &lt;span class="o"&gt;==&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;Notification&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+        &lt;span class="n"&gt;kind&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;data&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;get&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;notification&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="p"&gt;{})&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;get&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;type&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+        &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="n"&gt;kind&lt;/span&gt; &lt;span class="o"&gt;==&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;permission_prompt&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+            &lt;span class="n"&gt;tool&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;data&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;get&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;notification&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="p"&gt;{})&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;get&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;tool_name&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;a tool&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+            &lt;span class="n"&gt;notify&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;⚠️ Claude needs your approval&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="sa"&gt;f&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;Waiting to use: &lt;/span&gt;&lt;span class="si"&gt;{&lt;/span&gt;&lt;span class="n"&gt;tool&lt;/span&gt;&lt;span class="si"&gt;}&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+        &lt;span class="k"&gt;elif&lt;/span&gt; &lt;span class="n"&gt;kind&lt;/span&gt; &lt;span class="o"&gt;==&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;idle_prompt&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+            &lt;span class="n"&gt;notify&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;Claude Code&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;Waiting for your input&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+
+&lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="vm"&gt;__name__&lt;/span&gt; &lt;span class="o"&gt;==&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;__main__&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+    &lt;span class="n"&gt;main&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Save this to &lt;code&gt;~/.claude/hooks/notify.py&lt;/code&gt; and you're 90% of the way there.&lt;/p&gt;
+&lt;hr&gt;
+&lt;h2&gt;The macOS Gotcha Everyone Hits&lt;/h2&gt;
+&lt;p&gt;If you set this up and notifications don't appear, the most common reason is a macOS permissions issue.&lt;/p&gt;
+&lt;p&gt;macOS requires that the app sending notifications (in this case, your terminal) is explicitly allowed to send Apple Events. If it's not, &lt;code&gt;osascript&lt;/code&gt; fails silently — no error, no notification, nothing.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;How to check:&lt;/strong&gt; Run the osascript command manually from your terminal:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;osascript&lt;span class="w"&gt; &lt;/span&gt;-e&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;display notification &amp;quot;test&amp;quot; with title &amp;quot;Test&amp;quot;&amp;#39;&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;If you see a permission dialog, click Allow. If nothing happens at all, go to &lt;strong&gt;System Settings → Privacy &amp;amp; Security → Automation&lt;/strong&gt; and make sure your terminal app has permission to control System Events.&lt;/p&gt;
+&lt;p&gt;The script above runs osascript in the background with stderr suppressed, which means failures are silent. If you're debugging, temporarily change &lt;code&gt;stderr=subprocess.DEVNULL&lt;/code&gt; to &lt;code&gt;stderr=subprocess.PIPE&lt;/code&gt; and print any errors you get.&lt;/p&gt;
+&lt;hr&gt;
+&lt;h2&gt;Other Things You Can Do With Hooks&lt;/h2&gt;
+&lt;p&gt;Notifications are just the start. Here are a few other patterns that work well:&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Logging every session to a file&lt;/strong&gt; — useful if you want to track what you've been asking Claude to do across projects:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="c1"&gt;# In your Stop hook&lt;/span&gt;
+&lt;span class="k"&gt;with&lt;/span&gt; &lt;span class="nb"&gt;open&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;os&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;path&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;expanduser&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;~/.claude/session-log.txt&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;),&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;a&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="k"&gt;as&lt;/span&gt; &lt;span class="n"&gt;f&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+    &lt;span class="n"&gt;f&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;write&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="sa"&gt;f&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;&lt;/span&gt;&lt;span class="si"&gt;{&lt;/span&gt;&lt;span class="n"&gt;datetime&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;now&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;isoformat&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;&lt;span class="si"&gt;}&lt;/span&gt;&lt;span class="s2"&gt; | &lt;/span&gt;&lt;span class="si"&gt;{&lt;/span&gt;&lt;span class="n"&gt;project&lt;/span&gt;&lt;span class="si"&gt;}&lt;/span&gt;&lt;span class="s2"&gt; | Task complete&lt;/span&gt;&lt;span class="se"&gt;\n&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;&lt;strong&gt;Posting to a Slack channel&lt;/strong&gt; — if you're running Claude on a server or want team visibility:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;urllib.request&lt;/span&gt;
+&lt;span class="n"&gt;payload&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;json&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;dumps&lt;/span&gt;&lt;span class="p"&gt;({&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;text&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="sa"&gt;f&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;Claude finished a task in &lt;/span&gt;&lt;span class="si"&gt;{&lt;/span&gt;&lt;span class="n"&gt;project&lt;/span&gt;&lt;span class="si"&gt;}&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;})&lt;/span&gt;
+&lt;span class="n"&gt;req&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;urllib&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;request&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;Request&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;SLACK_WEBHOOK_URL&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;data&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;payload&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;encode&lt;/span&gt;&lt;span class="p"&gt;(),&lt;/span&gt; &lt;span class="n"&gt;method&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;POST&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="n"&gt;urllib&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;request&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;urlopen&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;req&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;timeout&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="mi"&gt;3&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;&lt;strong&gt;Playing a sound without a visual notification&lt;/strong&gt; — sometimes you just want an audio cue:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;afplay&lt;span class="w"&gt; &lt;/span&gt;/System/Library/Sounds/Glass.aiff
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;hr&gt;
+&lt;h2&gt;One Rule to Remember&lt;/h2&gt;
+&lt;p&gt;Whatever your hook does, it must exit cleanly. Claude Code treats a non-zero exit code as a hook failure, and depending on your setup, that might block it from continuing. Always wrap your hook logic in a try/except and exit 0 even if something goes wrong.&lt;/p&gt;
+&lt;p&gt;The hook should never be the reason Claude gets stuck.&lt;/p&gt;
+&lt;hr&gt;
+&lt;h2&gt;Where to Go From Here&lt;/h2&gt;
+&lt;p&gt;Once you have basic notifications working, you'll quickly notice the next problem: if you have Claude Code open in multiple terminals at once, all the notifications look the same. You can't tell which terminal is asking for your attention.&lt;/p&gt;
+&lt;p&gt;That's a solvable problem — and it's what the next post covers.&lt;/p&gt;</content><category term="Technology"/><category term="claude"/><category term="ai"/><category term="hooks"/><category term="productivity"/><category term="developer-tools"/><category term="notifications"/><category term="agentic-coding"/></entry><entry><title>Managing Context Across AI Coding Tools</title><link href="context-is-infrastructure.html" rel="alternate"/><published>2026-02-16T10:00:00+05:30</published><updated>2026-02-16T00:00:00+05:30</updated><author><name>Panch Mukesh</name></author><id>tag:None,2026-02-16:context-is-infrastructure.html</id><summary type="html">&lt;p&gt;Context engineering is the meta-skill that separates productive AI-assisted developers from frustrated ones. Learn the universal patterns—project memory, progressive disclosure, and intentional compaction—that work across every AI coding tool.&lt;/p&gt;</summary><content type="html">&lt;p&gt;If there's one thing that separates developers who get value from AI coding tools from those who get frustrated and give up, it's this: &lt;strong&gt;understanding how context works&lt;/strong&gt;.&lt;/p&gt;
+&lt;p&gt;Doesn't matter if you're using Cursor, Claude Code, Copilot, or Cline. They all hit the same fundamental constraint: limited memory. And how well you manage that constraint determines whether your AI agent is helpful or just burns through your API credits generating garbage.&lt;/p&gt;
+&lt;p&gt;This is what we call &lt;strong&gt;Context Engineering&lt;/strong&gt;—and it's become more important than the code itself.&lt;/p&gt;
+&lt;h2&gt;The Context Window Reality (And Why It Gets "Dumb")&lt;/h2&gt;
+&lt;p&gt;Here's what people don't realize at first: even tools advertising "200K token context windows" fill up fast when you're working on real projects.&lt;/p&gt;
+&lt;p&gt;Think about what's competing for that space:&lt;/p&gt;
 &lt;ul&gt;
-&lt;li&gt;&lt;strong&gt;Article and Page Support&lt;/strong&gt;: Distinguish between blog posts and static pages&lt;/li&gt;
-&lt;li&gt;&lt;strong&gt;Category and Tag System&lt;/strong&gt;: Organize content effectively&lt;/li&gt;
-&lt;li&gt;&lt;strong&gt;RSS/Atom Feeds&lt;/strong&gt;: Automatic feed generation for subscribers&lt;/li&gt;
-&lt;li&gt;&lt;strong&gt;Plugin System&lt;/strong&gt;: Extend functionality with plugins&lt;/li&gt;
-&lt;li&gt;&lt;strong&gt;Multi-language Support&lt;/strong&gt;: Create multilingual sites&lt;/li&gt;
-&lt;li&gt;&lt;strong&gt;Draft Support&lt;/strong&gt;: Work on posts before publishing&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;The tool's system instructions&lt;/strong&gt; - how it should behave, what it can do (10-20K tokens)&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Your conversation history&lt;/strong&gt; - every message back and forth adds up&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Files you've referenced&lt;/strong&gt; - that component file, the test suite, the config&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Your project instructions&lt;/strong&gt; - coding standards, patterns, gotchas&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Tool outputs&lt;/strong&gt; - test results, error messages, command outputs&lt;/li&gt;
 &lt;/ul&gt;
-&lt;h2&gt;Getting Started&lt;/h2&gt;
-&lt;p&gt;Setting up a Pelican site is straightforward:&lt;/p&gt;
+&lt;p&gt;On a typical feature development task, you might start with 50K tokens of system stuff, add 30K of conversation, reference 40K worth of files, and suddenly you're wondering why the AI "forgot" what you told it three messages ago.&lt;/p&gt;
+&lt;p&gt;It didn't forget. You pushed it out of context.&lt;/p&gt;
+&lt;h2&gt;The "Dumb Zone" - Your New Enemy&lt;/h2&gt;
+&lt;p&gt;Here's something crucial that most people miss: &lt;strong&gt;the model gets worse as the context window fills up.&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;This isn't just about running out of space. There's a performance cliff that researchers call the "Dumb Zone":&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;The 40% Rule&lt;/strong&gt;: Once your context window hits about 40% capacity, model performance starts degrading. Not catastrophically, but noticeably. Responses get less accurate. The agent starts missing things. It hallucinates more.&lt;/p&gt;
+&lt;p&gt;Why? LLMs are stateless. They're only as good as the tokens currently in their conversation history. And when that history gets long and messy, they struggle to find the signal in the noise.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;The Noise Trap&lt;/strong&gt;: Every failed attempt, every debugging tangent, every time you "yell" at the model to correct itself—that's all noise filling up the context window. You're not teaching it. You're confusing it.&lt;/p&gt;
+&lt;p&gt;Think about it: you try something, it doesn't work, you paste an error, you explain what's wrong, you try again, paste another error, add more files "just in case"... &lt;/p&gt;
+&lt;p&gt;Ten messages later, you're in the Dumb Zone. The agent is swimming in failed attempts and can't remember what actually worked.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;The Goal&lt;/strong&gt;: Stay in the "Smart Zone" by keeping context small, lean, and focused on what matters right now.&lt;/p&gt;
+&lt;h2&gt;Three Patterns That Work Everywhere&lt;/h2&gt;
+&lt;p&gt;Regardless of which tool you're using, these patterns will make your life better:&lt;/p&gt;
+&lt;h3&gt;Pattern 1: Project Memory - Set It and Forget It&lt;/h3&gt;
+&lt;p&gt;Every tool has some version of this. Claude tools call it &lt;code&gt;CLAUDE.md&lt;/code&gt;. Cursor uses &lt;code&gt;.cursorrules&lt;/code&gt;. GitHub Copilot uses &lt;code&gt;.github/copilot-instructions.md&lt;/code&gt;. Continue has config files. Aider uses commit messages and &lt;code&gt;.aiderignore&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;Different names, same idea: &lt;strong&gt;a file that tells the AI about your project's patterns.&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;Here's what actually belongs in there:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="gh"&gt;# Project Standards&lt;/span&gt;
+
+&lt;span class="k"&gt;-&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;Always use TypeScript strict mode
+&lt;span class="k"&gt;-&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;Prefer functional components in React
+&lt;span class="k"&gt;-&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;Database queries timeout after 5 seconds
+&lt;span class="k"&gt;-&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;Never commit directly to main
+&lt;span class="k"&gt;-&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;Test files go in &lt;span class="gs"&gt;__tests__&lt;/span&gt; directories
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Short. Specific. Actually useful.&lt;/p&gt;
+&lt;p&gt;Here's what doesn't belong:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Your entire architecture document&lt;/li&gt;
+&lt;li&gt;Copy-pasted library documentation  &lt;/li&gt;
+&lt;li&gt;Obvious stuff like "write clean code"&lt;/li&gt;
+&lt;li&gt;Things that change constantly&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;strong&gt;Treat this file like code&lt;/strong&gt;: version control it, peer review changes, keep it under 500 lines, and iterate based on what actually helps the AI versus what's just noise.&lt;/p&gt;
+&lt;h3&gt;Pattern 2: Progressive Disclosure - Show Only What Matters&lt;/h3&gt;
+&lt;p&gt;This is where people mess up. They think "more context is better" and dump their entire codebase into the conversation.&lt;/p&gt;
+&lt;p&gt;It's not better. It's overwhelming.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Think of context like you're explaining something to a colleague.&lt;/strong&gt; You wouldn't hand them 47 files and say "figure it out." You'd say: "The bug is in the authentication flow. Start with &lt;code&gt;auth/session.ts&lt;/code&gt; for token management and &lt;code&gt;middleware/validate.ts&lt;/code&gt; for validation. Here are those two files."&lt;/p&gt;
+&lt;p&gt;Start minimal. Add more only when the AI actually needs it.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Instead of:&lt;/strong&gt;
+"Here's our entire auth system [dumps 20 files]"&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Do this:&lt;/strong&gt;
+"We're fixing token refresh. The relevant code is in these two files. If you need to see how tokens are stored, let me know and I'll show you the database schema."&lt;/p&gt;
+&lt;p&gt;Same thing with documentation. Link to it, don't paste the entire API reference. Extract the relevant section if needed.&lt;/p&gt;
+&lt;h3&gt;Pattern 3: Intentional Compaction - Compress and Restart&lt;/h3&gt;
+&lt;p&gt;Long conversations get messy. You tried one approach, it didn't work, you tried another, the AI suggested something, you debugged it, added more files, explored some edge cases...&lt;/p&gt;
+&lt;p&gt;Fifteen messages later, your context window is full of dead ends and debugging tangents. You're deep in the Dumb Zone.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Here's the discipline that separates pros from beginners: Intentional Compaction.&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;Instead of continuing a noisy thread, you deliberately compress the conversation:&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Step 1: Ask the agent to compress the current state&lt;/strong&gt;
+"Summarize what we've learned into a single markdown file. Include the exact files that matter, the specific line numbers, and the decisions we've made. Skip the failed attempts."&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Step 2: Review and tag&lt;/strong&gt;
+Read what the agent produced. Make sure it captures the "truth"—the actual state of things, not the messy journey to get there. Tag the important files explicitly.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Step 3: Start fresh with just the compressed file&lt;/strong&gt;
+New session. Clean context. Just the essentials loaded. The agent isn't distracted by fifteen messages of debugging noise.&lt;/p&gt;
+&lt;p&gt;Real example:
+1. &lt;strong&gt;Session 1&lt;/strong&gt;: "Help me understand how our payment processing works" (fills context exploring the codebase, hitting dead ends, reading unnecessary files)
+2. &lt;strong&gt;Compress&lt;/strong&gt;: Agent creates &lt;code&gt;research-payment-flow.md&lt;/code&gt; with findings—just the relevant files, the key patterns, the gotchas
+3. &lt;strong&gt;Session 2&lt;/strong&gt;: Start fresh with &lt;em&gt;only&lt;/em&gt; that research doc and your actual implementation task&lt;/p&gt;
+&lt;p&gt;This is "compress and restart." You're not losing information—you're distilling signal from noise. You're escaping the Dumb Zone.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;How often should you do this?&lt;/strong&gt;
+- Context feels sluggish or responses get worse? Compress.
+- You've debugged the same issue multiple times? Compress.
+- Conversation is past 10-15 messages on a complex task? Probably time to compress.&lt;/p&gt;
+&lt;p&gt;Think of it like &lt;code&gt;git rebase&lt;/code&gt; for your conversation history. You're cleaning up the mess before moving forward.&lt;/p&gt;
+&lt;h2&gt;Make Your Codebase AI-Navigable&lt;/h2&gt;
+&lt;p&gt;Small changes to how you structure code make a huge difference:&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Put READMEs everywhere:&lt;/strong&gt;
+- Root level: "What is this project?"
+- Each major folder: "What does this module do?"&lt;br&gt;
+- Complex areas: "Here's how this works"&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Keep package structure simple:&lt;/strong&gt;
+Three well-defined packages (&lt;code&gt;frontend/&lt;/code&gt;, &lt;code&gt;backend/&lt;/code&gt;, &lt;code&gt;shared/&lt;/code&gt;) beat twenty micro-packages. AI agents get lost in package mazes the same way new team members do.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Write clear tests:&lt;/strong&gt;
+Well-named tests show expected behavior. Integration tests show how pieces fit together. Agents read tests to understand what your code is supposed to do.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Use standard tools:&lt;/strong&gt;
+AI agents understand common frameworks better than obscure ones. They've been trained on millions of examples of React, Express, and pytest. Your custom framework? Not so much.&lt;/p&gt;
+&lt;h2&gt;Progressive Disclosure: Don't Load Everything at Once&lt;/h2&gt;
+&lt;p&gt;Here's a pattern you'll see in well-designed agentic systems: &lt;strong&gt;Progressive Disclosure&lt;/strong&gt;.&lt;/p&gt;
+&lt;p&gt;The idea is simple: show the agent just enough to decide what to do next, then reveal more details only when needed.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;How this works with Skills (we'll cover these more):&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;Instead of loading every possible capability into context at the start, the system shows metadata:
+- "You have a &lt;code&gt;pdf-processing&lt;/code&gt; skill available"
+- "You have a &lt;code&gt;database-migration&lt;/code&gt; skill available"
+- "You have a &lt;code&gt;api-documentation&lt;/code&gt; skill available"&lt;/p&gt;
+&lt;p&gt;The agent sees these exist but doesn't load the full instructions until it actually needs one. When it decides "I need to process a PDF," &lt;em&gt;then&lt;/em&gt; it loads the complete PDF skill instructions.&lt;/p&gt;
+&lt;p&gt;This keeps the context lean. The agent knows what's possible without drowning in instructions it doesn't need yet.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;You can apply this principle manually too:&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;Instead of dumping your entire codebase structure at the start, give a high-level overview:
+"This repo has three main areas: authentication (&lt;code&gt;/auth&lt;/code&gt;), payment processing (&lt;code&gt;/payments&lt;/code&gt;), and user management (&lt;code&gt;/users&lt;/code&gt;). What do you need to see?"&lt;/p&gt;
+&lt;p&gt;Let the agent ask for what it needs. Progressive disclosure beats information dumping every time.&lt;/p&gt;
+&lt;h2&gt;Sub-Agents: Context Isolation, Not Role-Playing&lt;/h2&gt;
+&lt;p&gt;Here's where people get confused about sub-agents. They think it's about creating different "personalities"—a "QA agent" and a "Frontend agent" having conversations.&lt;/p&gt;
+&lt;p&gt;That's not what sub-agents are for. &lt;strong&gt;Sub-agents are tools for context isolation.&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;Think about it: you need to search through a 5-million-line codebase to understand how a legacy system works. If your main agent does this, it fills up its context window with massive amounts of code just to find a few relevant pieces.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;The better approach: fork a sub-agent to do the heavy reading.&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;The sub-agent does the "noisy" work:
+- Searches the codebase
+- Reads entire files
+- Explores dependencies
+- Chases down references&lt;/p&gt;
+&lt;p&gt;Then it returns only a succinct, relevant summary to the parent agent.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Example workflow:&lt;/strong&gt;
+1. &lt;strong&gt;Main agent&lt;/strong&gt;: "I need to understand our authentication token refresh logic"
+2. &lt;strong&gt;Spawns sub-agent&lt;/strong&gt;: "Search the codebase for token refresh patterns"
+3. &lt;strong&gt;Sub-agent&lt;/strong&gt;: Reads 20 files, explores 5 different modules, traces the flow
+4. &lt;strong&gt;Sub-agent reports back&lt;/strong&gt;: "Token refresh happens in &lt;code&gt;auth/session.ts&lt;/code&gt; line 147. It uses a sliding window pattern with Redis caching. Here's the relevant code snippet."
+5. &lt;strong&gt;Main agent&lt;/strong&gt;: Has clean context with just the summary, ready for implementation&lt;/p&gt;
+&lt;p&gt;The main agent's context stays clean. The sub-agent's messy exploration doesn't pollute it.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;When to use sub-agents:&lt;/strong&gt;
+- Research tasks in large codebases
+- Exploring multiple possible approaches
+- Security review (spawn agent with read-only permissions)
+- Heavy computational work that generates lots of output&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;When NOT to use sub-agents:&lt;/strong&gt;
+- Simple, focused tasks (overhead isn't worth it)
+- When you need full conversation history
+- Just because it sounds cool&lt;/p&gt;
+&lt;p&gt;Remember: sub-agents aren't about simulating a team. They're about keeping your main agent's context window in the Smart Zone.&lt;/p&gt;
+&lt;h2&gt;Permission Settings: Choose Your Comfort Level&lt;/h2&gt;
+&lt;p&gt;Different tools offer different levels of autonomy. Here's the spectrum:&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Fully autonomous&lt;/strong&gt; (Claude Code, Cursor Agent in some modes):
+- Agent runs commands, edits files, keeps going
+- Fast, but requires trust
+- Best for: low-risk tasks, experienced users, good test coverage&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Approve everything&lt;/strong&gt; (Cline's default, most tools with permissions):
+- You OK each file change and command
+- Slower, but you're always in control
+- Best for: production changes, learning, high-stakes work&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Selective permissions&lt;/strong&gt; (most tools let you configure this):
+- Auto-approve tests and documentation
+- Require approval for database changes and deployments
+- Best for: balancing speed and safety&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Here's what to actually do&lt;/strong&gt;: Start with higher control. As you build trust with the tool and understand how it behaves in your codebase, loosen the reins on low-risk stuff. You can always tighten them back.&lt;/p&gt;
+&lt;p&gt;And remember: you're working in a Git branch. You can always revert. That safety net matters.&lt;/p&gt;
+&lt;h2&gt;The Meta-Skill: Knowing What to Include&lt;/h2&gt;
+&lt;p&gt;This is something you learn by doing, not by reading:&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Agent seems confused?&lt;/strong&gt; Probably missing context. Add the related file it needs.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Agent getting slow or hallucinating?&lt;/strong&gt; Probably too much context. Start fresh or remove unnecessary files.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Agent keeps going in circles?&lt;/strong&gt; Context is polluted with too many failed attempts. Reset.&lt;/p&gt;
+&lt;p&gt;You develop intuition for this fast. Pay attention to what actually helps versus what's just noise.&lt;/p&gt;
+&lt;h2&gt;Common Mistakes to Avoid&lt;/h2&gt;
+&lt;p&gt;&lt;strong&gt;Information dumping&lt;/strong&gt;: "Here's our 50-page architecture document. Now build this feature."&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Forgetting to reset&lt;/strong&gt;: Letting conversations drag on for days, wondering why the AI seems dumber now.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Under-specifying&lt;/strong&gt;: "Fix the bug" without saying which bug or where it is.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Over-specifying&lt;/strong&gt;: Pasting a 200-line stack trace when the one-line error message tells the story.&lt;/p&gt;
+&lt;h2&gt;The RPI Workflow: Research, Plan, Implement&lt;/h2&gt;
+&lt;p&gt;All these context patterns come together in a workflow that works especially well for real-world, "brownfield" codebases—the messy, lived-in projects where most of us actually spend our time.&lt;/p&gt;
+&lt;p&gt;It's called &lt;strong&gt;RPI: Research, Plan, Implement.&lt;/strong&gt; Three phases, each designed to keep you in the Smart Zone.&lt;/p&gt;
+&lt;h3&gt;Research: Find the Vertical Slice of Truth&lt;/h3&gt;
+&lt;p&gt;Before you write a single line of code, you need to understand what's already there. In a brownfield codebase, that's harder than it sounds—there's legacy code, undocumented patterns, and decisions buried three abstraction layers deep.&lt;/p&gt;
+&lt;p&gt;This is where sub-agents earn their keep. Spawn a research agent and let it do the noisy work:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Trace the flow you need to modify end-to-end&lt;/li&gt;
+&lt;li&gt;Find every file that touches the feature area&lt;/li&gt;
+&lt;li&gt;Identify the patterns the codebase actually uses (not what the wiki says it uses)&lt;/li&gt;
+&lt;li&gt;Note the tests that cover the relevant behavior&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;The output isn't code. It's a &lt;strong&gt;research document&lt;/strong&gt;—a vertical slice of truth about the specific area you're about to change. What files matter, what patterns are in play, what the tests expect, and what the gotchas are.&lt;/p&gt;
+&lt;p&gt;This document becomes the compressed context for everything that follows. You've turned a 500-file codebase into a focused 2-page summary of what actually matters for your task.&lt;/p&gt;
+&lt;h3&gt;Plan: Compress Your Intent&lt;/h3&gt;
+&lt;p&gt;Here's where most people skip straight to coding and regret it.&lt;/p&gt;
+&lt;p&gt;A plan is a &lt;strong&gt;compression of intent&lt;/strong&gt;. It's not a vague description like "refactor the auth module." It's an explicit, detailed blueprint that includes:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;The specific files you'll modify and why&lt;/li&gt;
+&lt;li&gt;Code snippets showing the approach (not pseudocode—real patterns from the codebase)&lt;/li&gt;
+&lt;li&gt;The order of changes and dependencies between them&lt;/li&gt;
+&lt;li&gt;What the tests should look like when you're done&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Why does this matter for context engineering? Because a good plan means you don't need to keep the entire problem in context while implementing. Each step is self-contained. The agent can focus on one piece at a time without needing the full conversation history of how you got there.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Vibe coding&lt;/strong&gt; is "let's see what happens." &lt;strong&gt;Planning&lt;/strong&gt; is "here's exactly what we're building and how each piece fits."&lt;/p&gt;
+&lt;p&gt;The plan itself becomes an artifact you can hand to a fresh agent session. No history needed. No Dumb Zone. Just clean intent.&lt;/p&gt;
+&lt;h3&gt;Implement: Execute Small, Test Often&lt;/h3&gt;
+&lt;p&gt;With research done and a plan in hand, implementation becomes almost mechanical:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;Work in small steps.&lt;/strong&gt; Each step from your plan gets its own focused execution. Small context in, small change out.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Test at every step.&lt;/strong&gt; Run the relevant tests after each change. Don't batch up five modifications and hope they all work together.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Reset context between steps.&lt;/strong&gt; If a step fills up your context with debugging, compress and restart before moving to the next one. The plan is your anchor—you can always pick up where you left off.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Let the plan guide, not the conversation history.&lt;/strong&gt; The agent doesn't need to remember step 1 to execute step 5. The plan already captures the decisions.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;This is the opposite of a long, meandering conversation where you and the agent stumble toward a solution. It's structured, predictable, and keeps context lean throughout.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;The RPI cycle in practice:&lt;/strong&gt;
+1. Research agent explores the codebase → produces a research doc
+2. You write a plan using the research → produces an implementation blueprint with code snippets
+3. You execute the plan step by step → each step is a small, testable change&lt;/p&gt;
+&lt;p&gt;Each phase generates a clean artifact that feeds the next phase. No noise carries forward. You stay in the Smart Zone the entire time.&lt;/p&gt;
+&lt;h2&gt;Why Context Engineering Actually Matters&lt;/h2&gt;
+&lt;p&gt;This isn't just about making the AI "work better." Context engineering is the difference between:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;An agent that helps you ship features faster vs one that generates plausible-looking code that breaks everything&lt;/li&gt;
+&lt;li&gt;Spending $2 to solve a problem vs spending $50 going in circles&lt;/li&gt;
+&lt;li&gt;Building trust in AI as a tool vs deciding AI coding is overhyped nonsense&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Vibe coding is yelling at the model when it gets things wrong, dumping more information into the conversation, hoping it figures it out. It's the Noise Trap personified.&lt;/p&gt;
+&lt;p&gt;Context engineering is disciplined:
+- Start with minimal, relevant context
+- Use progressive disclosure
+- Compress and restart before hitting the Dumb Zone
+- Isolate noisy work in sub-agents
+- Treat your project memory files like production code&lt;/p&gt;
+&lt;p&gt;The tool doesn't matter as much as you think. Cursor versus Claude Code versus Copilot—they're all capable. The difference is how you manage their context.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Master context engineering, and everything else gets easier.&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;You stay in the Smart Zone. The agent stays focused. Your code gets better. Your costs go down. Your velocity goes up.&lt;/p&gt;
+&lt;p&gt;This is the foundation. Get this right, and the advanced patterns we'll cover next—Skills, MCP, the RPI workflow—all become dramatically more effective.&lt;/p&gt;
+&lt;p&gt;Now let's talk about how to extend what these tools can do...&lt;/p&gt;</content><category term="Technology"/><category term="ai"/><category term="context-engineering"/><category term="agentic-coding"/><category term="llm"/><category term="productivity"/><category term="software-development"/></entry><entry><title>From Autocomplete to Orchestration: The New Era of AI Coding</title><link href="agentic-coding-paradigm-shift.html" rel="alternate"/><published>2026-02-14T10:00:00+05:30</published><updated>2026-02-14T00:00:00+05:30</updated><author><name>Panch Mukesh</name></author><id>tag:None,2026-02-14:agentic-coding-paradigm-shift.html</id><summary type="html">&lt;p&gt;Software development is shifting from writing code to orchestrating AI agents. Why structured agentic workflows beat vibe coding, and what your role as an engineer actually becomes.&lt;/p&gt;</summary><content type="html">&lt;p&gt;Remember when GitHub Copilot first came out and we all thought tab-completion with AI was revolutionary? That was 2021. We're now in 2026, and if you're still thinking about AI coding tools as "fancy autocomplete," you're missing what's actually happening.&lt;/p&gt;
+&lt;p&gt;The game has changed. Completely.&lt;/p&gt;
+&lt;h2&gt;What's Actually Different Now&lt;/h2&gt;
+&lt;p&gt;Here's the thing: software development is going through one of its biggest changes since we got graphical user interfaces. That's not hype—that's what's happening in real development teams right now.&lt;/p&gt;
+&lt;p&gt;The shift is simple to describe but profound to experience: &lt;strong&gt;we're moving from writing code to orchestrating agents that write code.&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;Think about what that means for a second. Your job isn't disappearing, but it's fundamentally changing. Instead of spending your day typing out every function, class, and test case, you're defining what needs to be built, reviewing what the AI produces, and making the architectural decisions that actually matter.&lt;/p&gt;
+&lt;h2&gt;The End of "Vibe Coding"&lt;/h2&gt;
+&lt;p&gt;Let's talk about what doesn't work. You've probably tried this: open ChatGPT or Claude, dump in a vague prompt like "build me a React app for tracking expenses," and see what comes back. Sometimes it's impressive. Often it's... not quite right. You iterate a few times, copy-paste some code, and eventually you either get frustrated or cobble something together.&lt;/p&gt;
+&lt;p&gt;That's what people call "vibe coding"—throwing prompts at an LLM and hoping for the best. It works for demos and toy projects. It falls apart the moment you're working on anything real.&lt;/p&gt;
+&lt;p&gt;Here's why: production codebases are complex. They have architectural decisions baked in, patterns that matter, edge cases that aren't obvious, and context that no single prompt can capture. Vibe coding treats the AI like a magic box. It's not. It's a tool that needs structure, boundaries, and guidance.&lt;/p&gt;
+&lt;h2&gt;What Actually Works: Structured Agentic Workflows&lt;/h2&gt;
+&lt;p&gt;The teams shipping real features with AI aren't vibing. They're being methodical. They've figured out a few key things:&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;1. Intentional prompting beats casual prompting&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;Instead of "fix this bug," try saying: "This authentication flow is failing because the session token isn't being refreshed. The relevant code is in &lt;code&gt;auth/session.py&lt;/code&gt; and &lt;code&gt;middleware/validate.py&lt;/code&gt;. We use JWT tokens with a 1-hour expiration. Fix the refresh logic and add a test case that verifies tokens refresh before expiring."&lt;/p&gt;
+&lt;p&gt;See the difference? Specificity. Context. Clear success criteria.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;2. Validation isn't optional&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;Every output gets reviewed. Not just "does it run?" but "does this match our architecture?" and "will this cause problems six months from now?" The AI generates code faster than you could write it, but that doesn't mean you skip the thinking part.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;3. Architectural boundaries matter&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;Good teams give the AI clear guardrails. "Never modify the database schema directly." "Always add tests for new API endpoints." "Follow the existing error handling patterns in &lt;code&gt;lib/errors.py&lt;/code&gt;." These boundaries turn the AI from a loose cannon into a reliable teammate.&lt;/p&gt;
+&lt;p&gt;This isn't vibe coding. It's engineering with AI in the loop.&lt;/p&gt;
+&lt;h2&gt;From Tool to Teammate&lt;/h2&gt;
+&lt;p&gt;The modern agentic IDEs and CLI tools don't just suggest the next line of code. They handle entire workflows:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;Planning&lt;/strong&gt;: "Here's what needs to change across these five files"&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Execution&lt;/strong&gt;: Actually making those changes, not just suggesting them&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Verification&lt;/strong&gt;: Running tests, checking builds, catching errors&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Iteration&lt;/strong&gt;: Fixing what breaks, adjusting based on feedback&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Cursor's Agent mode doesn't wait for you to tell it every step. Windsurf's Cascade Flow understands your whole codebase and figures out what to load. Claude Code runs in your terminal and can execute commands, read files, and iterate on problems autonomously. GitHub Copilot's Edits mode can refactor across multiple files in one go.&lt;/p&gt;
+&lt;p&gt;These aren't assistants anymore. They're more like junior engineers who work really, really fast but need clear direction and code review.&lt;/p&gt;
+&lt;h2&gt;What Your Job Actually Becomes&lt;/h2&gt;
+&lt;p&gt;So if the AI is writing the code, what are you doing?&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;The stuff that actually matters:&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Defining "right"&lt;/strong&gt;: What should this feature do? What are the edge cases? How does this fit into the bigger system? The AI can't answer these questions. You can.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Making architectural decisions&lt;/strong&gt;: Should this be a microservice or a monolith? How do we handle rate limiting? What's our data modeling strategy? These are judgment calls that require understanding the business, the team, and the constraints you're working with.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Reviewing outcomes&lt;/strong&gt;: The AI will produce code that &lt;em&gt;runs&lt;/em&gt;. Your job is ensuring it's code you want to &lt;em&gt;keep&lt;/em&gt;. Is it maintainable? Secure? Following your team's patterns? Does it handle the edge cases that aren't in the spec?&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Unblocking and course-correcting&lt;/strong&gt;: When the AI goes down the wrong path—and it will—you catch it early. You provide the context it's missing. You redirect to a better approach.&lt;/p&gt;
+&lt;p&gt;Think of it like the shift from assembly language to high-level languages. You didn't stop being a programmer when you stopped manipulating registers directly. You started working at a higher level of abstraction. Same thing here.&lt;/p&gt;
+&lt;h2&gt;The Reality Check: This Isn't Magic&lt;/h2&gt;
+&lt;p&gt;Let's be honest about what this doesn't solve:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;You still need to understand what you're building.&lt;/strong&gt; If you don't know what "good" looks like, the AI can't get you there.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Bad architecture happens faster now.&lt;/strong&gt; The AI will happily create a mess if you let it. It'll just do it in a tenth of the time.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Context is everything.&lt;/strong&gt; Give the AI the wrong context and you get the wrong code. Garbage in, garbage out—just faster.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;You can't skip the learning.&lt;/strong&gt; Junior developers who rely entirely on AI without understanding fundamentals are building on sand. Use AI to go faster, not to avoid learning.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2&gt;One Last Thing&lt;/h2&gt;
+&lt;p&gt;If you're reading this thinking "this sounds complicated," you're right. It is. But so was learning Git, or Kubernetes, or any other tool that fundamentally changed how we work.&lt;/p&gt;
+&lt;p&gt;The difference is: this one's moving fast. The tools available in early 2026 are dramatically better than what existed six months ago. The teams figuring this out now are building the muscle memory and patterns that'll matter for the next decade.&lt;/p&gt;
+&lt;p&gt;You don't need to become an expert overnight. You need to start. Pick one tool. Try it on one real task. See what works and what doesn't. Build from there.&lt;/p&gt;
+&lt;p&gt;The shift from writing code to orchestrating code is happening whether you're ready or not. The question is: are you going to lead that change on your team, or watch it happen to you?&lt;/p&gt;</content><category term="Technology"/><category term="ai"/><category term="agentic-coding"/><category term="software-development"/><category term="productivity"/></entry><entry><title>WSGI vs ASGI: How Python Web Applications Really Work</title><link href="wsgi-vs-asgi-python.html" rel="alternate"/><published>2025-12-30T10:00:00+05:30</published><updated>2025-12-30T00:00:00+05:30</updated><author><name>Panch Mukesh</name></author><id>tag:None,2025-12-30:wsgi-vs-asgi-python.html</id><summary type="html">&lt;p&gt;Understanding WSGI and ASGI interfaces in Python, comparing Gunicorn and Uvicorn servers, and choosing the right deployment setup for your web applications.&lt;/p&gt;</summary><content type="html">&lt;h1&gt;WSGI vs ASGI: How Python Web Applications Really Work&lt;/h1&gt;
+&lt;p&gt;When building Python web applications, most of us focus on the frameworks we know and love—Flask, Django, FastAPI, and the like. But here's something I've learned over the years: these frameworks don't actually handle HTTP traffic directly.&lt;/p&gt;
+&lt;p&gt;Instead, they rely on a standard interface that acts as a translator between your web server and your Python code. Think of it like a universal adapter that lets different servers talk to different frameworks.&lt;/p&gt;
+&lt;p&gt;That interface is either &lt;strong&gt;WSGI&lt;/strong&gt; or &lt;strong&gt;ASGI&lt;/strong&gt;, and understanding the difference between them will help you make better decisions about how to deploy your applications.&lt;/p&gt;
+&lt;hr&gt;
+&lt;h2&gt;What Problem Do WSGI and ASGI Solve?&lt;/h2&gt;
+&lt;p&gt;Before these interfaces existed, every web framework had to implement its own way of communicating with web servers. This meant if you wanted to switch servers, you'd often have to rewrite parts of your application. Not ideal.&lt;/p&gt;
+&lt;p&gt;Both WSGI and ASGI solve this by defining a standard way for:
+- Requests to be passed from the server to your application
+- Responses to be returned from your application to the server
+- Concurrency to be handled (how multiple requests are processed)&lt;/p&gt;
+&lt;p&gt;They are &lt;strong&gt;protocols&lt;/strong&gt;, not servers themselves. Your application must speak one of these protocols, and your server must understand it. It's like speaking a common language—both sides need to know it.&lt;/p&gt;
+&lt;hr&gt;
+&lt;h2&gt;WSGI: The Synchronous Model&lt;/h2&gt;
+&lt;p&gt;WSGI (Web Server Gateway Interface) has been around since 2003 and is the older, more established standard. It's built around a synchronous execution model.&lt;/p&gt;
+&lt;p&gt;A WSGI application is essentially a callable (usually a function or class) that:
+1. Receives a request as a dictionary of environment variables
+2. Executes your application logic
+3. Returns a response as an iterable (like a list of strings)&lt;/p&gt;
+&lt;p&gt;Here's the thing: during this entire process, the worker thread or process handling the request is completely blocked. It can't do anything else until your application finishes processing and returns a response.&lt;/p&gt;
+&lt;h3&gt;Characteristics of WSGI&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;One request per worker&lt;/strong&gt;: Each worker process or thread handles one request at a time&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Blocking I/O&lt;/strong&gt;: If your code waits for a database query or API call, the worker sits idle&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Simple execution model&lt;/strong&gt;: Easy to understand and debug—requests flow in a linear fashion&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Mature ecosystem&lt;/strong&gt;: Tons of servers, middleware, and tools built around it&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3&gt;Typical WSGI Frameworks&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;Flask&lt;/li&gt;
+&lt;li&gt;Django (traditional synchronous views)&lt;/li&gt;
+&lt;li&gt;Pyramid&lt;/li&gt;
+&lt;li&gt;Bottle&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3&gt;When WSGI Works Well&lt;/h3&gt;
+&lt;p&gt;WSGI is perfect for applications that:
+- Have mostly CPU-bound or fast I/O operations
+- Don't need real-time features like WebSockets
+- Have straightforward request-response patterns
+- Are already built with Flask or traditional Django&lt;/p&gt;
+&lt;h3&gt;Limitations&lt;/h3&gt;
+&lt;p&gt;The blocking nature of WSGI becomes a problem when you have:
+- &lt;strong&gt;High-latency operations&lt;/strong&gt;: Waiting for external APIs, slow database queries, or file I/O
+- &lt;strong&gt;Long-lived connections&lt;/strong&gt;: WebSockets, Server-Sent Events, or streaming responses
+- &lt;strong&gt;Real-time features&lt;/strong&gt;: Chat applications, live dashboards, or collaborative tools&lt;/p&gt;
+&lt;p&gt;To scale a WSGI application, you typically need to add more worker processes, which means more memory usage. Each worker is a separate Python process with its own memory footprint.&lt;/p&gt;
+&lt;hr&gt;
+&lt;h2&gt;ASGI: The Asynchronous Model&lt;/h2&gt;
+&lt;p&gt;ASGI (Asynchronous Server Gateway Interface) was introduced in 2016 to address the limitations of WSGI. It's designed for modern applications that need to handle concurrent connections efficiently.&lt;/p&gt;
+&lt;p&gt;The key difference is that ASGI is built around an event loop (like asyncio) that enables non-blocking I/O. An ASGI application can pause execution while waiting for I/O operations and resume later when data is available.&lt;/p&gt;
+&lt;h3&gt;Characteristics of ASGI&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;Multiple concurrent requests per worker&lt;/strong&gt;: A single worker can handle hundreds or thousands of requests simultaneously&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Efficient I/O handling&lt;/strong&gt;: While waiting for a database query, the worker can process other requests&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Native WebSocket support&lt;/strong&gt;: Built-in support for WebSocket connections, not just HTTP&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Hybrid capability&lt;/strong&gt;: Can run both async and sync code (though sync code still blocks)&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3&gt;Typical ASGI Frameworks&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;FastAPI&lt;/li&gt;
+&lt;li&gt;Starlette&lt;/li&gt;
+&lt;li&gt;Django (with async views)&lt;/li&gt;
+&lt;li&gt;Quart (async Flask alternative)&lt;/li&gt;
+&lt;li&gt;Sanic&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3&gt;When ASGI Shines&lt;/h3&gt;
+&lt;p&gt;ASGI is ideal when you need:
+- High concurrency with many simultaneous connections
+- WebSocket support for real-time features
+- Efficient handling of I/O-bound workloads
+- Modern async/await patterns in your code&lt;/p&gt;
+&lt;h3&gt;The Trade-off&lt;/h3&gt;
+&lt;p&gt;ASGI applications can be more complex to write and debug, especially if you're not familiar with async/await patterns. Also, if your application is mostly CPU-bound (heavy computations), ASGI won't give you much benefit over WSGI.&lt;/p&gt;
+&lt;hr&gt;
+&lt;h2&gt;Gunicorn: The Process Manager&lt;/h2&gt;
+&lt;p&gt;Now, let's talk about the servers themselves. &lt;strong&gt;Gunicorn&lt;/strong&gt; (Green Unicorn) is probably the most popular WSGI HTTP server for Python applications.&lt;/p&gt;
+&lt;h3&gt;What Gunicorn Does&lt;/h3&gt;
+&lt;p&gt;Gunicorn is essentially a process manager. It:
+- Spawns multiple worker processes to handle requests
+- Manages the lifecycle of these workers (restarts them if they crash)
+- Load balances incoming requests across workers
+- Handles graceful shutdowns and reloads&lt;/p&gt;
+&lt;h3&gt;Why Gunicorn is Popular&lt;/h3&gt;
+&lt;p&gt;I've used Gunicorn in production for years, and here's why it's so widely adopted:&lt;/p&gt;
 &lt;ol&gt;
-&lt;li&gt;Install Pelican: &lt;code&gt;pip install pelican markdown&lt;/code&gt;&lt;/li&gt;
-&lt;li&gt;Initialize: &lt;code&gt;pelican-quickstart&lt;/code&gt;&lt;/li&gt;
-&lt;li&gt;Create content in Markdown&lt;/li&gt;
-&lt;li&gt;Generate site: &lt;code&gt;pelican content&lt;/code&gt;&lt;/li&gt;
-&lt;li&gt;Serve locally: &lt;code&gt;pelican --listen&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Reliability&lt;/strong&gt;: It's battle-tested and handles worker crashes gracefully&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Flexibility&lt;/strong&gt;: You can choose different worker types (sync, gevent, eventlet, etc.)&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Easy configuration&lt;/strong&gt;: Simple command-line interface and configuration files&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Process management&lt;/strong&gt;: Automatically restarts workers that die or hang&lt;/li&gt;
 &lt;/ol&gt;
-&lt;h2&gt;Conclusion&lt;/h2&gt;
-&lt;p&gt;Pelican has been an excellent choice for my personal website. It provides the perfect balance of simplicity and power, allowing me to focus on creating content while maintaining a professional-looking site.&lt;/p&gt;
+&lt;h3&gt;Typical Gunicorn Setup&lt;/h3&gt;
+&lt;p&gt;For a Flask or Django application, you might run:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;gunicorn&lt;span class="w"&gt; &lt;/span&gt;app:app&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="se"&gt;\&lt;/span&gt;
+&lt;span class="w"&gt;  &lt;/span&gt;--workers&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="m"&gt;4&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="se"&gt;\&lt;/span&gt;
+&lt;span class="w"&gt;  &lt;/span&gt;--bind&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="m"&gt;0&lt;/span&gt;.0.0.0:8000&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="se"&gt;\&lt;/span&gt;
+&lt;span class="w"&gt;  &lt;/span&gt;--timeout&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="m"&gt;120&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="se"&gt;\&lt;/span&gt;
+&lt;span class="w"&gt;  &lt;/span&gt;--access-logfile&lt;span class="w"&gt; &lt;/span&gt;-&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="se"&gt;\&lt;/span&gt;
+&lt;span class="w"&gt;  &lt;/span&gt;--error-logfile&lt;span class="w"&gt; &lt;/span&gt;-
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;This starts 4 worker processes, each capable of handling one request at a time (in sync mode). If you have 4 workers and 8 requests come in simultaneously, 4 will be processed immediately, and 4 will wait in the queue.&lt;/p&gt;
+&lt;h3&gt;Gunicorn Worker Types&lt;/h3&gt;
+&lt;p&gt;Gunicorn supports different worker classes:
+- &lt;strong&gt;sync&lt;/strong&gt;: Default, one request per worker (pure WSGI)
+- &lt;strong&gt;gevent&lt;/strong&gt;: Uses greenlets for async-like behavior with sync code
+- &lt;strong&gt;eventlet&lt;/strong&gt;: Similar to gevent, uses eventlet library
+- &lt;strong&gt;tornado&lt;/strong&gt;: Uses Tornado's async framework
+- &lt;strong&gt;uvicorn.workers.UvicornWorker&lt;/strong&gt;: Uses Uvicorn workers for ASGI applications&lt;/p&gt;
+&lt;p&gt;The last one is interesting—it lets you use Gunicorn's process management with Uvicorn's async capabilities.&lt;/p&gt;
 &lt;hr&gt;
-&lt;p&gt;&lt;em&gt;This is another sample blog post demonstrating the blog functionality.&lt;/em&gt;&lt;/p&gt;</content><category term="Technology"/><category term="pelican"/><category term="static-sites"/><category term="python"/><category term="web-development"/></entry><entry><title>Welcome to My Blog</title><link href="welcome-to-my-blog.html" rel="alternate"/><published>2024-01-15T00:00:00+05:30</published><updated>2024-01-15T00:00:00+05:30</updated><author><name>Panch Mukesh</name></author><id>tag:None,2024-01-15:welcome-to-my-blog.html</id><summary type="html">&lt;h1&gt;Welcome to My Blog&lt;/h1&gt;
-&lt;p&gt;Welcome to my personal blog! This is where I'll be sharing my thoughts, experiences, and insights about technology, programming, and various other topics that interest me.&lt;/p&gt;
-&lt;h2&gt;What You Can Expect&lt;/h2&gt;
-&lt;p&gt;In this blog, I plan to write about:&lt;/p&gt;
+&lt;h2&gt;Uvicorn: The ASGI Server&lt;/h2&gt;
+&lt;p&gt;&lt;strong&gt;Uvicorn&lt;/strong&gt; is a lightning-fast ASGI server built on top of uvloop and httptools. It's specifically designed for ASGI applications and is the default choice for FastAPI applications.&lt;/p&gt;
+&lt;h3&gt;What Makes Uvicorn Fast&lt;/h3&gt;
+&lt;p&gt;Uvicorn uses:
+- &lt;strong&gt;uvloop&lt;/strong&gt;: A fast, drop-in replacement for asyncio's event loop (written in Cython)
+- &lt;strong&gt;httptools&lt;/strong&gt;: Fast HTTP parsing library (also written in C)
+- &lt;strong&gt;websockets&lt;/strong&gt;: Native WebSocket support&lt;/p&gt;
+&lt;p&gt;This combination makes Uvicorn significantly faster than pure Python implementations.&lt;/p&gt;
+&lt;h3&gt;Uvicorn's Strengths&lt;/h3&gt;
+&lt;ol&gt;
+&lt;li&gt;&lt;strong&gt;Performance&lt;/strong&gt;: Can handle thousands of concurrent connections efficiently&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;ASGI-native&lt;/strong&gt;: Built specifically for the ASGI protocol&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;WebSocket support&lt;/strong&gt;: First-class support for WebSocket connections&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Hot reload&lt;/strong&gt;: Great development experience with auto-reload on code changes&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h3&gt;Running Uvicorn&lt;/h3&gt;
+&lt;p&gt;For a FastAPI or Starlette application:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;uvicorn&lt;span class="w"&gt; &lt;/span&gt;app:app&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="se"&gt;\&lt;/span&gt;
+&lt;span class="w"&gt;  &lt;/span&gt;--host&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="m"&gt;0&lt;/span&gt;.0.0.0&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="se"&gt;\&lt;/span&gt;
+&lt;span class="w"&gt;  &lt;/span&gt;--port&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="m"&gt;8000&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="se"&gt;\&lt;/span&gt;
+&lt;span class="w"&gt;  &lt;/span&gt;--workers&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="m"&gt;4&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;With Uvicorn, each worker can handle many concurrent requests thanks to the async event loop. So 4 workers might handle hundreds of simultaneous connections.&lt;/p&gt;
+&lt;h3&gt;Uvicorn's Limitations&lt;/h3&gt;
+&lt;p&gt;Uvicorn is great, but it's not perfect:
+- &lt;strong&gt;Less mature process management&lt;/strong&gt;: Compared to Gunicorn, it has fewer features for managing worker lifecycles
+- &lt;strong&gt;ASGI-only&lt;/strong&gt;: Can't run traditional WSGI applications directly
+- &lt;strong&gt;Resource usage&lt;/strong&gt;: The event loop can be memory-intensive with many connections&lt;/p&gt;
+&lt;hr&gt;
+&lt;h2&gt;The Best of Both Worlds: Gunicorn + Uvicorn&lt;/h2&gt;
+&lt;p&gt;Here's where it gets interesting. In production, many teams combine Gunicorn and Uvicorn to get the best of both worlds.&lt;/p&gt;
+&lt;h3&gt;Why Combine Them?&lt;/h3&gt;
+&lt;p&gt;Gunicorn provides robust process management, while Uvicorn provides the async execution engine. Together, you get:
+- &lt;strong&gt;Reliability&lt;/strong&gt;: Gunicorn's proven process management
+- &lt;strong&gt;Performance&lt;/strong&gt;: Uvicorn's async capabilities
+- &lt;strong&gt;Scalability&lt;/strong&gt;: Multiple processes, each handling many concurrent requests&lt;/p&gt;
+&lt;h3&gt;How It Works&lt;/h3&gt;
+&lt;p&gt;When you run:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;gunicorn&lt;span class="w"&gt; &lt;/span&gt;app:app&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="se"&gt;\&lt;/span&gt;
+&lt;span class="w"&gt;  &lt;/span&gt;-k&lt;span class="w"&gt; &lt;/span&gt;uvicorn.workers.UvicornWorker&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="se"&gt;\&lt;/span&gt;
+&lt;span class="w"&gt;  &lt;/span&gt;-w&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="m"&gt;4&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="se"&gt;\&lt;/span&gt;
+&lt;span class="w"&gt;  &lt;/span&gt;--bind&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="m"&gt;0&lt;/span&gt;.0.0.0:8000
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Gunicorn spawns 4 worker processes, but each worker uses Uvicorn's async engine instead of the default sync worker. This means:
+- 4 separate processes (for CPU utilization and fault isolation)
+- Each process can handle many concurrent requests (thanks to async)
+- Gunicorn manages the processes (restarts, graceful shutdowns, etc.)&lt;/p&gt;
+&lt;h3&gt;When to Use This Setup&lt;/h3&gt;
+&lt;p&gt;This combination is perfect for:
+- FastAPI applications in production
+- High-traffic applications needing both reliability and performance
+- Applications that need WebSocket support at scale
+- Teams that want Gunicorn's operational tooling with async performance&lt;/p&gt;
+&lt;h3&gt;Alternative: Uvicorn with Multiple Workers&lt;/h3&gt;
+&lt;p&gt;You can also run Uvicorn directly with multiple workers:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;uvicorn&lt;span class="w"&gt; &lt;/span&gt;app:app&lt;span class="w"&gt; &lt;/span&gt;--workers&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="m"&gt;4&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;This works, but you lose some of Gunicorn's advanced features like:
+- Config file support
+- More granular worker management
+- Better integration with deployment tools&lt;/p&gt;
+&lt;p&gt;For most production scenarios, I'd recommend the Gunicorn + Uvicorn combination.&lt;/p&gt;
+&lt;hr&gt;
+&lt;h2&gt;Making the Right Choice&lt;/h2&gt;
+&lt;p&gt;So, which should you use? Here's my practical advice:&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Choose WSGI + Gunicorn if:&lt;/strong&gt;
+- You're using Flask or traditional Django
+- Your application is mostly synchronous
+- You don't need WebSockets or real-time features
+- You want the simplest, most battle-tested setup&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Choose ASGI + Uvicorn if:&lt;/strong&gt;
+- You're using FastAPI or modern Django with async views
+- You need high concurrency
+- You want WebSocket support
+- Your application is I/O-bound&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Choose Gunicorn + Uvicorn Workers if:&lt;/strong&gt;
+- You're running FastAPI in production
+- You want the reliability of Gunicorn with async performance
+- You need advanced process management features&lt;/p&gt;
+&lt;hr&gt;
+&lt;h2&gt;Final Thoughts&lt;/h2&gt;
+&lt;p&gt;Understanding WSGI and ASGI isn't just academic knowledge—it directly impacts how you deploy and scale your applications. I've seen teams struggle with performance issues simply because they chose the wrong server for their use case.&lt;/p&gt;
+&lt;p&gt;The key is to match your server choice with your application's characteristics. If you're building something new, consider starting with ASGI and FastAPI—the async model is the future of Python web development. But if you have an existing WSGI application that's working well, there's no need to rewrite it just for the sake of using ASGI.&lt;/p&gt;
+&lt;p&gt;Remember: the best architecture is the one that solves your problem effectively, not the one that uses the newest technology.&lt;/p&gt;</content><category term="Python"/><category term="python"/><category term="api"/><category term="uvicorn"/><category term="gunicorn"/></entry><entry><title>Scaling Smarter with KEDA: Event-Driven Autoscaling for Kubernetes</title><link href="scaling-smarter-with-keda.html" rel="alternate"/><published>2025-09-25T10:00:00+05:30</published><updated>2025-09-25T00:00:00+05:30</updated><author><name>Panch Mukesh</name></author><id>tag:None,2025-09-25:scaling-smarter-with-keda.html</id><summary type="html">&lt;p&gt;KEDA brings event-driven intelligence to Kubernetes, enabling responsive, cost-efficient scaling tied directly to real-world events.&lt;/p&gt;</summary><content type="html">&lt;h1&gt;Scaling Smarter with KEDA: Event-Driven Autoscaling for Kubernetes&lt;/h1&gt;
+&lt;h2&gt;Introduction&lt;/h2&gt;
+&lt;p&gt;In cloud-native environments, workloads are increasingly unpredictable. Some run steadily and can be sized based on CPU or memory usage. Others are irregular and demand-driven. Traditional autoscaling reacts after the fact—based on system resource usage—and can’t always keep up.&lt;/p&gt;
+&lt;p&gt;To handle dynamic, event-driven workloads more effectively, we need a scaling approach that responds to the events themselves. That’s where event-based jobs come in, and KEDA makes them first-class citizens in Kubernetes.&lt;/p&gt;
+&lt;h2&gt;Why Do We Need Event-Based Jobs?&lt;/h2&gt;
+&lt;h3&gt;1. Unpredictable Workloads&lt;/h3&gt;
 &lt;ul&gt;
-&lt;li&gt;&lt;strong&gt;Technology Insights&lt;/strong&gt;: My experiences with different programming languages …&lt;/li&gt;&lt;/ul&gt;</summary><content type="html">&lt;h1&gt;Welcome to My Blog&lt;/h1&gt;
-&lt;p&gt;Welcome to my personal blog! This is where I'll be sharing my thoughts, experiences, and insights about technology, programming, and various other topics that interest me.&lt;/p&gt;
-&lt;h2&gt;What You Can Expect&lt;/h2&gt;
-&lt;p&gt;In this blog, I plan to write about:&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;&lt;strong&gt;Technology Insights&lt;/strong&gt;: My experiences with different programming languages, frameworks, and tools&lt;/li&gt;
-&lt;li&gt;&lt;strong&gt;Project Showcases&lt;/strong&gt;: Details about projects I'm working on or have completed&lt;/li&gt;
-&lt;li&gt;&lt;strong&gt;Learning Journey&lt;/strong&gt;: My continuous learning process and the resources I find valuable&lt;/li&gt;
-&lt;li&gt;&lt;strong&gt;Industry Trends&lt;/strong&gt;: Thoughts on current trends in software development and technology&lt;/li&gt;
-&lt;li&gt;&lt;strong&gt;Tutorials&lt;/strong&gt;: Step-by-step guides for common development tasks&lt;/li&gt;
+&lt;li&gt;Sudden traffic spikes during flash sales&lt;/li&gt;
+&lt;li&gt;Bursts of IoT sensor data&lt;/li&gt;
+&lt;li&gt;Flood of requests from a campaign launch&lt;/li&gt;
 &lt;/ul&gt;
-&lt;h2&gt;Getting Started&lt;/h2&gt;
-&lt;p&gt;This blog is built using Pelican, a static site generator written in Python. It allows me to write content in Markdown and automatically generates a beautiful, fast-loading website.&lt;/p&gt;
-&lt;h2&gt;Stay Connected&lt;/h2&gt;
-&lt;p&gt;If you find any of my posts interesting or helpful, feel free to reach out! I'm always interested in connecting with fellow developers and technology enthusiasts.&lt;/p&gt;
-&lt;p&gt;Happy reading!&lt;/p&gt;
+&lt;p&gt;Instead of over-provisioning “just in case,” event-based jobs scale workloads only when the trigger occurs.&lt;/p&gt;
+&lt;h3&gt;2. Efficient Resource Utilization&lt;/h3&gt;
+&lt;p&gt;Event-driven scaling ties compute directly to demand signals (like queue length or a file upload). This avoids idle pods consuming resources while waiting for something to happen.&lt;/p&gt;
+&lt;h3&gt;3. Agile &amp;amp; Decoupled Architectures&lt;/h3&gt;
+&lt;p&gt;Event-driven jobs let services stay loosely coupled. For example:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;A payment service emits an “order completed” event.&lt;/li&gt;
+&lt;li&gt;The shipping service automatically scales only when that event arrives.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;This keeps systems modular, cost-efficient, and resilient.&lt;/p&gt;
+&lt;h3&gt;4. Scenarios Where They Shine&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;Batch Data Processing: Run only when large datasets land&lt;/li&gt;
+&lt;li&gt;Message Queue Handling: Spin up consumers when messages arrive&lt;/li&gt;
+&lt;li&gt;Scheduled Tasks: Trigger workloads with CRON-like precision&lt;/li&gt;
+&lt;li&gt;IoT Streaming: React to irregular sensor/device data&lt;/li&gt;
+&lt;li&gt;Machine Learning (ML) Workloads: Scale training or inference pods based on demand&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Event-based jobs align compute activity with real-world business events—making systems cost-aware, responsive, and elastic.&lt;/p&gt;
+&lt;h2&gt;What is KEDA?&lt;/h2&gt;
+&lt;p&gt;KEDA (Kubernetes Event-Driven Autoscaler) is a lightweight component that extends Kubernetes’ native autoscaling. It:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Works alongside the Horizontal Pod Autoscaler (HPA)&lt;/li&gt;
+&lt;li&gt;Supports custom metrics and external event sources&lt;/li&gt;
+&lt;li&gt;Lets you selectively enable event-driven scaling for workloads&lt;/li&gt;
+&lt;li&gt;Is cloud agnostic across AWS, Azure, GCP, and on-prem environments&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Put simply, you dockerize your app, define an event trigger, and let KEDA scale pods automatically.&lt;/p&gt;
+&lt;h3&gt;Supported Triggers&lt;/h3&gt;
+&lt;p&gt;KEDA integrates with a wide range of triggers:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;CRON (time-based jobs)&lt;/li&gt;
+&lt;li&gt;Metrics API (custom application metrics)&lt;/li&gt;
+&lt;li&gt;Cloud services (AWS SQS, Azure Event Hub, Kafka, RabbitMQ, and more)&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2&gt;Architecture at a Glance&lt;/h2&gt;
+&lt;p&gt;KEDA sits between your Kubernetes cluster and external event sources:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;Watches for defined triggers&lt;/li&gt;
+&lt;li&gt;Translates them into metrics for the Kubernetes HPA&lt;/li&gt;
+&lt;li&gt;Dynamically adjusts pod counts based on activity&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;This makes Kubernetes reactive to events, not just CPU/memory thresholds.&lt;/p&gt;
+&lt;h2&gt;Key Use Cases&lt;/h2&gt;
+&lt;h3&gt;1. Serverless Workloads&lt;/h3&gt;
+&lt;p&gt;Scale functions or microservices only when requests arrive (e.g., file ingestion pipelines, AdTech audience delivery workflows).&lt;/p&gt;
+&lt;h3&gt;2. Batch Processing&lt;/h3&gt;
+&lt;p&gt;Handle fluctuating big data jobs without over-provisioning (e.g., ETL pipelines for periodic datasets).&lt;/p&gt;
+&lt;h3&gt;3. IoT Applications&lt;/h3&gt;
+&lt;p&gt;Adapt to irregular, high-volume data streams from devices for real-time analytics.&lt;/p&gt;
+&lt;h3&gt;4. Machine Learning Workloads&lt;/h3&gt;
+&lt;p&gt;Scale GPU-enabled pods when training data lands in storage, or spin up inference pods when API request traffic spikes.&lt;/p&gt;
+&lt;h2&gt;Managing Short-Lived Pods and Logs&lt;/h2&gt;
+&lt;p&gt;Since KEDA-managed pods are often short-lived, log retention can become tricky. Kubernetes integrates seamlessly with logging solutions like Loki and Grafana. These systems collect and centralize logs from ephemeral pods, ensuring that:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Logs remain accessible even after pods terminate&lt;/li&gt;
+&lt;li&gt;Teams can analyze job outcomes and debug failures&lt;/li&gt;
+&lt;li&gt;Observability is preserved in highly dynamic, event-driven environments&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;This allows you to confidently run event-driven workloads without losing operational insights.&lt;/p&gt;
+&lt;h2&gt;Example: Triggers in Action&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;CRON Trigger: Automate scheduled jobs (e.g., nightly batch processing)&lt;/li&gt;
+&lt;li&gt;Metrics Trigger: Scale based on custom metrics (e.g., queue depth)&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;This flexibility allows developers to declaratively scale workloads without manual oversight.&lt;/p&gt;
+&lt;h2&gt;Benefits of KEDA&lt;/h2&gt;
+&lt;p&gt;By leveraging KEDA, teams achieve:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Performance &amp;amp; Responsiveness: apps react instantly to demand&lt;/li&gt;
+&lt;li&gt;Cost Efficiency: scale to zero when idle&lt;/li&gt;
+&lt;li&gt;Cloud-Agnostic Flexibility: consistent scaling across any environment&lt;/li&gt;
+&lt;li&gt;Simplicity: YAML-based setup, no complex operators needed&lt;/li&gt;
+&lt;li&gt;Logging &amp;amp; Observability: short-lived pod logs can be centralized with Loki and Grafana&lt;/li&gt;
+&lt;li&gt;Flexibility: broad trigger support, including ML pipelines and IoT&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2&gt;Conclusion&lt;/h2&gt;
+&lt;p&gt;KEDA redefines autoscaling for Kubernetes by bringing event-driven intelligence into the cluster. Whether you’re processing IoT data, running ML pipelines, handling batch jobs, or delivering serverless workloads, KEDA ensures your applications are always right-sized, observable, and cloud-ready.&lt;/p&gt;
+&lt;p&gt;It’s not just about scaling pods—it’s about scaling with purpose, tied directly to the events that matter.&lt;/p&gt;
 &lt;hr&gt;
-&lt;p&gt;&lt;em&gt;This is a sample blog post. You can replace this with your own content by creating new &lt;code&gt;.md&lt;/code&gt; files in the &lt;code&gt;content/posts/&lt;/code&gt; directory.&lt;/em&gt;&lt;/p&gt;</content><category term="General"/><category term="welcome"/><category term="blog"/><category term="introduction"/></entry></feed>
+&lt;p&gt;Source: Scaling Smarter with KEDA: Event-Driven Autoscaling for Kubernetes (LinkedIn)&lt;/p&gt;</content><category term="Technology"/><category term="keda"/><category term="kubernetes"/><category term="autoscaling"/><category term="event-driven"/><category term="hpa"/><category term="serverless"/><category term="batch"/><category term="iot"/><category term="ml"/><category term="logging"/><category term="grafana"/><category term="loki"/><category term="cloud-agnostic"/></entry><entry><title>Configurable Virtual Environments</title><link href="configurable-virtual-environments.html" rel="alternate"/><published>2025-09-12T10:00:00+05:30</published><updated>2025-09-12T00:00:00+05:30</updated><author><name>Panch Mukesh</name></author><id>tag:None,2025-09-12:configurable-virtual-environments.html</id><summary type="html">&lt;p&gt;How to use Pipenv categories and flags to create configurable virtual environments, keeping Docker images lightweight by installing only the dependencies you need.&lt;/p&gt;</summary><content type="html">&lt;p&gt;Virtual environments are essential components of any Python project. When it comes to implementing them, we consider various tools such as pipenv, requirements.txt, etc. &lt;br&gt;&lt;/p&gt;
+&lt;p&gt;To cater to our project requirements, we install various packages. However, it’s important to note that some packages are only necessary for specific aspects. For instance, the pytest package is not needed for application startup; it’s only required for development purposes. To maintain lightweight Docker images and application modules, it is advisable to make dependencies as configurable as possible based on the specific requirements.&lt;/p&gt;
+&lt;h2&gt;Development Purpose Packages&lt;/h2&gt;
+&lt;p&gt;Pipenv can be utilized to manage a scenario where we can pass an additional argument, “&lt;em&gt;--dev&lt;/em&gt;,” which can be used to install different packages when necessary.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="c1"&gt;# Install default and Dev Packages&lt;/span&gt;
+pipenv&lt;span class="w"&gt; &lt;/span&gt;install&lt;span class="w"&gt; &lt;/span&gt;--dev
+
+&lt;span class="c1"&gt;# Install only dev packages&lt;/span&gt;
+pipenv&lt;span class="w"&gt; &lt;/span&gt;install&lt;span class="w"&gt; &lt;/span&gt;--dev-only
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;h2&gt;Deploy System Dependencies&lt;/h2&gt;
+&lt;p&gt;We can leverage pipenv to install a Pipfile’s contents into its parent system with the “&lt;em&gt;--system&lt;/em&gt;” flag.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="c1"&gt;# Install packages to system&lt;/span&gt;
+pipenv&lt;span class="w"&gt; &lt;/span&gt;install&lt;span class="w"&gt; &lt;/span&gt;--system
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;h2&gt;Install Packages Conditionally&lt;/h2&gt;
+&lt;p&gt;Similar to the installation of development packages, we can also categorize packages so that they can be installed individually or in groups. Nowadays, it is common to build products that are cloud-agnostic, requiring installation of cloud-specific dependencies to cater to different use cases.&lt;/p&gt;
+&lt;p&gt;However, when building Docker images for a particular cloud environment, dependencies for other clouds may be installed unnecessarily. This is just one example of the various use cases that can be accommodated in this implementation.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="o"&gt;[&lt;/span&gt;packages&lt;span class="o"&gt;]&lt;/span&gt;
+&lt;span class="nv"&gt;Flask&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;{&lt;/span&gt;&lt;span class="nv"&gt;version&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;2.2.2&amp;quot;&lt;/span&gt;,&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nv"&gt;index&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;pypi&amp;quot;&lt;/span&gt;&lt;span class="o"&gt;}&lt;/span&gt;
+
+&lt;span class="o"&gt;[&lt;/span&gt;aws&lt;span class="o"&gt;]&lt;/span&gt;
+&lt;span class="nv"&gt;boto3&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;{&lt;/span&gt;&lt;span class="nv"&gt;version&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;1.17.5&amp;quot;&lt;/span&gt;,&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nv"&gt;index&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;pypi&amp;quot;&lt;/span&gt;&lt;span class="o"&gt;}&lt;/span&gt;
+
+&lt;span class="o"&gt;[&lt;/span&gt;azure&lt;span class="o"&gt;]&lt;/span&gt;
+azure-mgmt-storage&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;{&lt;/span&gt;&lt;span class="nv"&gt;version&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;==19.0.0&amp;quot;&lt;/span&gt;,&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nv"&gt;index&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;pypi&amp;quot;&lt;/span&gt;&lt;span class="o"&gt;}&lt;/span&gt;
+
+&lt;span class="o"&gt;[&lt;/span&gt;dev-packages&lt;span class="o"&gt;]&lt;/span&gt;
+&lt;span class="nv"&gt;nox&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;{&lt;/span&gt;&lt;span class="nv"&gt;version&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;*&amp;quot;&lt;/span&gt;,&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nv"&gt;index&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;pypi&amp;quot;&lt;/span&gt;&lt;span class="o"&gt;}&lt;/span&gt;
+&lt;span class="nv"&gt;pytest&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;{&lt;/span&gt;&lt;span class="nv"&gt;version&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;&amp;gt;=7.2.0&amp;quot;&lt;/span&gt;,&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nv"&gt;index&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;pypi&amp;quot;&lt;/span&gt;&lt;span class="o"&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Originally pipenv supported only two package groups: packages and dev-packages in the Pipfile which mapped to default and develop in the Pipfile.lock. Support for additional named categories has been added such that arbitrary named groups can utilized across the available pipenv commands.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="c1"&gt;# Install default packages only&lt;/span&gt;
+pipenv&lt;span class="w"&gt; &lt;/span&gt;install
+
+&lt;span class="c1"&gt;# Install default packages and aws category&lt;/span&gt;
+pipenv&lt;span class="w"&gt; &lt;/span&gt;install&lt;span class="w"&gt; &lt;/span&gt;--categories&lt;span class="w"&gt; &lt;/span&gt;aws
+
+&lt;span class="c1"&gt;# Install a new package to aws category&lt;/span&gt;
+pipenv&lt;span class="w"&gt; &lt;/span&gt;install&lt;span class="w"&gt; &lt;/span&gt;moto&lt;span class="w"&gt; &lt;/span&gt;--categories&lt;span class="w"&gt; &lt;/span&gt;aws
+
+&lt;span class="c1"&gt;# Install a package to multiple categories&lt;/span&gt;
+pipenv&lt;span class="w"&gt; &lt;/span&gt;install&lt;span class="w"&gt; &lt;/span&gt;prometheus-client&lt;span class="w"&gt; &lt;/span&gt;--categories&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;aws azure&amp;quot;&lt;/span&gt;
+
+&lt;span class="c1"&gt;# Uninstall a package from a category&lt;/span&gt;
+pipenv&lt;span class="w"&gt; &lt;/span&gt;uninstall&lt;span class="w"&gt; &lt;/span&gt;moto&lt;span class="w"&gt; &lt;/span&gt;--categories&lt;span class="w"&gt; &lt;/span&gt;aws
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;hr&gt;</content><category term="Python"/><category term="python"/><category term="pipenv"/><category term="virtualenv"/></entry><entry><title>Using GitHub MCP Server to Scale AI-Powered Engineering</title><link href="github-mcp-server-usecases.html" rel="alternate"/><published>2025-09-12T10:00:00+05:30</published><updated>2025-09-12T10:00:00+05:30</updated><author><name>Panch Mukesh</name></author><id>tag:None,2025-09-12:github-mcp-server-usecases.html</id><summary type="html">&lt;p&gt;Explore how GitHub MCP Server can revolutionize AI-powered engineering workflows, from code analysis to automated release notes generation.&lt;/p&gt;</summary><content type="html">&lt;h2&gt;Introduction&lt;/h2&gt;
+&lt;p&gt;&lt;strong&gt;MCP Server&lt;/strong&gt; (Model Context Protocol) serves as a standardized interface between foundational AI models and external data sources or services—especially those the AI can't directly control. Think of it as a bridge that allows AI to fetch information or perform actions in a consistent way, without needing to build custom integrations for each individual service. This makes it easier to connect AI models with the real-world tools and platforms we rely on.&lt;/p&gt;
+&lt;p&gt;One such tool is GitHub—an essential platform for developers and organizations alike. Whether it's organizing codebases, managing releases, or handling deployments, GitHub is a daily driver in the software development lifecycle. Beyond version control, its true power lies in enabling collaboration across teams, making it easier to build, test, and ship software together.&lt;/p&gt;
+&lt;h2&gt;Use Cases of GitHub MCP Server&lt;/h2&gt;
+&lt;h3&gt;Understand Codebases and Generate Insights with AI&lt;/h3&gt;
+&lt;p&gt;By integrating GitHub MCP Server with a large language model (LLM)—such as GitHub Copilot—we can analyze, understand, and enhance code repositories.&lt;/p&gt;
+&lt;p&gt;Instead of manually digging through complex codebases, developers can now use this integration to:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;🔍 Identify frameworks and design patterns used within a repository&lt;/li&gt;
+&lt;li&gt;📄 Generate human-readable summaries of modules, services, or even entire architectures&lt;/li&gt;
+&lt;li&gt;💡 Receive improvement suggestions, such as optimizations, modernizations, or potential refactoring opportunities&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;strong&gt;Example:&lt;/strong&gt; Imagine we're onboarding to a new microservices project. The GitHub MCP-powered AI could automatically summarize how the API gateway interacts with backend services, list all third-party dependencies, and suggest architectural improvements based on industry best practices.&lt;/p&gt;
+&lt;h3&gt;Learn from Other Repositories—Internal or Open Source&lt;/h3&gt;
+&lt;p&gt;With GitHub MCP, we're no longer limited to a single codebase. We can analyze and compare multiple repositories—whether they're internal to our organization or from open source communities.&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;⚖️ Perform side-by-side comparisons of different implementations of similar functionality also to make benchmarking with the reference repositories&lt;/li&gt;
+&lt;li&gt;🔄 Identify reusable components, design styles, or libraries used by other teams&lt;/li&gt;
+&lt;li&gt;🔍 Study how leading open-source projects solve problems similar to yours&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;strong&gt;Example:&lt;/strong&gt; Let's take a use case of building a user authentication system. GitHub MCP could compare our current implementation with those from top open-source identity solutions, highlighting where we can enhance security or reduce complexity.&lt;/p&gt;
+&lt;h3&gt;Analyze Pull Request (PR) Changes Across Repositories&lt;/h3&gt;
+&lt;p&gt;In many organizations, especially those working with microservices or modular architectures, it's common to have multiple repositories with similar implementations. When a change is made in one repo—like fixing a bug or updating a config—you often need to replicate or adapt that change across others.&lt;/p&gt;
+&lt;p&gt;This is where GitHub MCP Server shines. By connecting with GitHub's pull requests and branches, MCP enables AI to:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;🔍 Analyze PR diffs automatically across different repositories&lt;/li&gt;
+&lt;li&gt;🧠 Understand the intent and impact behind each change&lt;/li&gt;
+&lt;li&gt;🤖 Suggest or even automate the propagation of similar changes to other workspaces or services&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;strong&gt;Example:&lt;/strong&gt; Suppose you're updating the API response format in a shared service. Once you raise a PR, GitHub MCP can compare this change with other related repos and recommend where similar updates might be needed—saving hours of manual cherry-picking or repetitive updates across environments.&lt;/p&gt;
+&lt;h4&gt;Why This Matters&lt;/h4&gt;
+&lt;ul&gt;
+&lt;li&gt;⏱️ Reduces turnaround time during code reviews and releases&lt;/li&gt;
+&lt;li&gt;✅ Ensures consistency across microservices or shared libraries&lt;/li&gt;
+&lt;li&gt;🚀 Speeds up multi-repo deployment pipelines by aligning changes early&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Whether we're preparing a hotfix release or rolling out a new version, GitHub MCP helps us stay ahead of duplication, reducing human error and accelerating collaboration across your engineering teams.&lt;/p&gt;
+&lt;h3&gt;Issue Resolution with Context&lt;/h3&gt;
+&lt;p&gt;One of the most powerful capabilities of GitHub MCP Server is its ability to intelligently retrieve and contextualize GitHub issues. By connecting issue data with the structure and content of the repository, it allows developers to:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;📌 Understand the issue in full context, including related files, recent commits, and linked pull requests&lt;/li&gt;
+&lt;li&gt;🔧 Propose code fixes automatically or suggest potential solutions based on similar issues from the same or other repositories&lt;/li&gt;
+&lt;li&gt;🧪 Test and validate the fix, and even generate a draft pull request with the suggested changes&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;strong&gt;Example:&lt;/strong&gt; Let's say a developer logs a bug about a failed API call. GitHub MCP can scan the relevant modules, fetch related error logs, highlight recent changes, and recommend a potential fix—such as a missing parameter or outdated dependency. It can then generate a pre-filled PR, allowing the developer to review, test, and enhance it further if needed.&lt;/p&gt;
+&lt;p&gt;Instead of manually searching through tickets, commits, and files, developers get a smart, centralized view of the issue and solution path—making it easier to focus on quality, not coordination. This creates a more streamlined and responsive development cycle, particularly useful during high-pressure release sprints.&lt;/p&gt;
+&lt;h3&gt;Automated Release Notes Generation for Different Audiences&lt;/h3&gt;
+&lt;p&gt;Creating release notes is essential, but it often takes up valuable time from product managers, developers, and tech leads. With GitHub MCP Server, this process becomes faster, clearer, and highly tailored to different audiences.&lt;/p&gt;
+&lt;p&gt;By analyzing the differences between two tags or branches in a repository, GitHub MCP can automatically summarize the updates and generate release content that's ready to share.&lt;/p&gt;
+&lt;p&gt;It can create release notes from different perspectives:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;For business users, it highlights new capabilities and value-added changes&lt;/li&gt;
+&lt;li&gt;For developers, it focuses on API changes, technical upgrades, and potential integration impacts&lt;/li&gt;
+&lt;li&gt;For product managers, it offers a high-level summary that maps changes to roadmap goals or tickets completed&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2&gt;Best Practices for Using GitHub MCP Server Effectively&lt;/h2&gt;
+&lt;p&gt;To get the most out of GitHub MCP Server and ensure responsible use of AI tools like GitHub Copilot, consider following these best practices:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;Train the AI with context:&lt;/strong&gt; Every product and codebase has its own structure and standards. Make sure the AI has enough visibility into your project's design and logic so it can provide relevant and accurate suggestions.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Use secure and minimal authentication:&lt;/strong&gt; When setting up authentication for GitHub MCP, always create a separate Personal Access Token (PAT) with only the necessary permissions. This minimizes security risks and aligns with best security practices.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Standardize prompts for reusability:&lt;/strong&gt; Store prompt files in a dedicated &lt;code&gt;.github/prompts&lt;/code&gt; folder within your repository. Use &lt;code&gt;prompt.md&lt;/code&gt; files for common workflows or queries. This makes it easier for all developers to reuse effective prompts and maintain consistency across teams.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Collaborate with the AI like a team member:&lt;/strong&gt; AI tools are powerful, but not perfect. Treat them like a junior developer—give regular feedback, validate outputs, and guide them with clear instructions. This helps avoid hallucinations and ensures high-quality contributions.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3&gt;Reference Documentation&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="https://docs.github.com/en/copilot/concepts/prompt-engineering-for-copilot-chat"&gt;GitHub Copilot Prompt Engineering&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://docs.github.com/en/copilot/how-tos/custom-instructions/adding-repository-custom-instructions-for-github-copilot"&gt;GitHub Copilot Custom Instructions&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://github.com/github/github-mcp-server"&gt;GitHub MCP Server Repository&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2&gt;Conclusion&lt;/h2&gt;
+&lt;p&gt;GitHub MCP Server is more than just a technical integration—it's a bridge between AI and the software development lifecycle. From understanding repositories and resolving issues to generating tailored release notes, it empowers teams to move faster with more clarity and fewer manual steps.&lt;/p&gt;
+&lt;p&gt;As with any powerful tool, its effectiveness depends on how wisely we use it. Equip it with the right context, provide feedback, and set clear boundaries—and you'll unlock a more collaborative and efficient development workflow.&lt;/p&gt;</content><category term="Technology"/><category term="github"/><category term="mcp"/><category term="ai"/><category term="engineering"/><category term="automation"/><category term="development"/></entry><entry><title>Guiding Fresh Faces: A Seamless Introduction to Your Tech Team</title><link href="onboarding-freshers-techteam.html" rel="alternate"/><published>2025-09-12T10:00:00+05:30</published><updated>2025-09-12T00:00:00+05:30</updated><author><name>Panch Mukesh</name></author><id>tag:None,2025-09-12:onboarding-freshers-techteam.html</id><summary type="html">&lt;p&gt;Practical strategies for onboarding fresh developers into your tech team, from code reviews and documentation to integration testing and coding standards.&lt;/p&gt;</summary><content type="html">&lt;h2&gt;Unveiling the Importance of Smooth Onboarding&lt;/h2&gt;
+&lt;p&gt;In today's tech landscape, crafting high-performance applications with state-of-the-art technologies is the norm. However, navigating through intricate codebases comprising numerous modules and interconnected methods can feel like venturing into a maze, especially for fresh team members.&lt;/p&gt;
+&lt;h2&gt;Understanding the Significance&lt;/h2&gt;
+&lt;p&gt;Lack of familiarity with the codebase poses challenges in resolving bugs or integrating new features seamlessly. This not only dampens the confidence of team members but also becomes a bottleneck for senior developers.&lt;/p&gt;
+&lt;h2&gt;Navigating the Path&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;To mitigate this challenge, it's imperative to equip newcomers with the necessary tools and knowledge.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;Language and Framework Familiarization&lt;/strong&gt;: Ensure that new team members are well-versed in the languages and frameworks used within the codebase. Offering refresher courses or curated content can aid in this process.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Embracing Code Reviews&lt;/strong&gt;: Initiate the journey into the codebase through code reviews. This serves as an invaluable learning opportunity, allowing individuals to grasp coding standards, styles, and naming conventions while gaining insights from peers.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Documentation Enhancement&lt;/strong&gt;: Enhance existing documentation to illuminate implemented methods and classes, providing clarity on the underlying logic. Comprehensive application documentation, such as runbooks or playbooks, can also serve as invaluable resources.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Integration Testing&lt;/strong&gt;: Engage newcomers in crafting integration tests that span across various services. This not only ensures thorough test coverage but also necessitates delving into the codebase to understand inter-service interactions.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Adhering to Code Standards&lt;/strong&gt;: Implement features such as type hint checkers and code linting reviews. This instills discipline in code writing practices and fosters adherence to established coding standards.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2&gt;Conclusion&lt;/h2&gt;
+&lt;p&gt;Smooth onboarding lays the foundation for seamless integration of new team members into the tech ecosystem. By prioritizing familiarity with the codebase through structured learning and collaborative practices, organizations foster a culture of continuous growth and innovation. Embracing these strategies not only enhances individual proficiency but also propels the collective success of the team.&lt;/p&gt;</content><category term="General"/><category term="onboarding"/><category term="fresher"/><category term="team-culture"/></entry><entry><title>Product Development vs. Baby Development: A Developer's Perspective</title><link href="product-development-vs-baby-development.html" rel="alternate"/><published>2025-09-12T10:00:00+05:30</published><updated>2025-09-12T10:00:00+05:30</updated><author><name>Panch Mukesh</name></author><id>tag:None,2025-09-12:product-development-vs-baby-development.html</id><summary type="html">&lt;p&gt;A humorous comparison between software development and parenting, exploring the parallels between building products and raising children from a developer's perspective.&lt;/p&gt;</summary><content type="html">&lt;h1&gt;Product Development vs. Baby Development: A Developer's Perspective&lt;/h1&gt;
+&lt;p&gt;As software developers, we're used to handling complex systems: APIs, deployments, AI, GenAI, and rigorous security testing (SAST, DAST, you name it). But recently, I embarked on the ultimate full-stack development project—becoming a parent. Spoiler alert: software development is a breeze compared to baby development! 🍼👨💻&lt;/p&gt;
+&lt;p&gt;Here's a fun side-by-side comparison of the two journeys:&lt;/p&gt;
+&lt;h2&gt;Planning &amp;amp; Requirements Gathering&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;Software Development:&lt;/strong&gt; Detailed PRDs, user stories, sprints, and meetings to define "scope."&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Parenting:&lt;/strong&gt; You think you're ready? Nature laughs at your "requirements doc" and surprises you with features you didn't even know were coming.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2&gt;Product Testing vs. Baby Ultrasounds&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;Software Development:&lt;/strong&gt; We run unit tests, integration tests, and even mock environments to catch issues early.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Parenting:&lt;/strong&gt; NT scans, double marker tests, ultrasounds—each "test" confirms progress, but unlike software, no debug logs available! Just blurry black-and-white images that require imagination.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2&gt;Security Scans: SAST &amp;amp; DAST vs. Prenatal Health Checks&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;Software Development:&lt;/strong&gt; Static (SAST) and dynamic (DAST) analysis help us ensure security and performance.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Parenting:&lt;/strong&gt; Doctors perform scans to ensure everything is healthy and secure: NT, anomaly scans, sugar checks—real-life DAST, where issues need immediate resolution.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2&gt;Deployment Day (D-Day!)&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;Software Development:&lt;/strong&gt; Final builds, deployment pipelines, rollback plans, and tons of stress.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Parenting:&lt;/strong&gt; The Final Delivery. No rollback, no downtime. You deploy to production (a.k.a. the delivery room), and the system goes live.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2&gt;Post-Launch Monitoring &amp;amp; Client Feedback&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;Software Development:&lt;/strong&gt; We monitor for uptime, logs, bugs, and gather user feedback to improve the product.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Parenting:&lt;/strong&gt; That first cry? That's your system "pinging" back successfully. Post-launch, the "client feedback" comes in the form of little smiles, cries, and sleepless nights. Each smile feels like a 100% successful build.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2&gt;Scaling Up&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;Software Development:&lt;/strong&gt; Optimizing systems, ensuring they scale under load, and improving efficiency.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Parenting:&lt;/strong&gt; You realize you're now running distributed systems (feeding schedules, diaper cycles, and, soon, crawling across all nodes in the house). Scaling? It's a lifestyle.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2&gt;The Real MVP: My Wife&lt;/h2&gt;
+&lt;p&gt;While I like to call myself the DevOps guy in this baby development journey—handling support, monitoring, and troubleshooting—the real critical resource is my wife. She's the architect, the core developer, the QA specialist, and the system manager who handled the heavy lifting—both literally and figuratively.&lt;/p&gt;
+&lt;p&gt;Through every phase—ultrasounds, doctor visits, sleepless nights, and the "final deployment"—she's carried this project like no one else could. It's a humbling reminder that sometimes, the most critical components of a system work quietly, gracefully, and tirelessly in the background.&lt;/p&gt;
+&lt;h2&gt;Final Thoughts&lt;/h2&gt;
+&lt;p&gt;As developers, we fix bugs. As parents, we embrace them as "features." While the tools are different—love, patience, and sleepless nights replace GitHub actions and Git commits—the end goal is the same: a happy, thriving product (or baby).&lt;/p&gt;
+&lt;p&gt;I've learned that software has CI/CD pipelines for continuous improvement, but in parenting, it's more like "CICD"—Constant Iteration, Constant Delight.&lt;/p&gt;
+&lt;p&gt;To all fellow parents and developers out there: this deployment comes with zero downtime, and it's the most fulfilling system you'll ever build.&lt;/p&gt;</content><category term="General"/><category term="parenting"/><category term="software-development"/><category term="humor"/><category term="life-lessons"/><category term="development"/></entry><entry><title>Python Application Configuration</title><link href="python-application-configuration.html" rel="alternate"/><published>2025-09-12T10:00:00+05:30</published><updated>2025-09-12T10:00:00+05:30</updated><author><name>Panch Mukesh</name></author><id>tag:None,2025-09-12:python-application-configuration.html</id><summary type="html">&lt;p&gt;A comprehensive guide to managing configuration and environment variables in Python applications, comparing ConfigParser and python-decouple approaches.&lt;/p&gt;</summary><content type="html">&lt;h1&gt;Python Application Configuration&lt;/h1&gt;
+&lt;h2&gt;Introduction&lt;/h2&gt;
+&lt;p&gt;Python is widely accepted for building various products such as APIs, data pipelines, and machine learning models. Our application often relies on different environment variables, which can be adjusted based on the environment in which the application is being executed. These variables include database connection strings, storage bucket names, and more. They need to be configured differently for various environments by injecting environment variables into the Docker container at runtime.&lt;/p&gt;
+&lt;p&gt;We can utilize the &lt;code&gt;os&lt;/code&gt; module to handle reading environment variables with methods like &lt;code&gt;os.environ&lt;/code&gt; and &lt;code&gt;os.environ.get&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;In a comprehensive product, we may encounter numerous configuration variables that depend on factors such as the chosen cloud service and the environment type (e.g., DEV/QA/PROD). Managing such a large number of variables using only the &lt;code&gt;os&lt;/code&gt; module can become cumbersome.&lt;/p&gt;
+&lt;h2&gt;ConfigParser Approach&lt;/h2&gt;
+&lt;p&gt;The &lt;code&gt;ConfigParser&lt;/code&gt; module is one approach that serves the purpose of handling configuration variables. It expects a &lt;code&gt;.ini&lt;/code&gt; file containing values for different variables and comes built into Python itself.&lt;/p&gt;
+&lt;p&gt;With &lt;code&gt;ConfigParser&lt;/code&gt;, we can easily create and read configurations with various variables and sections. Organizing variables into different sections can be particularly useful for managing complex configurations.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Example config.ini file:&lt;/strong&gt;&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="k"&gt;[Database]&lt;/span&gt;
+&lt;span class="na"&gt;url&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s"&gt;localhost:5432/mydatabase&lt;/span&gt;
+&lt;span class="na"&gt;username&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s"&gt;myuser&lt;/span&gt;
+&lt;span class="na"&gt;password&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s"&gt;mypassword&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;&lt;strong&gt;Python code using ConfigParser:&lt;/strong&gt;&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;configparser&lt;/span&gt;
+
+&lt;span class="c1"&gt;# Initialize ConfigParser&lt;/span&gt;
+&lt;span class="n"&gt;config&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;configparser&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;ConfigParser&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
+
+&lt;span class="c1"&gt;# Load configuration from file&lt;/span&gt;
+&lt;span class="n"&gt;config&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;read&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;config.ini&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+
+&lt;span class="c1"&gt;# Example usage&lt;/span&gt;
+&lt;span class="n"&gt;database_url&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;config&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;get&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;Database&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;url&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="n"&gt;database_username&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;config&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;get&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;Database&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;username&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="n"&gt;database_password&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;config&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;get&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;Database&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;password&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;However, &lt;code&gt;ConfigParser&lt;/code&gt; does not provide direct support for reading environment variables. To seamlessly handle environment variables, we need to add an additional wrapper module. Additionally, &lt;code&gt;ConfigParser&lt;/code&gt; is designed to support only &lt;code&gt;.ini&lt;/code&gt; files, which might not be the best choice if we need to work with other formats.&lt;/p&gt;
+&lt;p&gt;In my view, &lt;code&gt;ConfigParser&lt;/code&gt; is suitable for Jupyter Notebook-based applications, where updating configuration variables is easy without much hassle.&lt;/p&gt;
+&lt;h2&gt;python-decouple Approach&lt;/h2&gt;
+&lt;p&gt;&lt;code&gt;python-decouple&lt;/code&gt; is a third-party package designed to seamlessly handle both configuration variables and environment variables. It supports various file formats such as &lt;code&gt;.ini&lt;/code&gt;, &lt;code&gt;.env&lt;/code&gt;, and plain text files.&lt;/p&gt;
+&lt;p&gt;One of the key advantages of &lt;code&gt;python-decouple&lt;/code&gt; is its Pythonic approach to reading variables, offering flexibility to add additional functionality to the variables, such as casting to different formats, adding to enums, or reading directly in class or instance methods.&lt;/p&gt;
+&lt;p&gt;Let's explore an example demonstrating how we can utilize the &lt;code&gt;python-decouple&lt;/code&gt; package for configuration:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="kn"&gt;from&lt;/span&gt; &lt;span class="nn"&gt;decouple&lt;/span&gt; &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="n"&gt;config&lt;/span&gt;
+
+&lt;span class="k"&gt;class&lt;/span&gt; &lt;span class="nc"&gt;Config&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+&lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="sd"&gt;&amp;quot;&amp;quot;&amp;quot;Config object class&amp;quot;&amp;quot;&amp;quot;&lt;/span&gt;
+
+    &lt;span class="n"&gt;CONNECTION_STRING&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;config&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;DB_CONNECTION_STRING&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;default&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;localhost:5432&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="n"&gt;POLLING_INTERVAL&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;config&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;POLLING_INTERVAL&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;default&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;cast&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="nb"&gt;int&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="n"&gt;DEBUG&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="kc"&gt;True&lt;/span&gt;
+    &lt;span class="n"&gt;ENV&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;local&amp;quot;&lt;/span&gt;
+
+&lt;span class="k"&gt;class&lt;/span&gt; &lt;span class="nc"&gt;DevConfig&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;Config&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
+&lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="sd"&gt;&amp;quot;&amp;quot;&amp;quot;Development environment config&amp;quot;&amp;quot;&amp;quot;&lt;/span&gt;
+
+    &lt;span class="n"&gt;DEBUG&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="kc"&gt;True&lt;/span&gt;
+    &lt;span class="n"&gt;ENV&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;development&amp;quot;&lt;/span&gt;
+
+&lt;span class="k"&gt;class&lt;/span&gt; &lt;span class="nc"&gt;ProductionConfig&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;Config&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
+&lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="sd"&gt;&amp;quot;&amp;quot;&amp;quot;Production environment config&amp;quot;&amp;quot;&amp;quot;&lt;/span&gt;
+
+    &lt;span class="n"&gt;DEBUG&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="kc"&gt;False&lt;/span&gt;
+    &lt;span class="n"&gt;ENV&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;production&amp;quot;&lt;/span&gt;
+
+
+&lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;get_config&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;env&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;config&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;ENVIRONMENT&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;default&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;)):&lt;/span&gt;
+&lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="sd"&gt;&amp;quot;&amp;quot;&amp;quot;Method to access the config variables&amp;quot;&amp;quot;&amp;quot;&lt;/span&gt;
+
+    &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="n"&gt;env&lt;/span&gt; &lt;span class="o"&gt;==&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;development&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+        &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="n"&gt;DevConfig&lt;/span&gt;
+    &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="n"&gt;env&lt;/span&gt; &lt;span class="o"&gt;==&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;production&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+        &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="n"&gt;ProductionConfig&lt;/span&gt;
+    &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="n"&gt;Config&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;In the example above, we demonstrate how to handle config variables with different classes based on the environment to override values from the parent configuration. This approach allows for easy extension of the configuration module, such as for multi-cloud approaches with different configurations required to access cloud services.&lt;/p&gt;
+&lt;h2&gt;Conclusion&lt;/h2&gt;
+&lt;p&gt;In conclusion, employing an organized approach to managing configuration and environment variables is crucial for the scalability of any application. Such an approach not only simplifies deployment across various platforms using tools like Docker but also streamlines local development. Ideally, designing a robust configuration module during the initial phases of development sets a strong foundation for scalability. This ensures that the application can easily accommodate the addition of new variables as it evolves over time.&lt;/p&gt;</content><category term="Python"/><category term="python"/><category term="configuration"/><category term="environment-variables"/><category term="configparser"/><category term="python-decouple"/><category term="best-practices"/></entry><entry><title>Unlocking the Power of API Testing: Ensuring Robust, Secure, and Scalable Systems</title><link href="unlocking-power-api-testing.html" rel="alternate"/><published>2025-09-12T10:00:00+05:30</published><updated>2025-09-12T10:00:00+05:30</updated><author><name>Panch Mukesh</name></author><id>tag:None,2025-09-12:unlocking-power-api-testing.html</id><summary type="html">&lt;p&gt;A comprehensive guide to API testing methodologies including unit testing, integration testing, load testing, contract testing, health checks, and security testing for building robust systems.&lt;/p&gt;</summary><content type="html">&lt;h1&gt;Unlocking the Power of API Testing: Ensuring Robust, Secure, and Scalable Systems&lt;/h1&gt;
+&lt;h2&gt;Introduction&lt;/h2&gt;
+&lt;p&gt;API, short for Application Programming Interface, serves as a framework facilitating communication between various systems. This interaction occurs through a shared contract defining protocols, functionalities, and more. Additionally, APIs play a crucial role in decoupling different systems, thus mitigating the risk of a single point of failure.&lt;/p&gt;
+&lt;p&gt;For instance, imagine you have n disparate systems interconnected. An API can serve as a decoupled interaction point where clients can communicate with it, allowing the API to relay messages to the systems and return the appropriate data and status.&lt;/p&gt;
+&lt;p&gt;Over the years, there has been significant development in API implementation across different languages and frameworks. In this blog post, we will explore efficient methods for testing APIs to ensure the development of robust, secure, and scalable systems.&lt;/p&gt;
+&lt;h2&gt;Unit Testing&lt;/h2&gt;
+&lt;p&gt;Unit testing involves assessing individual components of the application independently to ensure they function as expected. These components could range from database CRUD methods to API request validators. It's crucial to test the entire code logic with various scenarios for each component.&lt;/p&gt;
+&lt;p&gt;The metric used to gauge the extent of unit test coverage across the entire codebase is referred to as &lt;strong&gt;code coverage&lt;/strong&gt;. Numerous methods and tools exist for measuring code coverage, depending on the programming languages and frameworks utilized.&lt;/p&gt;
+&lt;p&gt;In certain scenarios, there may be dependencies within the systems, making it impossible to test certain components individually. In such cases, all dependencies for that component must be mocked.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Common Tools:&lt;/strong&gt; Pytest, JUnit, etc.&lt;/p&gt;
+&lt;h2&gt;Integration Testing&lt;/h2&gt;
+&lt;p&gt;In typical scenarios, an application interacts with various components such as APIs, services like queues, caches, streams, databases, and more. Integration Testing is the methodology employed to assess the operability of all these systems collectively.&lt;/p&gt;
+&lt;p&gt;During integration testing, the application is tested while all components are deployed. The integration test suite for an API should encompass the following:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Ensure interaction with all API endpoints using different parameters and request bodies&lt;/li&gt;
+&lt;li&gt;If the API is secured with an Authentication &amp;amp; Authorization component, ensure that the test suite has the necessary access for interaction&lt;/li&gt;
+&lt;li&gt;Since the API might perform CRUD operations in the services using different endpoints, ensure to clean all data once testing is completed as part of the post-processing step&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;strong&gt;Common Tools:&lt;/strong&gt; Pytest, JUnit, etc., with the deployed applications synchronized with the test suite.&lt;/p&gt;
+&lt;h2&gt;Load Testing&lt;/h2&gt;
+&lt;p&gt;API load testing involves pushing the API to its limits to understand the threshold limits of the system. There are primarily two approaches to conducting load testing:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;&lt;strong&gt;Sending a large number of requests within a specific time frame&lt;/strong&gt;&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Sending requests that involve high computational resources&lt;/strong&gt;, such as fetching large amounts of data&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;During load testing, it's essential to store metrics like the time duration taken at each stage in the API, including DB calls, aggregations, CPU and memory usage, etc. Analyzing the generated report enables necessary adjustments to be made according to the business requirements for scalability, ensuring the API can handle increased loads effectively.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Common Tools:&lt;/strong&gt; Locust&lt;/p&gt;
+&lt;h2&gt;Contract Testing&lt;/h2&gt;
+&lt;p&gt;In the era of microservices, applications often interact with multiple APIs to fulfill a single use case. Contract testing is a framework designed to ensure that upstream systems haven't altered the contract or pact as previously defined.&lt;/p&gt;
+&lt;p&gt;In contract testing, a pact or contract is established between two systems. This pact file is typically stored in a common location accessible by both systems, ideally a cloud storage service. During the continuous integration (CI) process of the upstream system, a step is included to validate this pact. The CI process does not complete until the pact is either updated or validated.&lt;/p&gt;
+&lt;p&gt;This approach facilitates smooth transitions to newer versions, if required, between two systems and teams. Numerous frameworks offer out-of-the-box solutions for Pact/Contract Testing.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Common Tools:&lt;/strong&gt; pact-python&lt;/p&gt;
+&lt;h2&gt;Health Checks&lt;/h2&gt;
+&lt;p&gt;An API interacts with various systems such as databases, caches, cloud services, upstream APIs, etc. Implementing a health check mechanism is considered good practice to verify the availability of these systems.&lt;/p&gt;
+&lt;p&gt;Typically, the health check system is designed to trigger at regular intervals, say every x amount of time. If any issues are detected, automated notification alerts, such as emails or Slack messages, are configured to promptly notify relevant stakeholders.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Common Framework:&lt;/strong&gt; A docker-based module, scheduled to trigger in equal intervals.&lt;/p&gt;
+&lt;h2&gt;Security Testing&lt;/h2&gt;
+&lt;p&gt;Ensuring the security of our systems requires continuous testing throughout the development phase, rather than addressing security issues after deployment in production.&lt;/p&gt;
+&lt;p&gt;There are three primary types of security testing:&lt;/p&gt;
+&lt;h3&gt;SCA: Software Composition Analysis&lt;/h3&gt;
+&lt;p&gt;During application development, we often utilize open-source packages and dependencies for various use cases. SCA tests assess different security vulnerabilities in these installed dependencies and flag them for updates to newer versions or for complete removal.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Common Tools:&lt;/strong&gt; Snyk, Mend&lt;/p&gt;
+&lt;h3&gt;SAST: Static Application Security Testing&lt;/h3&gt;
+&lt;p&gt;SAST is a testing methodology that analyzes the source code to identify security vulnerabilities applications may be susceptible to. It scans an application before the code is compiled.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Common Tools:&lt;/strong&gt; SonarQube, Veracode, Checkmarx&lt;/p&gt;
+&lt;h3&gt;DAST: Dynamic Application Security Testing&lt;/h3&gt;
+&lt;p&gt;DAST takes an outsider's perspective, similar to that of a hacker. It doesn't require access to the source code for testing and is often referred to as black-box testing. DAST identifies vulnerabilities in an application from an end user's point of view.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Common Tools:&lt;/strong&gt; Tenable&lt;/p&gt;
+&lt;p&gt;Security testing often gets ignored in the initial phase of the development. It is highly advisable to have tools and frameworks setup for it much before the development to make the applications more secure.&lt;/p&gt;
+&lt;h2&gt;Conclusion&lt;/h2&gt;
+&lt;p&gt;Testing our software is a testament to our fail-safe approach towards development. While there are many other types of testing and frameworks that can be incorporated, it's crucial to recognize that the industry is constantly evolving, as are the ways applications can crash. Therefore, having a robust testing framework provides us with an upper hand in developing fault-tolerant systems.&lt;/p&gt;
+&lt;hr&gt;
+&lt;p&gt;&lt;em&gt;Originally published on &lt;a href="https://www.linkedin.com/pulse/unlocking-power-api-testing-ensuring-robust-secure-scalable-mukesh-3f5rc/?trackingId=Xpqa1KOCoPnRqAEl7lCuTA%3D%3D"&gt;LinkedIn&lt;/a&gt;&lt;/em&gt;&lt;/p&gt;</content><category term="Technology"/><category term="api-testing"/><category term="software-testing"/><category term="security-testing"/><category term="load-testing"/><category term="integration-testing"/><category term="best-practices"/></entry></feed>
