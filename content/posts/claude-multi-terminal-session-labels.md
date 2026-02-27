@@ -1,4 +1,4 @@
-Title: The Multi-Terminal Problem Nobody Talks About
+Title: Claude Code Hooks: Auto-Label Every Terminal Session
 Date: 2026-02-27 10:00
 Modified: 2026-02-27
 Category: Technology
