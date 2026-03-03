@@ -1,12 +1,28 @@
-Title: Scaling Smarter with KEDA: Event-Driven Autoscaling for Kubernetes
-Date: 2025-09-25 10:00
-Modified: 2025-09-25
-Category: Technology
-Tags: keda, kubernetes, autoscaling, event-driven, hpa, serverless, batch, iot, ml, logging, grafana, loki, cloud-agnostic
-Slug: scaling-smarter-with-keda
-Author: Panch Mukesh
-Status: published
-Summary: KEDA brings event-driven intelligence to Kubernetes, enabling responsive, cost-efficient scaling tied directly to real-world events.
+---
+title: "Scaling Smarter with KEDA: Event-Driven Autoscaling for Kubernetes"
+date: "2025-09-25 10:00"
+modified: 2025-09-25
+category: Technology
+tags:
+  - keda
+  - kubernetes
+  - autoscaling
+  - event-driven
+  - hpa
+  - serverless
+  - batch
+  - iot
+  - ml
+  - logging
+  - grafana
+  - loki
+  - cloud-agnostic
+slug: scaling-smarter-with-keda
+author: Panch Mukesh
+summary: KEDA brings event-driven intelligence to Kubernetes, enabling responsive, cost-efficient scaling tied directly to real-world events.
+status: published
+---
+
 
 # Scaling Smarter with KEDA: Event-Driven Autoscaling for Kubernetes
 

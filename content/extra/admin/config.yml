@@ -1,0 +1,35 @@
+backend:
+  name: github
+  repo: mukeshpanch14/panch-portfolio
+  branch: main
+  base_url: https://panch-cms-auth.mukesh-panch14.workers.dev
+
+media_folder: content/images
+public_folder: /images
+site_url: https://panchmukesh.in
+
+collections:
+  - name: posts
+    label: Blog Posts
+    folder: content/posts
+    create: true
+    slug: "{{slug}}"
+    extension: md
+    format: frontmatter
+    fields:
+      - { label: "Title",    name: "title",    widget: "string" }
+      - { label: "Date",     name: "date",     widget: "datetime",
+          format: "YYYY-MM-DD HH:mm", date_format: "YYYY-MM-DD",
+          time_format: "HH:mm", picker_utc: false }
+      - { label: "Modified", name: "modified", widget: "datetime",
+          format: "YYYY-MM-DD HH:mm", date_format: "YYYY-MM-DD",
+          time_format: "HH:mm", picker_utc: false, required: false }
+      - { label: "Category", name: "category", widget: "string" }
+      - { label: "Tags",     name: "tags",     widget: "list" }
+      - { label: "Slug",     name: "slug",     widget: "string" }
+      - { label: "Author",   name: "author",   widget: "string",
+          default: "Panch Mukesh" }
+      - { label: "Summary",  name: "summary",  widget: "text" }
+      - { label: "Status",   name: "status",   widget: "select",
+          options: ["published", "draft"], default: "published" }
+      - { label: "Body",     name: "body",     widget: "markdown" }

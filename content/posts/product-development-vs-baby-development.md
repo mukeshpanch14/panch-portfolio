@@ -1,10 +1,18 @@
-Title: Product Development vs. Baby Development: A Developer's Perspective
-Date: 2025-09-12 10:00
-Category: General
-Tags: parenting, software-development, humor, life-lessons, development
-Slug: product-development-vs-baby-development
-Author: Panch Mukesh
-Summary: A humorous comparison between software development and parenting, exploring the parallels between building products and raising children from a developer's perspective.
+---
+title: "Product Development vs. Baby Development: A Developer's Perspective"
+date: "2025-09-12 10:00"
+category: General
+tags:
+  - parenting
+  - software-development
+  - humor
+  - life-lessons
+  - development
+slug: product-development-vs-baby-development
+author: Panch Mukesh
+summary: A humorous comparison between software development and parenting, exploring the parallels between building products and raising children from a developer's perspective.
+---
+
 
 # Product Development vs. Baby Development: A Developer's Perspective
 

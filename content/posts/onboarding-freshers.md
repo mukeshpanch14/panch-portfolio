@@ -1,11 +1,17 @@
-Title: Guiding Fresh Faces: A Seamless Introduction to Your Tech Team
-Date: 2025-09-12 10:00
-Modified: 2025-09-12
-Category: General
-Tags: onboarding, fresher, team-culture
-Slug: onboarding-freshers-techteam
-Summary: Practical strategies for onboarding fresh developers into your tech team, from code reviews and documentation to integration testing and coding standards.
-Status: published
+---
+title: "Guiding Fresh Faces: A Seamless Introduction to Your Tech Team"
+date: "2025-09-12 10:00"
+modified: 2025-09-12
+category: General
+tags:
+  - onboarding
+  - fresher
+  - team-culture
+slug: onboarding-freshers-techteam
+summary: Practical strategies for onboarding fresh developers into your tech team, from code reviews and documentation to integration testing and coding standards.
+status: published
+---
+
 
 ## Unveiling the Importance of Smooth Onboarding
 
