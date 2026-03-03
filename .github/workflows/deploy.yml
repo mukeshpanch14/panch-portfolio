@@ -62,6 +62,7 @@ jobs:
         run: |
           mkdir -p output/admin
           cp content/extra/admin/index.html output/admin/index.html
+          cp content/extra/admin/cms.html output/admin/cms.html
 
       - name: Create .nojekyll file
         run: |

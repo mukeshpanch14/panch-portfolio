@@ -2,7 +2,8 @@ backend:
   name: github
   repo: mukeshpanch14/panch-portfolio
   branch: main
-  base_url: https://panch-cms-auth.mukesh-panch14.workers.dev
+  auth_type: implicit
+  app_id: Ov23lijMC5alzXPudjph
 
 media_folder: content/images
 public_folder: /images

@@ -117,4 +117,5 @@ EXTRA_PATH_METADATA = {
     'extra/favicon.ico':      {'path': 'favicon.ico'},
     'extra/admin/index.html': {'path': 'admin/index.html'},
     'extra/admin/config.yml': {'path': 'admin/config.yml'},
+    'extra/admin/cms.html':   {'path': 'admin/cms.html'},
 }
