@@ -50,6 +50,10 @@ jobs:
         run: |
           git clone https://github.com/alexandrevicenzi/Flex.git themes/flex
           
+      - name: Convert YAML frontmatter to Pelican format
+        run: |
+          python scripts/convert_frontmatter.py
+
       - name: Build site
         run: |
           pelican content -s publishconf.py

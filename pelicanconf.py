@@ -111,8 +111,10 @@ SITEMAP = {
 
 # Extra files (robots.txt, CNAME, .nojekyll)
 EXTRA_PATH_METADATA = {
-    'extra/robots.txt': {'path': 'robots.txt'},
-    'extra/CNAME': {'path': 'CNAME'},
-    'extra/.nojekyll': {'path': '.nojekyll'},
-    'extra/favicon.ico': {'path': 'favicon.ico'},
+    'extra/robots.txt':       {'path': 'robots.txt'},
+    'extra/CNAME':            {'path': 'CNAME'},
+    'extra/.nojekyll':        {'path': '.nojekyll'},
+    'extra/favicon.ico':      {'path': 'favicon.ico'},
+    'extra/admin/index.html': {'path': 'admin/index.html'},
+    'extra/admin/config.yml': {'path': 'admin/config.yml'},
 }

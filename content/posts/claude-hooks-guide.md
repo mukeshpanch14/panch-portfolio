@@ -1,12 +1,22 @@
-Title: Claude Code Hooks: Get Notified When It Needs You
-Date: 2026-02-23 10:00
-Modified: 2026-02-23
-Category: Technology
-Tags: claude, ai, hooks, productivity, developer-tools, notifications, agentic-coding
-Slug: claude-hooks-guide
-Author: Panch Mukesh
-Summary: Stop babysitting the terminal. Claude Code hooks let you run scripts on task completion, permission prompts, and idle states — so you get notified the moment Claude needs you, no matter what you're doing.
-Status: published
+---
+title: "Claude Code Hooks: Get Notified When It Needs You"
+date: "2026-02-23 10:00"
+modified: 2026-02-23
+category: Technology
+tags:
+  - claude
+  - ai
+  - hooks
+  - productivity
+  - developer-tools
+  - notifications
+  - agentic-coding
+slug: claude-hooks-guide
+author: Panch Mukesh
+summary: Stop babysitting the terminal. Claude Code hooks let you run scripts on task completion, permission prompts, and idle states — so you get notified the moment Claude needs you, no matter what you're doing.
+status: published
+---
+
 
 If you've been using Claude Code, you've probably done this at least once — kicked off a big task, switched to another window, and come back ten minutes later only to find Claude has been sitting idle, waiting for you to approve something.
 

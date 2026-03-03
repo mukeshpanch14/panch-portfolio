@@ -1,10 +1,19 @@
-Title: Python Application Configuration
-Date: 2025-09-12 10:00
-Category: Python
-Tags: python, configuration, environment-variables, configparser, python-decouple, best-practices
-Slug: python-application-configuration
-Author: Panch Mukesh
-Summary: A comprehensive guide to managing configuration and environment variables in Python applications, comparing ConfigParser and python-decouple approaches.
+---
+title: Python Application Configuration
+date: "2025-09-12 10:00"
+category: Python
+tags:
+  - python
+  - configuration
+  - environment-variables
+  - configparser
+  - python-decouple
+  - best-practices
+slug: python-application-configuration
+author: Panch Mukesh
+summary: A comprehensive guide to managing configuration and environment variables in Python applications, comparing ConfigParser and python-decouple approaches.
+---
+
 
 # Python Application Configuration
 

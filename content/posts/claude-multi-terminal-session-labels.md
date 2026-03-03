@@ -1,12 +1,21 @@
-Title: Claude Code Hooks: Auto-Label Every Terminal Session
-Date: 2026-02-27 10:00
-Modified: 2026-02-27
-Category: Technology
-Tags: claude, agentic-coding, developer-tools, productivity, automation, python
-Slug: claude-multi-terminal-session-labels
-Author: Panch Mukesh
-Summary: Replace Claude Code's random session hashes with meaningful labels like S1 and S2, so notifications tell you exactly which terminal needs your attention.
-Status: published
+---
+title: "Claude Code Hooks: Auto-Label Every Terminal Session"
+date: "2026-02-27 10:00"
+modified: 2026-02-27
+category: Technology
+tags:
+  - claude
+  - agentic-coding
+  - developer-tools
+  - productivity
+  - automation
+  - python
+slug: claude-multi-terminal-session-labels
+author: Panch Mukesh
+summary: Replace Claude Code's random session hashes with meaningful labels like S1 and S2, so notifications tell you exactly which terminal needs your attention.
+status: published
+---
+
 
 Once you set up Claude Code notifications, you start using Claude more aggressively. More terminals, more tasks running in parallel. One fixing a bug, one writing tests, one refactoring a module.
 

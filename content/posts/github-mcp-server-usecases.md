@@ -1,10 +1,19 @@
-Title: Using GitHub MCP Server to Scale AI-Powered Engineering
-Date: 2025-09-12 10:00
-Category: Technology
-Tags: github, mcp, ai, engineering, automation, development
-Slug: github-mcp-server-usecases
-Author: Panch Mukesh
-Summary: Explore how GitHub MCP Server can revolutionize AI-powered engineering workflows, from code analysis to automated release notes generation.
+---
+title: Using GitHub MCP Server to Scale AI-Powered Engineering
+date: "2025-09-12 10:00"
+category: Technology
+tags:
+  - github
+  - mcp
+  - ai
+  - engineering
+  - automation
+  - development
+slug: github-mcp-server-usecases
+author: Panch Mukesh
+summary: Explore how GitHub MCP Server can revolutionize AI-powered engineering workflows, from code analysis to automated release notes generation.
+---
+
 
 ## Introduction
 

@@ -1,12 +1,21 @@
-Title: Managing Context Across AI Coding Tools
-Date: 2026-02-16 10:00
-Modified: 2026-02-16
-Category: Technology
-Tags: ai, context-engineering, agentic-coding, llm, productivity, software-development
-Slug: context-is-infrastructure
-Author: Panch Mukesh
-Summary: Context engineering is the meta-skill that separates productive AI-assisted developers from frustrated ones. Learn the universal patterns—project memory, progressive disclosure, and intentional compaction—that work across every AI coding tool.
-Status: published
+---
+title: Managing Context Across AI Coding Tools
+date: "2026-02-16 10:00"
+modified: 2026-02-16
+category: Technology
+tags:
+  - ai
+  - context-engineering
+  - agentic-coding
+  - llm
+  - productivity
+  - software-development
+slug: context-is-infrastructure
+author: Panch Mukesh
+summary: Context engineering is the meta-skill that separates productive AI-assisted developers from frustrated ones. Learn the universal patterns—project memory, progressive disclosure, and intentional compaction—that work across every AI coding tool.
+status: published
+---
+
 
 
 If there's one thing that separates developers who get value from AI coding tools from those who get frustrated and give up, it's this: **understanding how context works**.
