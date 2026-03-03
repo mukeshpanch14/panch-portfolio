@@ -91,7 +91,10 @@ def to_pelican_format(fields, body):
         value = fields[key]
         if isinstance(value, list):
             value = ", ".join(value)
-        # Capitalize field name
+        if value == "":
+            continue
+        if key == "slug":
+            value = value.lower().replace(" ", "-")
         lines.append(f"{key.capitalize()}: {value}")
 
     # Any extra fields not in the canonical order
@@ -99,6 +102,8 @@ def to_pelican_format(fields, body):
         if key.lower() not in ORDER:
             if isinstance(value, list):
                 value = ", ".join(value)
+            if value == "":
+                continue
             lines.append(f"{key.capitalize()}: {value}")
 
     return "\n".join(lines) + "\n\n" + body
