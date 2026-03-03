@@ -37,17 +37,8 @@
     <script>
       const WORKER = 'https://panch-cms-auth.mukesh-panch14.workers.dev';
 
-      document.getElementById('github-btn').addEventListener('click', async () => {
-        const cfg = await fetch('config.yml').then(r => r.text());
-        const match = cfg.match(/app_id:\s*(\S+)/);
-        if (!match) { alert('Could not read app_id from config.yml'); return; }
-        const params = new URLSearchParams({
-          client_id: match[1],
-          redirect_uri: 'https://panchmukesh.in/admin/cms.html',
-          response_type: 'token',
-          scope: 'repo',
-        });
-        location.href = `https://github.com/login/oauth/authorize?${params}`;
+      document.getElementById('github-btn').addEventListener('click', () => {
+        location.href = 'https://panch-cms-auth.mukesh-panch14.workers.dev/auth';
       });
 
       document.getElementById('pw-btn').addEventListener('click', async () => {
