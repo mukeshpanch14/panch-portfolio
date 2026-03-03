@@ -88,3 +88,11 @@ jobs:
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
+
+      - name: Notify subscribers of new post
+        if: success()
+        run: |
+          curl -s -o /dev/null -w "%{http_code}" -X POST "${{ secrets.NOTIFY_WORKER_URL }}/notify" \
+            -H "Content-Type: application/json" \
+            -H "X-Webhook-Secret: ${{ secrets.NOTIFY_WEBHOOK_SECRET }}" \
+            -d "{\"commit_sha\": \"${{ github.sha }}\"}"

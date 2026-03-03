@@ -80,6 +80,9 @@ MARKDOWN = {
 # Use relative URLs for proper theme loading
 RELATIVE_URLS = True
 
+# Email subscription widget — set to your deployed panch-notify Worker URL
+NOTIFY_WORKER_URL = 'https://panch-notify.mukesh-panch14.workers.dev'
+
 # Utterances Comments Configuration
 UTTERANCES_REPO = "mukeshpanch14/panch-portfolio"
 UTTERANCES_ISSUE_TERM = "pathname"

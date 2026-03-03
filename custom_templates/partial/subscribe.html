@@ -1,0 +1,61 @@
+{% if NOTIFY_WORKER_URL %}
+<div class="widget subscribe-widget" style="margin-top:24px;padding:16px 20px;border:1px solid #e0e0e0;border-radius:6px;background:#fafafa">
+  <h3 style="margin:0 0 6px;font-size:16px">Get new posts by email</h3>
+  <p style="margin:0 0 12px;font-size:13px;color:#666">No spam. Unsubscribe any time.</p>
+  <form id="subscribe-form" style="display:flex;gap:8px;flex-wrap:wrap">
+    <input
+      type="email"
+      id="subscribe-email"
+      placeholder="your@email.com"
+      required
+      style="flex:1;min-width:140px;padding:8px 10px;border:1px solid #ccc;border-radius:4px;font-size:14px"
+    />
+    <button
+      type="submit"
+      style="padding:8px 16px;background:#0055cc;color:#fff;border:none;border-radius:4px;font-size:14px;cursor:pointer;white-space:nowrap"
+    >Subscribe</button>
+  </form>
+  <p id="subscribe-msg" style="display:none;margin:10px 0 0;font-size:13px"></p>
+</div>
+
+<script>
+(function () {
+  var WORKER_URL = '{{ NOTIFY_WORKER_URL }}';
+  var form = document.getElementById('subscribe-form');
+  var msg  = document.getElementById('subscribe-msg');
+  if (!form) return;
+
+  form.addEventListener('submit', function (e) {
+    e.preventDefault();
+    var email = document.getElementById('subscribe-email').value.trim();
+    if (!email) return;
+
+    var btn = form.querySelector('button[type="submit"]');
+    btn.disabled = true;
+    btn.textContent = 'Subscribing…';
+
+    fetch(WORKER_URL + '/subscribe', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email: email }),
+    })
+      .then(function (res) { return res.json(); })
+      .then(function (data) {
+        msg.style.display = 'block';
+        msg.style.color = data.error ? '#cc0000' : '#007700';
+        msg.textContent = data.message || data.error || 'Done!';
+        if (!data.error) form.reset();
+      })
+      .catch(function () {
+        msg.style.display = 'block';
+        msg.style.color = '#cc0000';
+        msg.textContent = 'Something went wrong. Please try again.';
+      })
+      .finally(function () {
+        btn.disabled = false;
+        btn.textContent = 'Subscribe';
+      });
+  });
+})();
+</script>
+{% endif %}
