@@ -57,7 +57,12 @@ jobs:
       - name: Build site
         run: |
           pelican content -s publishconf.py
-          
+
+      - name: Copy admin panel to output
+        run: |
+          mkdir -p output/admin
+          cp content/extra/admin/index.html output/admin/index.html
+
       - name: Create .nojekyll file
         run: |
           touch output/.nojekyll
