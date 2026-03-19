@@ -1,0 +1,15 @@
+{% if FEED_ALL_ATOM %}
+<link rel="alternate" type="application/atom+xml"
+      title="{{ SITENAME }} – All posts"
+      href="{{ SITEURL }}/{{ FEED_ALL_ATOM }}">
+{% endif %}
+{% if FEED_ALL_RSS %}
+<link rel="alternate" type="application/rss+xml"
+      title="{{ SITENAME }} – All posts"
+      href="{{ SITEURL }}/{{ FEED_ALL_RSS }}">
+{% endif %}
+{% if article is defined and article and CATEGORY_FEED_ATOM %}
+<link rel="alternate" type="application/atom+xml"
+      title="{{ SITENAME }} – {{ article.category }}"
+      href="{{ SITEURL }}/{{ CATEGORY_FEED_ATOM.format(slug=article.category.slug) }}">
+{% endif %}

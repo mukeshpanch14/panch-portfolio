@@ -1,6 +1,6 @@
 ---
 title: "Claude Code Hooks: Auto-Label Every Terminal Session"
-date: "2026-02-27 10:00"
+date: 2026-02-27 10:00
 modified: 2026-02-27
 category: Technology
 tags:

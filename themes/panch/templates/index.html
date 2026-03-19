@@ -1,0 +1,56 @@
+{% extends "base.html" %}
+
+{% block title %} – Home{% endblock %}
+
+{% block content %}
+<div class="index-wrap">
+
+  <section class="site-intro">
+    <h1>{{ SITETITLE }}</h1>
+    <p>
+      I'm a full stack developer with a passion for building scalable systems, exploring
+      cloud-native technologies, and sharing what I learn along the way. On this blog
+      you'll find deep-dives into Python, Kubernetes, API design, developer tooling, and
+      the craft of software engineering — from architecture decisions to everyday
+      productivity tips.
+    </p>
+  </section>
+
+  <ul class="post-list">
+  {% for article in articles_page.object_list %}
+  <li class="post-card">
+    <div class="post-card__meta">
+      <a class="post-card__category" href="{{ SITEURL }}/{{ article.category.url }}">
+        {{ article.category }}
+      </a>
+      <span class="post-card__sep"></span>
+      <time class="post-card__date" datetime="{{ article.date.isoformat() }}">{{ article.locale_date }}</time>
+    </div>
+
+    <h2 class="post-card__title">
+      <a href="{{ SITEURL }}/{{ article.url }}">{{ article.title }}</a>
+    </h2>
+
+    {% if article.summary %}
+    <p class="post-card__summary">{{ article.summary|striptags }}</p>
+    {% endif %}
+
+    <a class="post-card__read-more" href="{{ SITEURL }}/{{ article.url }}">
+      Read more <i class="fa-solid fa-arrow-right" style="font-size:0.75em;"></i>
+    </a>
+
+    {% if article.tags and not HOME_HIDE_TAGS %}
+    <div class="post-card__tags">
+      {% for tag in article.tags %}
+      <a href="{{ SITEURL }}/{{ tag.url }}">{{ tag }}</a>
+      {% endfor %}
+    </div>
+    {% endif %}
+  </li>
+  {% endfor %}
+  </ul>
+
+  {% include "partial/pagination.html" %}
+
+</div>
+{% endblock %}

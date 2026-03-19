@@ -1,6 +1,6 @@
 ---
 title: "Scaling Smarter with KEDA: Event-Driven Autoscaling for Kubernetes"
-date: "2025-09-25 10:00"
+date: 2025-09-25 10:00
 modified: 2025-09-25
 category: Technology
 tags:

@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+
+{% block title %} – Authors{% endblock %}
+
+{% block content %}
+<div class="page-wrap">
+  <h1>Authors</h1>
+
+  <div class="listing-grid">
+  {% for author, author_articles in authors|sort %}
+    <div class="listing-item">
+      <a href="{{ SITEURL }}/{{ author.url }}">{{ author }}</a>
+      <span class="listing-count">{{ author_articles|count }} post{% if author_articles|count != 1 %}s{% endif %}</span>
+    </div>
+  {% endfor %}
+  </div>
+</div>
+{% endblock %}

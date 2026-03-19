@@ -1,6 +1,6 @@
 ---
 title: "Product Development vs. Baby Development: A Developer's Perspective"
-date: "2025-09-12 10:00"
+date: 2025-09-12 10:00
 category: General
 tags:
   - parenting

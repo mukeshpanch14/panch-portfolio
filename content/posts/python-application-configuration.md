@@ -1,6 +1,6 @@
 ---
 title: Python Application Configuration
-date: "2025-09-12 10:00"
+date: 2025-09-12 10:00
 category: Python
 tags:
   - python

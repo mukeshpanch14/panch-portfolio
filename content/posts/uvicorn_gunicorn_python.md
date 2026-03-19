@@ -1,6 +1,6 @@
 ---
 title: "WSGI vs ASGI: How Python Web Applications Really Work"
-date: "2025-12-30 10:00"
+date: 2025-12-30 10:00
 modified: 2025-12-30
 category: Python
 tags:

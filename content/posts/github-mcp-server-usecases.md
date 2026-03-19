@@ -1,6 +1,6 @@
 ---
 title: Using GitHub MCP Server to Scale AI-Powered Engineering
-date: "2025-09-12 10:00"
+date: 2025-09-12 10:00
 category: Technology
 tags:
   - github
