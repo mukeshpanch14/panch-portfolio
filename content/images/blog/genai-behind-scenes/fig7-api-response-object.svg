@@ -1,0 +1,24 @@
+<svg width="100%" viewBox="0 0 700 260" xmlns="http://www.w3.org/2000/svg">
+  <!-- Outer envelope -->
+  <rect x="30" y="16" width="640" height="236" rx="14" fill="#F7F3EC" stroke="#D1CAC0" stroke-width="1"/>
+  <text x="60" y="38" font-size="12" fill="#6B6456" font-weight="500" font-family="DM Sans, system-ui, sans-serif">API RESPONSE OBJECT</text>
+
+  <!-- content / message -->
+  <rect x="50" y="50" width="600" height="50" rx="8" fill="#F0ECF8" stroke="#C8B8EA" stroke-width="1"/>
+  <text x="80" y="70" font-size="13" font-weight="600" fill="#5438A0" font-family="DM Mono, monospace">content</text>
+  <text x="210" y="70" font-size="12" fill="#6B6456" font-family="DM Sans, system-ui, sans-serif">💬  The AI's actual reply text</text>
+  <text x="210" y="88" font-size="11" fill="#7857BE" font-family="DM Mono, monospace">[{ type: "text", text: "Quantum computing is a form of…" }]</text>
+
+  <!-- usage -->
+  <rect x="50" y="110" width="600" height="70" rx="8" fill="#EBF6F0" stroke="#A6D9C0" stroke-width="1"/>
+  <text x="80" y="130" font-size="13" font-weight="600" fill="#1C5C3A" font-family="DM Mono, monospace">usage</text>
+  <text x="210" y="130" font-size="12" fill="#6B6456" font-family="DM Sans, system-ui, sans-serif">📊  Token counts — this is what you get billed for</text>
+  <text x="210" y="150" font-size="11" fill="#2D6A4F" font-family="DM Mono, monospace">input_tokens: 42   (what you sent in)</text>
+  <text x="210" y="167" font-size="11" fill="#2D6A4F" font-family="DM Mono, monospace">output_tokens: 285  (what the model generated)</text>
+
+  <!-- stop_reason -->
+  <rect x="50" y="190" width="600" height="50" rx="8" fill="#FBF5E6" stroke="#E8D08A" stroke-width="1"/>
+  <text x="80" y="210" font-size="13" font-weight="600" fill="#7A5A10" font-family="DM Mono, monospace">stop_reason</text>
+  <text x="210" y="210" font-size="12" fill="#6B6456" font-family="DM Sans, system-ui, sans-serif">🛑  Why generation stopped (see Section 4 above)</text>
+  <text x="210" y="228" font-size="11" fill="#9B7420" font-family="DM Mono, monospace">"end_turn"  |  "max_tokens"  |  "stop_sequence"</text>
+</svg>

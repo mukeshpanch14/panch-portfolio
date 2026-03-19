@@ -1,0 +1,29 @@
+<svg width="100%" viewBox="0 0 700 280" xmlns="http://www.w3.org/2000/svg">
+  <!-- Outer envelope -->
+  <rect x="30" y="20" width="640" height="240" rx="14" fill="#F7F3EC" stroke="#D1CAC0" stroke-width="1"/>
+  <text x="60" y="42" font-size="12" fill="#6B6456" font-weight="500" font-family="DM Sans, system-ui, sans-serif">API REQUEST OBJECT</text>
+
+  <!-- Row 1: API Key -->
+  <rect x="50" y="54" width="600" height="46" rx="8" fill="#FEF2EE" stroke="#F0C0AC" stroke-width="1"/>
+  <text x="80" y="73" font-size="13" font-weight="600" fill="#922A10" font-family="DM Mono, monospace">api_key</text>
+  <text x="210" y="73" font-size="12" fill="#6B6456" font-family="DM Sans, system-ui, sans-serif">🔑  Identifies your request — like a password for the API</text>
+  <text x="210" y="89" font-size="11" fill="#B8441A" font-family="DM Mono, monospace">sk-ant-api03-xxxxxx...</text>
+
+  <!-- Row 2: Model -->
+  <rect x="50" y="108" width="600" height="46" rx="8" fill="#EBF6F0" stroke="#A6D9C0" stroke-width="1"/>
+  <text x="80" y="127" font-size="13" font-weight="600" fill="#1C5C3A" font-family="DM Mono, monospace">model</text>
+  <text x="210" y="127" font-size="12" fill="#6B6456" font-family="DM Sans, system-ui, sans-serif">🤖  Which AI model should handle this request</text>
+  <text x="210" y="143" font-size="11" fill="#2D6A4F" font-family="DM Mono, monospace">"claude-sonnet-4-5"  /  "gpt-4o"  /  "gemini-2.0"</text>
+
+  <!-- Row 3: Messages -->
+  <rect x="50" y="162" width="600" height="46" rx="8" fill="#F0ECF8" stroke="#C8B8EA" stroke-width="1"/>
+  <text x="80" y="181" font-size="13" font-weight="600" fill="#5438A0" font-family="DM Mono, monospace">messages</text>
+  <text x="210" y="181" font-size="12" fill="#6B6456" font-family="DM Sans, system-ui, sans-serif">💬  The conversation history: system prompt + user messages</text>
+  <text x="210" y="197" font-size="11" fill="#6844C2" font-family="DM Mono, monospace">[{role:"system",…}, {role:"user", content:"What is…"}]</text>
+
+  <!-- Row 4: Max Tokens -->
+  <rect x="50" y="216" width="600" height="46" rx="8" fill="#FBF5E6" stroke="#E8D08A" stroke-width="1"/>
+  <text x="80" y="235" font-size="13" font-weight="600" fill="#7A5A10" font-family="DM Mono, monospace">max_tokens</text>
+  <text x="210" y="235" font-size="12" fill="#6B6456" font-family="DM Sans, system-ui, sans-serif">🔢  Maximum length of the AI's reply</text>
+  <text x="210" y="251" font-size="11" fill="#9B7420" font-family="DM Mono, monospace">1024   (roughly = 750 words)</text>
+</svg>

@@ -1,0 +1,32 @@
+<svg width="100%" viewBox="0 0 700 150" xmlns="http://www.w3.org/2000/svg">
+  <!-- Tokens -->
+  <rect x="30" y="90" width="72" height="36" rx="6" fill="#EFE9DF" stroke="#D1CAC0" stroke-width="1"/>
+  <text x="66" y="113" text-anchor="middle" font-size="13" fill="#6B6456" font-family="DM Sans, system-ui, sans-serif">I</text>
+
+  <rect x="120" y="90" width="72" height="36" rx="6" fill="#EFE9DF" stroke="#D1CAC0" stroke-width="1"/>
+  <text x="156" y="113" text-anchor="middle" font-size="13" fill="#6B6456" font-family="DM Sans, system-ui, sans-serif">went</text>
+
+  <rect x="210" y="90" width="72" height="36" rx="6" fill="#EFE9DF" stroke="#D1CAC0" stroke-width="1"/>
+  <text x="246" y="113" text-anchor="middle" font-size="13" fill="#6B6456" font-family="DM Sans, system-ui, sans-serif">to</text>
+
+  <rect x="300" y="90" width="72" height="36" rx="6" fill="#EFE9DF" stroke="#D1CAC0" stroke-width="1"/>
+  <text x="336" y="113" text-anchor="middle" font-size="13" fill="#6B6456" font-family="DM Sans, system-ui, sans-serif">the</text>
+
+  <rect x="390" y="90" width="72" height="36" rx="6" fill="#F2DDD4" stroke="#C1440E" stroke-width="2"/>
+  <text x="426" y="113" text-anchor="middle" font-size="13" font-weight="600" fill="#922A10" font-family="DM Sans, system-ui, sans-serif">bank</text>
+
+  <rect x="480" y="90" width="72" height="36" rx="6" fill="#EFE9DF" stroke="#D1CAC0" stroke-width="1"/>
+  <text x="516" y="113" text-anchor="middle" font-size="13" fill="#6B6456" font-family="DM Sans, system-ui, sans-serif">near</text>
+
+  <rect x="570" y="90" width="72" height="36" rx="6" fill="#EBF6F0" stroke="#A6D9C0" stroke-width="1.5"/>
+  <text x="606" y="113" text-anchor="middle" font-size="13" fill="#2D6A4F" font-family="DM Sans, system-ui, sans-serif">river</text>
+
+  <!-- Attention lines from "bank" -->
+  <line x1="426" y1="90" x2="66" y2="46" stroke="#E8D08A" stroke-width="0.8" opacity="0.5"/>
+  <line x1="426" y1="90" x2="246" y2="46" stroke="#E8D08A" stroke-width="1.2" opacity="0.5"/>
+  <line x1="426" y1="90" x2="606" y2="46" stroke="#C1440E" stroke-width="3" opacity="0.9"/>
+
+  <!-- Label -->
+  <text x="426" y="38" text-anchor="middle" font-size="11" fill="#C1440E" font-weight="600" font-family="DM Sans, system-ui, sans-serif">BANK pays most attention to "river" → means riverbank</text>
+  <text x="426" y="52" text-anchor="middle" font-size="10" fill="#6B6456" font-family="DM Sans, system-ui, sans-serif">(line thickness = attention weight)</text>
+</svg>

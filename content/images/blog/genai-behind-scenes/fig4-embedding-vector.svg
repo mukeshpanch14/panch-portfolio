@@ -1,0 +1,19 @@
+<svg width="100%" viewBox="0 0 700 120" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <marker id="arr" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M2 1L8 5L2 9" fill="none" stroke="context-stroke" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+    </marker>
+  </defs>
+  <!-- Token -->
+  <rect x="30" y="40" width="100" height="40" rx="8" fill="#F0ECF8" stroke="#C8B8EA" stroke-width="1.5"/>
+  <text x="80" y="65" text-anchor="middle" font-size="14" font-weight="600" fill="#5438A0" font-family="DM Sans, system-ui, sans-serif">"quantum"</text>
+
+  <!-- Arrow -->
+  <line x1="132" y1="60" x2="175" y2="60" stroke="#7857BE" stroke-width="1.5" marker-end="url(#arr)"/>
+  <text x="153" y="52" text-anchor="middle" font-size="10" fill="#7857BE" font-family="DM Sans, system-ui, sans-serif">maps to</text>
+
+  <!-- Embedding vector -->
+  <rect x="177" y="30" width="470" height="60" rx="8" fill="#FBF5E6" stroke="#E8D08A" stroke-width="1.5"/>
+  <text x="393" y="58" text-anchor="middle" font-size="12" fill="#7A5A10" font-family="DM Mono, monospace">[0.234, -0.891, 0.072, 0.651, -0.340, … 1536 numbers]</text>
+  <text x="393" y="76" text-anchor="middle" font-size="11" fill="#9B7420" font-family="DM Sans, system-ui, sans-serif">← an embedding vector (encodes meaning as numbers)</text>
+</svg>

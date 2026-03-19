@@ -1,0 +1,30 @@
+<svg width="100%" viewBox="0 0 700 100" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <marker id="arr2" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M2 1L8 5L2 9" fill="none" stroke="context-stroke" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+    </marker>
+  </defs>
+  <!-- Box 1 -->
+  <rect x="10" y="28" width="140" height="44" rx="9" fill="#EFE9DF" stroke="#C1440E" stroke-width="1.5"/>
+  <text x="80" y="55" text-anchor="middle" font-size="13" font-weight="600" fill="#922A10" font-family="DM Sans, system-ui, sans-serif">Tokenization</text>
+  <!-- Arrow -->
+  <line x1="152" y1="50" x2="175" y2="50" stroke="#C1440E" stroke-width="1.5" marker-end="url(#arr2)"/>
+  <!-- Box 2 -->
+  <rect x="177" y="28" width="130" height="44" rx="9" fill="#EFE9DF" stroke="#7857BE" stroke-width="1.5"/>
+  <text x="242" y="55" text-anchor="middle" font-size="13" font-weight="600" fill="#5438A0" font-family="DM Sans, system-ui, sans-serif">Embedding</text>
+  <!-- Arrow -->
+  <line x1="309" y1="50" x2="332" y2="50" stroke="#7857BE" stroke-width="1.5" marker-end="url(#arr2)"/>
+  <!-- Box 3 -->
+  <rect x="334" y="28" width="160" height="44" rx="9" fill="#EFE9DF" stroke="#2D6A4F" stroke-width="1.5"/>
+  <text x="414" y="55" text-anchor="middle" font-size="13" font-weight="600" fill="#1C5C3A" font-family="DM Sans, system-ui, sans-serif">Contextualization</text>
+  <!-- Arrow -->
+  <line x1="496" y1="50" x2="519" y2="50" stroke="#2D6A4F" stroke-width="1.5" marker-end="url(#arr2)"/>
+  <!-- Box 4 -->
+  <rect x="521" y="28" width="130" height="44" rx="9" fill="#F2DDD4" stroke="#C1440E" stroke-width="2"/>
+  <text x="586" y="55" text-anchor="middle" font-size="13" font-weight="600" fill="#922A10" font-family="DM Sans, system-ui, sans-serif">Generation</text>
+  <!-- Labels -->
+  <text x="80" y="86" text-anchor="middle" font-size="10" fill="#6B6456" font-family="DM Sans, system-ui, sans-serif">Break apart</text>
+  <text x="242" y="86" text-anchor="middle" font-size="10" fill="#6B6456" font-family="DM Sans, system-ui, sans-serif">Convert to numbers</text>
+  <text x="414" y="86" text-anchor="middle" font-size="10" fill="#6B6456" font-family="DM Sans, system-ui, sans-serif">Understand meaning</text>
+  <text x="586" y="86" text-anchor="middle" font-size="10" fill="#6B6456" font-family="DM Sans, system-ui, sans-serif">Write the answer</text>
+</svg>
