@@ -1,0 +1,93 @@
+{% if 'jinja2.ext.i18n' not in JINJA_ENVIRONMENT.extensions %}
+  {%- macro _(msg) -%}{{ msg % kwargs }}{%- endmacro -%}
+{% endif %}
+<!DOCTYPE html>
+<html lang="{{ DEFAULT_LANG }}">
+<head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="HandheldFriendly" content="True" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  {% if page is defined and page and page in hidden_pages %}
+  <meta name="robots" content="noindex, nofollow" />
+  {% else %}
+  <meta name="robots" content="{{ ROBOTS|default('index, follow') }}" />
+  {% endif %}
+
+  {% if GOOGLE_SEARCH_CONSOLE %}
+  <meta name="google-site-verification" content="{{ GOOGLE_SEARCH_CONSOLE }}" />
+  {% endif %}
+
+  {% block meta %}
+  <meta name="author" content="{{ AUTHOR }}" />
+  <meta name="description" content="{{ SITEDESCRIPTION }}" />
+  {% include "partial/og.html" %}
+  {% endblock %}
+
+  <title>{{ SITENAME }}{% block title %}{% endblock %}</title>
+
+  {# Fonts #}
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+  {# Theme CSS #}
+  <link rel="stylesheet" type="text/css" href="{{ SITEURL }}/{{ THEME_STATIC_DIR }}/css/style.css">
+  <link rel="stylesheet" type="text/css" href="{{ SITEURL }}/{{ THEME_STATIC_DIR }}/css/pygments.css">
+
+  {# Font Awesome (for social icons & share buttons) #}
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" crossorigin="anonymous">
+
+  {% include "partial/icon.html" %}
+  {% include "partial/feed.html" %}
+</head>
+<body>
+  {# Mobile sidebar toggle #}
+  <button class="sidebar-toggle" id="sidebar-toggle" aria-label="Toggle navigation">
+    <i class="fa-solid fa-bars"></i>
+  </button>
+
+  <div class="layout">
+    {% include "partial/sidebar.html" %}
+
+    <main class="main">
+      {% block content %}{% endblock %}
+
+      {% include "partial/footer.html" %}
+    </main>
+  </div>
+
+  {# Sidebar overlay for mobile #}
+  <div id="sidebar-overlay" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.5);z-index:90;" onclick="closeSidebar()"></div>
+
+  <script>
+  (function () {
+    var toggle = document.getElementById('sidebar-toggle');
+    var sidebar = document.querySelector('.sidebar');
+    var overlay = document.getElementById('sidebar-overlay');
+
+    function openSidebar() {
+      sidebar.classList.add('is-open');
+      overlay.style.display = 'block';
+    }
+
+    window.closeSidebar = function () {
+      sidebar.classList.remove('is-open');
+      overlay.style.display = 'none';
+    };
+
+    if (toggle) {
+      toggle.addEventListener('click', function () {
+        if (sidebar.classList.contains('is-open')) {
+          closeSidebar();
+        } else {
+          openSidebar();
+        }
+      });
+    }
+  })();
+  </script>
+
+  {% block additional_js %}{% endblock %}
+</body>
+</html>

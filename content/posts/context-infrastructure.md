@@ -1,6 +1,6 @@
 ---
 title: Managing Context Across AI Coding Tools
-date: "2026-02-16 10:00"
+date: 2026-02-16 10:00
 modified: 2026-02-16
 category: Technology
 tags:

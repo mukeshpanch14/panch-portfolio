@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+
+{% block title %} – {{ author }}{% endblock %}
+
+{% block content %}
+<div class="index-wrap">
+  <section class="site-intro">
+    <h1>{{ author }}</h1>
+    <p>{{ articles|count }} post{% if articles|count != 1 %}s{% endif %}</p>
+  </section>
+
+  <ul class="post-list">
+  {% for article in articles_page.object_list %}
+  <li class="post-card">
+    <div class="post-card__meta">
+      <a class="post-card__category" href="{{ SITEURL }}/{{ article.category.url }}">{{ article.category }}</a>
+      <span class="post-card__sep"></span>
+      <time class="post-card__date" datetime="{{ article.date.isoformat() }}">{{ article.locale_date }}</time>
+    </div>
+    <h2 class="post-card__title">
+      <a href="{{ SITEURL }}/{{ article.url }}">{{ article.title }}</a>
+    </h2>
+    {% if article.summary %}
+    <p class="post-card__summary">{{ article.summary|striptags }}</p>
+    {% endif %}
+    <a class="post-card__read-more" href="{{ SITEURL }}/{{ article.url }}">
+      Read more <i class="fa-solid fa-arrow-right" style="font-size:0.75em;"></i>
+    </a>
+  </li>
+  {% endfor %}
+  </ul>
+
+  {% include "partial/pagination.html" %}
+</div>
+{% endblock %}

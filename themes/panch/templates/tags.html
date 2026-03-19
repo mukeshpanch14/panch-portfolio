@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+
+{% block title %} – Tags{% endblock %}
+
+{% block content %}
+<div class="page-wrap">
+  <h1>Tags</h1>
+
+  <div class="tag-cloud">
+  {% for tag, tag_articles in tags|sort %}
+    <a href="{{ SITEURL }}/{{ tag.url }}" title="{{ tag_articles|count }} post{% if tag_articles|count != 1 %}s{% endif %}">
+      {{ tag }}
+      <sup style="font-size:0.65em;opacity:0.7;">{{ tag_articles|count }}</sup>
+    </a>
+  {% endfor %}
+  </div>
+</div>
+{% endblock %}

@@ -1,0 +1,21 @@
+{% if article.prev_article or article.next_article %}
+<nav class="neighbors">
+  {% if article.prev_article %}
+  <a class="neighbors__prev" href="{{ SITEURL }}/{{ article.prev_article.url }}">
+    <div class="neighbors__dir">&larr; Previous</div>
+    <div class="neighbors__title">{{ article.prev_article.title }}</div>
+  </a>
+  {% else %}
+  <span></span>
+  {% endif %}
+
+  {% if article.next_article %}
+  <a class="neighbors__next" href="{{ SITEURL }}/{{ article.next_article.url }}">
+    <div class="neighbors__dir">Next &rarr;</div>
+    <div class="neighbors__title">{{ article.next_article.title }}</div>
+  </a>
+  {% else %}
+  <span></span>
+  {% endif %}
+</nav>
+{% endif %}

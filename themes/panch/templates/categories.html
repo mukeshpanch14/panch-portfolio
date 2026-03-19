@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+
+{% block title %} – Categories{% endblock %}
+
+{% block content %}
+<div class="page-wrap">
+  <h1>Categories</h1>
+
+  <div class="listing-grid">
+  {% for cat, cat_articles in categories|sort %}
+    <div class="listing-item">
+      <a href="{{ SITEURL }}/{{ cat.url }}">{{ cat }}</a>
+      <span class="listing-count">{{ cat_articles|count }} post{% if cat_articles|count != 1 %}s{% endif %}</span>
+    </div>
+  {% endfor %}
+  </div>
+</div>
+{% endblock %}

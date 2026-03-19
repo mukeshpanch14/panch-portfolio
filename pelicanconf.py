@@ -28,8 +28,9 @@ DISPLAY_RECENT_POSTS_ON_SIDEBAR = True
 RECENT_POST_COUNT = 5
 
 # Theme configuration
-THEME = 'themes/flex'
-THEME_TEMPLATES_OVERRIDES = ['custom_templates']
+THEME = 'themes/panch'
+# custom_templates/ was Flex-specific; new panch theme has all overrides built in
+# THEME_TEMPLATES_OVERRIDES = ['custom_templates']
 
 # Flex theme specific settings
 SITELOGO = '/images/profile.png'  # You can add your profile image

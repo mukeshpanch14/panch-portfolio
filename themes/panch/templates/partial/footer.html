@@ -1,0 +1,16 @@
+<footer class="site-footer">
+  <span>
+    &copy; {{ COPYRIGHT_YEAR|default(2025) }}
+    {% if COPYRIGHT_NAME %}{{ COPYRIGHT_NAME }}{% else %}{{ AUTHOR }}{% endif %}.
+    {% if CC_LICENSE %}
+    Licensed under
+    <a href="https://creativecommons.org/licenses/{{ CC_LICENSE.slug }}/{{ CC_LICENSE.version }}/"
+       target="_blank" rel="noopener">
+      {{ CC_LICENSE.name }} {{ CC_LICENSE.version }}
+    </a>.
+    {% endif %}
+  </span>
+  <span>
+    Powered by <a href="https://getpelican.com/" target="_blank" rel="noopener">Pelican</a>.
+  </span>
+</footer>

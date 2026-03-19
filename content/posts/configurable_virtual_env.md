@@ -1,6 +1,6 @@
 ---
 title: Configurable Virtual Environments
-date: "2025-09-12 10:00"
+date: 2025-09-12 10:00
 modified: 2025-09-12
 category: Python
 tags:

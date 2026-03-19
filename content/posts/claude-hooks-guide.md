@@ -1,6 +1,6 @@
 ---
 title: "Claude Code Hooks: Get Notified When It Needs You"
-date: "2026-02-23 10:00"
+date: 2026-02-23 10:00
 modified: 2026-02-23
 category: Technology
 tags:

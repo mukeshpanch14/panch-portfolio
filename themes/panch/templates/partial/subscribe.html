@@ -1,0 +1,57 @@
+{% if NOTIFY_WORKER_URL %}
+<div class="subscribe-widget">
+  <h3>Get new posts by email</h3>
+  <p>No spam. Unsubscribe any time.</p>
+  <form id="subscribe-form">
+    <input
+      type="email"
+      id="subscribe-email"
+      placeholder="your@email.com"
+      required
+    />
+    <button type="submit">Subscribe</button>
+  </form>
+  <p id="subscribe-msg" class="subscribe-msg"></p>
+</div>
+
+<script>
+(function () {
+  var WORKER_URL = '{{ NOTIFY_WORKER_URL }}';
+  var form = document.getElementById('subscribe-form');
+  var msg  = document.getElementById('subscribe-msg');
+  if (!form) return;
+
+  form.addEventListener('submit', function (e) {
+    e.preventDefault();
+    var email = document.getElementById('subscribe-email').value.trim();
+    if (!email) return;
+
+    var btn = form.querySelector('button[type="submit"]');
+    btn.disabled = true;
+    btn.textContent = 'Subscribing…';
+
+    fetch(WORKER_URL + '/subscribe', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email: email }),
+    })
+      .then(function (res) { return res.json(); })
+      .then(function (data) {
+        msg.style.display = 'block';
+        msg.style.color = data.error ? '#cc0000' : '#007700';
+        msg.textContent = data.message || data.error || 'Done!';
+        if (!data.error) form.reset();
+      })
+      .catch(function () {
+        msg.style.display = 'block';
+        msg.style.color = '#cc0000';
+        msg.textContent = 'Something went wrong. Please try again.';
+      })
+      .finally(function () {
+        btn.disabled = false;
+        btn.textContent = 'Subscribe';
+      });
+  });
+})();
+</script>
+{% endif %}

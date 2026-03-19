@@ -1,6 +1,6 @@
 ---
 title: "From Autocomplete to Orchestration: The New Era of AI Coding"
-date: "2026-02-14 10:00"
+date: 2026-02-14 10:00
 modified: 2026-02-14
 category: Technology
 tags:

@@ -1,6 +1,6 @@
 ---
 title: "Guiding Fresh Faces: A Seamless Introduction to Your Tech Team"
-date: "2025-09-12 10:00"
+date: 2025-09-12 10:00
 modified: 2025-09-12
 category: General
 tags:

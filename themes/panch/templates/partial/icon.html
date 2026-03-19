@@ -1,0 +1,8 @@
+{% if FAVICON %}
+<link rel="icon" href="{{ SITEURL }}{{ FAVICON }}">
+{% else %}
+<link rel="icon" href="{{ SITEURL }}/favicon.ico">
+{% endif %}
+{% if APPLE_TOUCH_ICON %}
+<link rel="apple-touch-icon" href="{{ SITEURL }}{{ APPLE_TOUCH_ICON }}">
+{% endif %}
