@@ -156,8 +156,6 @@ Here's the entire lifecycle of a single chat message, from start to finish:
 
 ## Key Takeaways
 
-If you remember nothing else from this article, remember these five ideas:
-
 | Concept | What it is | Why it matters |
 |---|---|---|
 | Tokens | Pieces of text (≈ words) | Determines API cost and context limit |
@@ -165,5 +163,3 @@ If you remember nothing else from this article, remember these five ideas:
 | Attention | Focusing on relevant context | How models resolve ambiguity |
 | max_tokens | Your output cap | Set too low → truncated responses |
 | stop_reason | Why generation ended | Always check this in production code |
-
-> **What's next?** Now that you understand the request/response lifecycle, good next topics are: system prompts and how to shape model behavior, streaming APIs for real-time output, and tool use / function calling for agentic workflows.
