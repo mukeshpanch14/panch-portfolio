@@ -1,5 +1,921 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>Panch Mukesh | Full Stack Developer &amp; Tech Blogger</title><link href="/" rel="alternate"/><link href="feeds/all.atom.xml" rel="self"/><id>/</id><updated>2026-02-23T10:00:00+05:30</updated><subtitle>Personal Website &amp; Blog</subtitle><entry><title>Claude Code Hooks: Get Notified When It Needs You</title><link href="claude-hooks-guide.html" rel="alternate"/><published>2026-02-23T10:00:00+05:30</published><updated>2026-02-23T00:00:00+05:30</updated><author><name>Panch Mukesh</name></author><id>tag:None,2026-02-23:claude-hooks-guide.html</id><summary type="html">&lt;p&gt;Stop babysitting the terminal. Claude Code hooks let you run scripts on task completion, permission prompts, and idle states — so you get notified the moment Claude needs you, no matter what you're doing.&lt;/p&gt;</summary><content type="html">&lt;p&gt;If you've been using Claude Code, you've probably done this at least once — kicked off a big task, switched to another window, and come back ten minutes later only to find Claude has been sitting idle, waiting for you to approve something.&lt;/p&gt;
+<feed xmlns="http://www.w3.org/2005/Atom"><title>Panch Mukesh</title><link href="/" rel="alternate"/><link href="feeds/all.atom.xml" rel="self"/><id>/</id><updated>2026-03-20T10:00:00+05:30</updated><subtitle>Personal Website &amp; Blog</subtitle><entry><title>"How Claude Code Image Paste Actually Works"</title><link href="how-claude-code-image-paste-actually-works.html" rel="alternate"/><published>2026-03-20T10:00:00+05:30</published><updated>2026-03-20T00:00:00+05:30</updated><author><name>Panch Mukesh</name></author><id>tag:None,2026-03-20:how-claude-code-image-paste-actually-works.html</id><summary type="html">&lt;ul&gt;
+&lt;li&gt;claude&lt;/li&gt;
+&lt;li&gt;ai&lt;/li&gt;
+&lt;li&gt;developer-tools&lt;/li&gt;
+&lt;li&gt;terminal&lt;/li&gt;
+&lt;li&gt;clipboard
+slug: claude-code-image-paste
+author: Panch Mukesh
+summary: You see the word "image" appear in the terminal. Here's what's really happening underneath — from keystroke to API call.
+status: published&lt;/li&gt;
+&lt;/ul&gt;
+&lt;hr&gt;
+&lt;p&gt;When you paste a screenshot into Claude Code and see the word &lt;strong&gt;"image"&lt;/strong&gt; appear in the input box …&lt;/p&gt;</summary><content type="html">&lt;ul&gt;
+&lt;li&gt;claude&lt;/li&gt;
+&lt;li&gt;ai&lt;/li&gt;
+&lt;li&gt;developer-tools&lt;/li&gt;
+&lt;li&gt;terminal&lt;/li&gt;
+&lt;li&gt;clipboard
+slug: claude-code-image-paste
+author: Panch Mukesh
+summary: You see the word "image" appear in the terminal. Here's what's really happening underneath — from keystroke to API call.
+status: published&lt;/li&gt;
+&lt;/ul&gt;
+&lt;hr&gt;
+&lt;p&gt;When you paste a screenshot into Claude Code and see the word &lt;strong&gt;"image"&lt;/strong&gt; appear in the input box, the terminal hasn't rendered a picture. It's done something far more interesting — and understanding why explains the whole platform story of why paste works on Mac but breaks on Windows.&lt;/p&gt;
+&lt;h2&gt;The misconception&lt;/h2&gt;
+&lt;p&gt;Most developers assume image paste works like text paste: the terminal intercepts the clipboard content and streams it into the input field. That's completely wrong for images.&lt;/p&gt;
+&lt;p&gt;Terminals are fundamentally text-oriented. They deal in character streams — bytes that map to glyphs. Image data is binary, has no glyph representation, and terminals have no standard mechanism to display it inline (outside of exotic protocols like Kitty's graphics protocol or iTerm2's inline image spec, which Claude Code doesn't rely on).&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;The terminal is just a trigger surface. The actual image data never flows through it at all.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h2&gt;What actually happens, step by step&lt;/h2&gt;
+&lt;div style="display:flex;flex-direction:column;gap:2px;margin:32px 0"&gt;
+  &lt;div style="display:flex;gap:20px;align-items:flex-start;padding:20px 24px;background:#fff;border:1px solid rgba(26,24,20,0.10);border-radius:10px 10px 4px 4px"&gt;
+    &lt;div style="flex-shrink:0;width:28px;height:28px;background:#1C1A16;color:#F5F3EE;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:'DM Mono',monospace;font-size:12px;font-weight:500;margin-top:2px"&gt;1&lt;/div&gt;
+    &lt;div&gt;
+      &lt;div style="font-size:15px;font-weight:500;color:#1a1814;margin-bottom:4px"&gt;Keystroke interception&lt;/div&gt;
+      &lt;p style="font-size:14px;color:#6b6760;margin:0;line-height:1.6"&gt;You press &lt;code style="font-family:'DM Mono',monospace;font-size:12px;background:#ede9e0;padding:1px 5px;border-radius:3px;color:#c8501a"&gt;Ctrl+V&lt;/code&gt; (or &lt;code style="font-family:'DM Mono',monospace;font-size:12px;background:#ede9e0;padding:1px 5px;border-radius:3px;color:#c8501a"&gt;Alt+V&lt;/code&gt; on Windows). Claude Code's TUI (terminal user interface) layer — built with a library like Ink or Blessed — intercepts this keystroke before the terminal's own paste handler fires.&lt;/p&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+  &lt;div style="display:flex;gap:20px;align-items:flex-start;padding:20px 24px;background:#fff;border:1px solid rgba(26,24,20,0.10);border-radius:4px"&gt;
+    &lt;div style="flex-shrink:0;width:28px;height:28px;background:#1C1A16;color:#F5F3EE;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:'DM Mono',monospace;font-size:12px;font-weight:500;margin-top:2px"&gt;2&lt;/div&gt;
+    &lt;div&gt;
+      &lt;div style="font-size:15px;font-weight:500;color:#1a1814;margin-bottom:4px"&gt;OS clipboard API call&lt;/div&gt;
+      &lt;p style="font-size:14px;color:#6b6760;margin:0;line-height:1.6"&gt;Claude Code calls the operating system's clipboard API directly — not the terminal's paste mechanism. On macOS this is the NSPasteboard API via OSC 52. It reads raw binary image bytes straight from the clipboard memory.&lt;/p&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+  &lt;div style="display:flex;gap:20px;align-items:flex-start;padding:20px 24px;background:#fff;border:1px solid rgba(26,24,20,0.10);border-radius:4px"&gt;
+    &lt;div style="flex-shrink:0;width:28px;height:28px;background:#1C1A16;color:#F5F3EE;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:'DM Mono',monospace;font-size:12px;font-weight:500;margin-top:2px"&gt;3&lt;/div&gt;
+    &lt;div&gt;
+      &lt;div style="font-size:15px;font-weight:500;color:#1a1814;margin-bottom:4px"&gt;Base64 encoding in memory&lt;/div&gt;
+      &lt;p style="font-size:14px;color:#6b6760;margin:0;line-height:1.6"&gt;The raw bytes are encoded to a base64 string entirely in Claude Code's process memory. Nothing is written to disk. The placeholder word &lt;code style="font-family:'DM Mono',monospace;font-size:12px;background:#ede9e0;padding:1px 5px;border-radius:3px;color:#c8501a"&gt;"image"&lt;/code&gt; appears in the input box as a UI affordance — it's just a label, not the data.&lt;/p&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+  &lt;div style="display:flex;gap:20px;align-items:flex-start;padding:20px 24px;background:#fff;border:1px solid rgba(26,24,20,0.10);border-radius:4px"&gt;
+    &lt;div style="flex-shrink:0;width:28px;height:28px;background:#1C1A16;color:#F5F3EE;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:'DM Mono',monospace;font-size:12px;font-weight:500;margin-top:2px"&gt;4&lt;/div&gt;
+    &lt;div&gt;
+      &lt;div style="font-size:15px;font-weight:500;color:#1a1814;margin-bottom:4px"&gt;Bundled into the API payload&lt;/div&gt;
+      &lt;p style="font-size:14px;color:#6b6760;margin:0;line-height:1.6"&gt;When you press Enter, the base64 string is assembled into a structured JSON content block alongside your text prompt and sent to Anthropic's &lt;code style="font-family:'DM Mono',monospace;font-size:12px;background:#ede9e0;padding:1px 5px;border-radius:3px;color:#c8501a"&gt;/v1/messages&lt;/code&gt; endpoint.&lt;/p&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+  &lt;div style="display:flex;gap:20px;align-items:flex-start;padding:20px 24px;background:#fff;border:1px solid rgba(26,24,20,0.10);border-radius:4px 4px 10px 10px"&gt;
+    &lt;div style="flex-shrink:0;width:28px;height:28px;background:#1C1A16;color:#F5F3EE;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:'DM Mono',monospace;font-size:12px;font-weight:500;margin-top:2px"&gt;5&lt;/div&gt;
+    &lt;div&gt;
+      &lt;div style="font-size:15px;font-weight:500;color:#1a1814;margin-bottom:4px"&gt;Tokenised server-side&lt;/div&gt;
+      &lt;p style="font-size:14px;color:#6b6760;margin:0;line-height:1.6"&gt;Anthropic's API receives the image block, tokenises the pixel data using a vision encoder, and Claude processes both the image tokens and text tokens together in a single context window.&lt;/p&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+
+&lt;p&gt;&lt;img alt="Fig 1 — How a paste event becomes an API call" src="images/blog/claude-code-image-paste/fig1-paste-flow-diagram.svg"&gt;&lt;/p&gt;
+&lt;p&gt;&lt;em&gt;Fig 1 — How a paste event becomes an API call&lt;/em&gt;&lt;/p&gt;
+&lt;h2&gt;The API payload structure&lt;/h2&gt;
+&lt;p&gt;This is what gets sent to the Anthropic API when you paste a screenshot and type a prompt. The image and text are sibling items in the same &lt;code&gt;content&lt;/code&gt; array:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="p"&gt;{&lt;/span&gt;
+&lt;span class="w"&gt;  &lt;/span&gt;&lt;span class="nt"&gt;&amp;quot;role&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;user&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+&lt;span class="w"&gt;  &lt;/span&gt;&lt;span class="nt"&gt;&amp;quot;content&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;
+&lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="p"&gt;{&lt;/span&gt;
+&lt;span class="w"&gt;      &lt;/span&gt;&lt;span class="nt"&gt;&amp;quot;type&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;image&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+&lt;span class="w"&gt;      &lt;/span&gt;&lt;span class="nt"&gt;&amp;quot;source&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="p"&gt;{&lt;/span&gt;
+&lt;span class="w"&gt;        &lt;/span&gt;&lt;span class="nt"&gt;&amp;quot;type&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;base64&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+&lt;span class="w"&gt;        &lt;/span&gt;&lt;span class="nt"&gt;&amp;quot;media_type&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;image/png&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+&lt;span class="w"&gt;        &lt;/span&gt;&lt;span class="nt"&gt;&amp;quot;data&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;iVBORw0KGgoAAAANS...&amp;quot;&lt;/span&gt;
+&lt;span class="w"&gt;      &lt;/span&gt;&lt;span class="p"&gt;}&lt;/span&gt;
+&lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="p"&gt;},&lt;/span&gt;
+&lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="p"&gt;{&lt;/span&gt;
+&lt;span class="w"&gt;      &lt;/span&gt;&lt;span class="nt"&gt;&amp;quot;type&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;text&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+&lt;span class="w"&gt;      &lt;/span&gt;&lt;span class="nt"&gt;&amp;quot;text&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;What&amp;#39;s wrong with this layout?&amp;quot;&lt;/span&gt;
+&lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="p"&gt;}&lt;/span&gt;
+&lt;span class="w"&gt;  &lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;
+&lt;span class="p"&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;The image is a proper first-class content block, not an attachment or a URL reference. It travels inline with the request as base64-encoded bytes. A 1000×1000 px screenshot costs roughly &lt;strong&gt;1,334 tokens&lt;/strong&gt; — a meaningful but manageable chunk of a large context window.&lt;/p&gt;
+&lt;h2&gt;Why it breaks on Windows and Linux&lt;/h2&gt;
+&lt;p&gt;The clipboard read relies on the terminal emulator cooperating with the OSC 52 escape sequence — a protocol that lets a terminal application read clipboard contents. The problem is image data.&lt;/p&gt;
+&lt;p&gt;Standard OSC 52 handles plain text only. It has no concept of MIME types, so when Claude Code asks the terminal "give me the clipboard", a Windows Terminal or PowerShell instance hands back nothing for binary image data — it simply doesn't know how to respond. The Kitty terminal created an extended protocol called OSC 5522 that adds MIME type awareness and supports images, but most terminals haven't adopted it yet.&lt;/p&gt;
+&lt;div style="background:#EDE9E0;border:1px solid rgba(26,24,20,0.20);border-radius:10px;padding:24px 28px;margin:32px 0"&gt;
+  &lt;p style="margin:0;color:#1a1814;font-size:15px"&gt;On macOS the default terminal emulators handle this gracefully. On Windows and Linux, the terminal layer is the bottleneck — workarounds like AutoHotkey scripts or VS Code extensions bypass it by saving the clipboard image to disk and pasting the file path instead.&lt;/p&gt;
+&lt;/div&gt;
+
+&lt;h2&gt;Platform shortcuts at a glance&lt;/h2&gt;
+&lt;div style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:28px 0"&gt;
+  &lt;div style="background:#D0EDE9;border:1px solid #1A7A6E;border-radius:10px;padding:20px"&gt;
+    &lt;div style="font-family:'DM Mono',monospace;font-size:11px;font-weight:500;letter-spacing:0.1em;text-transform:uppercase;color:#1a7a6e;margin-bottom:8px"&gt;macOS&lt;/div&gt;
+    &lt;div style="font-family:'DM Mono',monospace;font-size:16px;font-weight:500;color:#1a1814;margin-bottom:6px"&gt;Ctrl + V&lt;/div&gt;
+    &lt;p style="font-size:13px;color:#6b6760;margin:0;line-height:1.5"&gt;Works natively. Terminal cooperates with the OSC 52 read.&lt;/p&gt;
+  &lt;/div&gt;
+  &lt;div style="background:#F2DDD3;border:1px solid #C8501A;border-radius:10px;padding:20px"&gt;
+    &lt;div style="font-family:'DM Mono',monospace;font-size:11px;font-weight:500;letter-spacing:0.1em;text-transform:uppercase;color:#c8501a;margin-bottom:8px"&gt;Windows&lt;/div&gt;
+    &lt;div style="font-family:'DM Mono',monospace;font-size:16px;font-weight:500;color:#1a1814;margin-bottom:6px"&gt;Alt + V&lt;/div&gt;
+    &lt;p style="font-size:13px;color:#6b6760;margin:0;line-height:1.5"&gt;Requires workaround or AutoHotkey script to save image and inject path.&lt;/p&gt;
+  &lt;/div&gt;
+  &lt;div style="background:#E8E3F7;border:1px solid #5A3DB8;border-radius:10px;padding:20px"&gt;
+    &lt;div style="font-family:'DM Mono',monospace;font-size:11px;font-weight:500;letter-spacing:0.1em;text-transform:uppercase;color:#5a3db8;margin-bottom:8px"&gt;Linux&lt;/div&gt;
+    &lt;div style="font-family:'DM Mono',monospace;font-size:16px;font-weight:500;color:#1a1814;margin-bottom:6px"&gt;Ctrl + V&lt;/div&gt;
+    &lt;p style="font-size:13px;color:#6b6760;margin:0;line-height:1.5"&gt;Needs xclip (X11) or wl-clipboard (Wayland) installed and configured.&lt;/p&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+
+&lt;h2&gt;The elegant part&lt;/h2&gt;
+&lt;p&gt;What makes this design clever is that Claude Code treats images as a first-class input type without requiring any changes to the terminal protocol. The terminal is used only as a keyboard event source. All the real work — clipboard access, encoding, API communication — happens in Claude Code's own process, completely independent of the terminal's capabilities.&lt;/p&gt;
+&lt;p&gt;This is why the word "image" appears instead of an actual preview: the terminal has no idea an image was pasted. Claude Code just told it to display a placeholder string. The bytes are already in memory, waiting to be sent with your next prompt.&lt;/p&gt;
+&lt;h3&gt;TL;DR&lt;/h3&gt;
+&lt;p&gt;Paste shortcut → Claude Code intercepts keystroke → OS clipboard API reads raw bytes → base64 encode in memory → show "image" placeholder in terminal → on Enter, send as a JSON content block to &lt;code&gt;/v1/messages&lt;/code&gt; → Claude tokenises and processes it server-side. The terminal is never involved in the actual data transfer.&lt;/p&gt;</content><category term="Technology"/></entry><entry><title>"Behind the Scenes of Your GenAI App"</title><link href="behind-the-scenes-of-your-genai-app.html" rel="alternate"/><published>2026-03-19T10:00:00+05:30</published><updated>2026-03-19T00:00:00+05:30</updated><author><name>Panch Mukesh</name></author><id>tag:None,2026-03-19:behind-the-scenes-of-your-genai-app.html</id><summary type="html">&lt;ul&gt;
+&lt;li&gt;genai&lt;/li&gt;
+&lt;li&gt;llm&lt;/li&gt;
+&lt;li&gt;ai&lt;/li&gt;
+&lt;li&gt;api&lt;/li&gt;
+&lt;li&gt;tokens&lt;/li&gt;
+&lt;li&gt;embeddings&lt;/li&gt;
+&lt;li&gt;beginner
+slug: genai-behind-scenes
+author: Panch Mukesh
+summary: Every time you type a message into an AI-powered chat, a precise sequence of events unfolds in milliseconds. Here's what actually happens — from your keyboard to the model and back.
+status: published&lt;/li&gt;
+&lt;/ul&gt;
+&lt;hr&gt;
+&lt;p&gt;Whether you're building an AI …&lt;/p&gt;</summary><content type="html">&lt;ul&gt;
+&lt;li&gt;genai&lt;/li&gt;
+&lt;li&gt;llm&lt;/li&gt;
+&lt;li&gt;ai&lt;/li&gt;
+&lt;li&gt;api&lt;/li&gt;
+&lt;li&gt;tokens&lt;/li&gt;
+&lt;li&gt;embeddings&lt;/li&gt;
+&lt;li&gt;beginner
+slug: genai-behind-scenes
+author: Panch Mukesh
+summary: Every time you type a message into an AI-powered chat, a precise sequence of events unfolds in milliseconds. Here's what actually happens — from your keyboard to the model and back.
+status: published&lt;/li&gt;
+&lt;/ul&gt;
+&lt;hr&gt;
+&lt;p&gt;Whether you're building an AI chatbot or just curious about how ChatGPT, Claude, or Gemini works — understanding what happens behind the scenes will change how you think about these tools. Let's trace a single request from start to finish.&lt;/p&gt;
+&lt;h2&gt;1. The Big Picture&lt;/h2&gt;
+&lt;p&gt;Imagine a simple chat app — it could be a web app on your laptop or a mobile app on your phone. You type a message and press Send. What happens next involves your device, a server your developer built, and a powerful AI model running somewhere in the cloud.&lt;/p&gt;
+&lt;p&gt;&lt;img alt="Fig 1 — The full request/response journey" src="images/blog/genai-behind-scenes/fig1-request-response-journey.svg"&gt;&lt;/p&gt;
+&lt;p&gt;&lt;em&gt;Fig 1 — The full request/response journey&lt;/em&gt;&lt;/p&gt;
+&lt;p&gt;Notice that your app never talks directly to the AI model. It talks to &lt;strong&gt;your server&lt;/strong&gt;, which holds the API key and is responsible for calling the AI provider. This keeps your credentials safe and lets you add logic like rate limiting, caching, or user auth.&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;&lt;strong&gt;Why the middle server?&lt;/strong&gt; If your app called the AI API directly from the browser, anyone could inspect the network request and steal your API key. The server acts as a secure middleman.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h2&gt;2. The Request: What Gets Sent to the AI&lt;/h2&gt;
+&lt;p&gt;When your server calls the AI provider's API, it sends a structured object — think of it as a carefully filled form. There are four essential fields every request needs:&lt;/p&gt;
+&lt;p&gt;&lt;img alt="Fig 2 — The four essential fields in every AI API request" src="images/blog/genai-behind-scenes/fig2-api-request-object.svg"&gt;&lt;/p&gt;
+&lt;p&gt;&lt;em&gt;Fig 2 — The four essential fields in every AI API request&lt;/em&gt;&lt;/p&gt;
+&lt;p&gt;The most important field is &lt;strong&gt;messages&lt;/strong&gt;. It's an array (a list) of conversation turns. Each turn has a &lt;em&gt;role&lt;/em&gt; — either &lt;code&gt;system&lt;/code&gt;, &lt;code&gt;user&lt;/code&gt;, or &lt;code&gt;assistant&lt;/code&gt; — and the actual text content. This structure lets the model understand the full context of a conversation, not just the latest message.&lt;/p&gt;
+&lt;h2&gt;3. Inside the AI: What the Model Does&lt;/h2&gt;
+&lt;p&gt;Once the request arrives at the AI provider, the model processes it through four stages. These happen in sequence, faster than you can blink.&lt;/p&gt;
+&lt;p&gt;&lt;img alt="Fig 3 — The four processing stages inside any LLM" src="images/blog/genai-behind-scenes/fig3-processing-stages.svg"&gt;&lt;/p&gt;
+&lt;p&gt;&lt;em&gt;Fig 3 — The four processing stages inside any LLM&lt;/em&gt;&lt;/p&gt;
+&lt;h3&gt;Stage 1 — Tokenization: Breaking Text into Pieces&lt;/h3&gt;
+&lt;p&gt;The model can't read text the way humans do. First, it breaks your message into small chunks called &lt;strong&gt;tokens&lt;/strong&gt;. A token is roughly a word or part of a word. The sentence &lt;em&gt;"What is quantum computing?"&lt;/em&gt; becomes five tokens:&lt;/p&gt;
+&lt;div style="display:flex;gap:8px;flex-wrap:wrap;margin:20px 0;align-items:center"&gt;
+  &lt;span style="background:#fff;border:1.5px solid #B8441A;color:#B8441A;border-radius:6px;padding:6px 14px;font-family:'DM Mono',monospace;font-size:14px"&gt;What&lt;/span&gt;
+  &lt;span style="background:#fff;border:1.5px solid #B8441A;color:#B8441A;border-radius:6px;padding:6px 14px;font-family:'DM Mono',monospace;font-size:14px"&gt;is&lt;/span&gt;
+  &lt;span style="background:#fff;border:1.5px solid #B8441A;color:#B8441A;border-radius:6px;padding:6px 14px;font-family:'DM Mono',monospace;font-size:14px"&gt;quantum&lt;/span&gt;
+  &lt;span style="background:#fff;border:1.5px solid #B8441A;color:#B8441A;border-radius:6px;padding:6px 14px;font-family:'DM Mono',monospace;font-size:14px"&gt;computing&lt;/span&gt;
+  &lt;span style="background:#fff;border:1.5px solid #B8441A;color:#B8441A;border-radius:6px;padding:6px 14px;font-family:'DM Mono',monospace;font-size:14px"&gt;?&lt;/span&gt;
+&lt;/div&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;&lt;strong&gt;Fun fact:&lt;/strong&gt; Longer words sometimes become multiple tokens. "Tokenization" → &lt;code&gt;Token&lt;/code&gt; + &lt;code&gt;ization&lt;/code&gt;. This is why the AI API charges you for "tokens" not "words" — it's a more precise unit.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h3&gt;Stage 2 — Embedding: Converting to Numbers&lt;/h3&gt;
+&lt;p&gt;Computers only understand numbers. So each token is converted into a long list of numbers called an &lt;strong&gt;embedding&lt;/strong&gt; — like GPS coordinates but in a 1000-dimensional space. Words with similar meanings end up with similar coordinates. This is how the model "knows" that "dog" and "puppy" are related.&lt;/p&gt;
+&lt;p&gt;&lt;img alt="Fig 4 — Each token maps to a vector of numbers that encodes its meaning" src="images/blog/genai-behind-scenes/fig4-embedding-vector.svg"&gt;&lt;/p&gt;
+&lt;p&gt;&lt;em&gt;Fig 4 — Each token maps to a vector of numbers that encodes its meaning&lt;/em&gt;&lt;/p&gt;
+&lt;h3&gt;Stage 3 — Contextualization: Understanding the Full Picture&lt;/h3&gt;
+&lt;p&gt;This is where the real magic happens. The model looks at all the token embeddings &lt;em&gt;together&lt;/em&gt; and figures out how they relate to each other. In the sentence "I went to the bank", does "bank" mean a financial institution or a riverbank? Context solves this. The model pays different amounts of "attention" to different tokens — a mechanism literally called &lt;strong&gt;self-attention&lt;/strong&gt;.&lt;/p&gt;
+&lt;p&gt;&lt;img alt="Fig 5 — The attention mechanism: &amp;quot;bank&amp;quot; looks at surrounding tokens to find its meaning" src="images/blog/genai-behind-scenes/fig5-attention-mechanism.svg"&gt;&lt;/p&gt;
+&lt;p&gt;&lt;em&gt;Fig 5 — The attention mechanism: "bank" looks at surrounding tokens to find its meaning&lt;/em&gt;&lt;/p&gt;
+&lt;h3&gt;Stage 4 — Generation: Writing One Token at a Time&lt;/h3&gt;
+&lt;p&gt;Now the model writes a response. But here's the surprising part: it generates &lt;strong&gt;one token at a time&lt;/strong&gt;. Each token it writes is added to the context, and then it predicts the next token, and so on. It's like autocomplete, but extraordinarily sophisticated.&lt;/p&gt;
+&lt;div style="display:flex;gap:8px;flex-wrap:wrap;margin:20px 0;align-items:center"&gt;
+  &lt;span style="background:#fff;border:1.5px solid #B8441A;color:#B8441A;border-radius:6px;padding:6px 14px;font-family:'DM Mono',monospace;font-size:14px"&gt;Quantum&lt;/span&gt;
+  &lt;span style="color:#6B6456;font-size:18px"&gt;→&lt;/span&gt;
+  &lt;span style="background:#fff;border:1.5px solid #B8441A;color:#B8441A;border-radius:6px;padding:6px 14px;font-family:'DM Mono',monospace;font-size:14px"&gt;computing&lt;/span&gt;
+  &lt;span style="color:#6B6456;font-size:18px"&gt;→&lt;/span&gt;
+  &lt;span style="background:#fff;border:1.5px solid #B8441A;color:#B8441A;border-radius:6px;padding:6px 14px;font-family:'DM Mono',monospace;font-size:14px"&gt;uses&lt;/span&gt;
+  &lt;span style="color:#6B6456;font-size:18px"&gt;→&lt;/span&gt;
+  &lt;span style="background:#fff;border:1.5px solid #B8441A;color:#B8441A;border-radius:6px;padding:6px 14px;font-family:'DM Mono',monospace;font-size:14px"&gt;qubits&lt;/span&gt;
+  &lt;span style="color:#6B6456;font-size:18px"&gt;→&lt;/span&gt;
+  &lt;span style="background:#fff;border:1.5px solid #B8441A;color:#B8441A;border-radius:6px;padding:6px 14px;font-family:'DM Mono',monospace;font-size:14px"&gt;to&lt;/span&gt;
+  &lt;span style="color:#6B6456;font-size:18px"&gt;→&lt;/span&gt;
+  &lt;span style="background:#fff;border:1.5px solid #B8441A;color:#B8441A;border-radius:6px;padding:6px 14px;font-family:'DM Mono',monospace;font-size:14px"&gt;…&lt;/span&gt;
+  &lt;span style="color:#6B6456;font-size:18px"&gt;→&lt;/span&gt;
+  &lt;span style="background:#1C1A16;border:1.5px solid #1C1A16;color:#fff;border-radius:6px;padding:6px 14px;font-family:'DM Mono',monospace;font-size:14px"&gt;EOS&lt;/span&gt;
+&lt;/div&gt;
+
+&lt;p&gt;The &lt;code&gt;EOS&lt;/code&gt; token (End of Sequence) is a special token the model has learned to generate when it's done. This is one of three ways generation can stop.&lt;/p&gt;
+&lt;h2&gt;4. When Does Generation Stop?&lt;/h2&gt;
+&lt;p&gt;The model doesn't just run forever. There are exactly three conditions that stop it:&lt;/p&gt;
+&lt;div style="display:flex;gap:12px;flex-wrap:wrap;margin:20px 0"&gt;
+  &lt;div style="background:#FEF2EE;border:1px solid #F0C0AC;border-radius:8px;padding:14px 20px;flex:1;min-width:180px"&gt;
+    &lt;div style="font-size:22px;margin-bottom:8px"&gt;⚠️&lt;/div&gt;
+    &lt;div style="font-weight:500;font-size:14px;color:#922A10;margin-bottom:4px"&gt;Max tokens reached&lt;/div&gt;
+    &lt;div style="font-family:'DM Mono',monospace;font-size:11px;color:#6B6456"&gt;stop_reason: "max_tokens"&lt;/div&gt;
+    &lt;p style="font-size:13px;color:#6B6456;margin:4px 0 0"&gt;The hard cap you set was hit. The response is cut off — watch for incomplete sentences.&lt;/p&gt;
+  &lt;/div&gt;
+  &lt;div style="background:#EBF6F0;border:1px solid #A6D9C0;border-radius:8px;padding:14px 20px;flex:1;min-width:180px"&gt;
+    &lt;div style="font-size:22px;margin-bottom:8px"&gt;✓&lt;/div&gt;
+    &lt;div style="font-weight:500;font-size:14px;color:#1C5C3A;margin-bottom:4px"&gt;Natural ending (EOS)&lt;/div&gt;
+    &lt;div style="font-family:'DM Mono',monospace;font-size:11px;color:#6B6456"&gt;stop_reason: "end_turn"&lt;/div&gt;
+    &lt;p style="font-size:13px;color:#6B6456;margin:4px 0 0"&gt;The model decided it was done. This is the ideal stop — a clean, complete response.&lt;/p&gt;
+  &lt;/div&gt;
+  &lt;div style="background:#FBF5E6;border:1px solid #E8D08A;border-radius:8px;padding:14px 20px;flex:1;min-width:180px"&gt;
+    &lt;div style="font-size:22px;margin-bottom:8px"&gt;⏸&lt;/div&gt;
+    &lt;div style="font-weight:500;font-size:14px;color:#7A5A10;margin-bottom:4px"&gt;Stop sequence hit&lt;/div&gt;
+    &lt;div style="font-family:'DM Mono',monospace;font-size:11px;color:#6B6456"&gt;stop_reason: "stop_sequence"&lt;/div&gt;
+    &lt;p style="font-size:13px;color:#6B6456;margin:4px 0 0"&gt;A special marker you defined appeared. Useful for structured outputs and agent pipelines.&lt;/p&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+
+&lt;p&gt;&lt;img alt="Fig 6 — The three paths that end generation" src="images/blog/genai-behind-scenes/fig6-stop-conditions.svg"&gt;&lt;/p&gt;
+&lt;p&gt;&lt;em&gt;Fig 6 — The three paths that end generation&lt;/em&gt;&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;&lt;strong&gt;Practical tip:&lt;/strong&gt; Always check &lt;code&gt;stop_reason&lt;/code&gt; in your code. If it's &lt;code&gt;"max_tokens"&lt;/code&gt;, the response was cut off — you may want to increase your limit or handle the incomplete output gracefully.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h2&gt;5. The Response: What Comes Back&lt;/h2&gt;
+&lt;p&gt;Once generation stops, the AI provider packages the output and sends it back to your server. The response object is clean and predictable — every provider returns roughly the same structure:&lt;/p&gt;
+&lt;p&gt;&lt;img alt="Fig 7 — The three key parts of every AI API response" src="images/blog/genai-behind-scenes/fig7-api-response-object.svg"&gt;&lt;/p&gt;
+&lt;p&gt;&lt;em&gt;Fig 7 — The three key parts of every AI API response&lt;/em&gt;&lt;/p&gt;
+&lt;p&gt;Your server receives this response, extracts the &lt;code&gt;content&lt;/code&gt; text, and sends it back to the user's app to display in the chat interface. The full round trip — from the moment you pressed Send — typically takes 1–5 seconds, though streaming APIs (which send tokens as they're generated) make it feel much faster.&lt;/p&gt;
+&lt;hr&gt;
+&lt;h2&gt;Putting It All Together&lt;/h2&gt;
+&lt;p&gt;Here's the entire lifecycle of a single chat message, from start to finish:&lt;/p&gt;
+&lt;p&gt;&lt;img alt="Fig 8 — Complete lifecycle of a single AI chat message" src="images/blog/genai-behind-scenes/fig8-complete-lifecycle.svg"&gt;&lt;/p&gt;
+&lt;p&gt;&lt;em&gt;Fig 8 — Complete lifecycle of a single AI chat message&lt;/em&gt;&lt;/p&gt;
+&lt;hr&gt;
+&lt;h2&gt;Key Takeaways&lt;/h2&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Concept&lt;/th&gt;
+&lt;th&gt;What it is&lt;/th&gt;
+&lt;th&gt;Why it matters&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;Tokens&lt;/td&gt;
+&lt;td&gt;Pieces of text (≈ words)&lt;/td&gt;
+&lt;td&gt;Determines API cost and context limit&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;Embeddings&lt;/td&gt;
+&lt;td&gt;Numbers that encode meaning&lt;/td&gt;
+&lt;td&gt;How the model "understands" language&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;Attention&lt;/td&gt;
+&lt;td&gt;Focusing on relevant context&lt;/td&gt;
+&lt;td&gt;How models resolve ambiguity&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;max_tokens&lt;/td&gt;
+&lt;td&gt;Your output cap&lt;/td&gt;
+&lt;td&gt;Set too low → truncated responses&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;stop_reason&lt;/td&gt;
+&lt;td&gt;Why generation ended&lt;/td&gt;
+&lt;td&gt;Always check this in production code&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;</content><category term="Technology"/></entry><entry><title>Why Your Tests Pass Locally but Fail in CI</title><link href="why-your-tests-pass-locally-but-fail-in-ci.html" rel="alternate"/><published>2026-03-08T20:12:00+05:30</published><updated>2026-03-08T20:12:00+05:30</updated><author><name>Panch Mukesh</name></author><id>tag:None,2026-03-08:why-your-tests-pass-locally-but-fail-in-ci.html</id><summary type="html">&lt;ul&gt;
+&lt;li&gt;sdlc;cicd;
+slug: why-tests-pass-locally-but-fail-in-ci
+author: Panch Mukesh
+summary: Most developers don't realize that GitHub Actions tests a merge commit
+  — not their branch in isolation. This post explains how actions/checkout
+  creates a temporary merge ref combining your PR with the latest main, why that
+  causes unexpected test failures, and how …&lt;/li&gt;&lt;/ul&gt;</summary><content type="html">&lt;ul&gt;
+&lt;li&gt;sdlc;cicd;
+slug: why-tests-pass-locally-but-fail-in-ci
+author: Panch Mukesh
+summary: Most developers don't realize that GitHub Actions tests a merge commit
+  — not their branch in isolation. This post explains how actions/checkout
+  creates a temporary merge ref combining your PR with the latest main, why that
+  causes unexpected test failures, and how rebasing regularly keeps your local
+  environment in sync with what CI actually runs.
+status: published&lt;/li&gt;
+&lt;/ul&gt;
+&lt;hr&gt;
+&lt;p&gt;&lt;em&gt;A deep dive into how GitHub Actions checks out your pull request code — and why it matters.&lt;/em&gt;&lt;/p&gt;
+&lt;hr&gt;
+&lt;h2&gt;The Frustrating Scenario&lt;/h2&gt;
+&lt;p&gt;You've been working on a feature branch for a few days. You run your tests locally:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;pytest&lt;span class="w"&gt; &lt;/span&gt;--cov
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;&lt;strong&gt;All green.&lt;/strong&gt; You push your branch, open a pull request, and... CI fails. The same tests. The same code. But a different result.&lt;/p&gt;
+&lt;p&gt;You scratch your head, run the tests again locally — still green. What's going on?&lt;/p&gt;
+&lt;hr&gt;
+&lt;h2&gt;The Root Cause: CI Doesn't Test What You Think It Tests&lt;/h2&gt;
+&lt;p&gt;Here's the key insight most developers miss:&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;&lt;strong&gt;GitHub Actions doesn't test your branch in isolation. It tests what would happen if your branch were merged into &lt;code&gt;main&lt;/code&gt; right now.&lt;/strong&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h3&gt;What you see locally&lt;/h3&gt;
+&lt;p&gt;When you check out your branch and run tests, you're running against your branch's code — and only your branch's code. Your working tree looks exactly like your latest commit.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="n"&gt;main&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt;&lt;span class="w"&gt;             &lt;/span&gt;&lt;span class="n"&gt;A&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;---&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;B&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;---&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;C&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;---&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;D&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;---&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;E&lt;/span&gt;&lt;span class="w"&gt;     &lt;/span&gt;&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="n"&gt;main&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;has&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;moved&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;ahead&lt;/span&gt;&lt;span class="o"&gt;)&lt;/span&gt;
+&lt;span class="w"&gt;                   &lt;/span&gt;&lt;span class="o"&gt;\&lt;/span&gt;
+&lt;span class="n"&gt;your&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;branch&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt;&lt;span class="w"&gt;        &lt;/span&gt;&lt;span class="n"&gt;F&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;---&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;G&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;---&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;H&lt;/span&gt;&lt;span class="w"&gt;               &lt;/span&gt;&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="n"&gt;your&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;work&lt;/span&gt;&lt;span class="o"&gt;)&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Locally, you're sitting on commit &lt;strong&gt;H&lt;/strong&gt;. Your tests run against the snapshot at &lt;strong&gt;H&lt;/strong&gt;. If your branch is internally consistent — your service code matches your models, your tests mock the right fields — everything passes.&lt;/p&gt;
+&lt;h3&gt;What CI sees&lt;/h3&gt;
+&lt;p&gt;When you open a PR, GitHub Actions runs &lt;code&gt;actions/checkout@v4&lt;/code&gt;. This action doesn't simply clone your branch. For pull request events, it checks out a &lt;strong&gt;merge commit&lt;/strong&gt; — a temporary commit that combines your branch with the latest &lt;code&gt;main&lt;/code&gt;:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="n"&gt;main&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt;&lt;span class="w"&gt;             &lt;/span&gt;&lt;span class="n"&gt;A&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;---&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;B&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;---&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;C&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;---&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;D&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;---&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;E&lt;/span&gt;
+&lt;span class="w"&gt;                   &lt;/span&gt;&lt;span class="o"&gt;\&lt;/span&gt;&lt;span class="w"&gt;                       &lt;/span&gt;&lt;span class="o"&gt;\&lt;/span&gt;
+&lt;span class="n"&gt;your&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;branch&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt;&lt;span class="w"&gt;        &lt;/span&gt;&lt;span class="n"&gt;F&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;---&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;G&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;---&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;H&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;---------&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;M&lt;/span&gt;&lt;span class="w"&gt;   &lt;/span&gt;&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="n"&gt;merge&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;commit&lt;/span&gt;&lt;span class="o"&gt;)&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Commit &lt;strong&gt;M&lt;/strong&gt; is a blend of your code (&lt;strong&gt;H&lt;/strong&gt;) and the current state of &lt;code&gt;main&lt;/code&gt; (&lt;strong&gt;E&lt;/strong&gt;). GitHub creates this merge ref automatically at &lt;code&gt;refs/pull/&amp;lt;number&amp;gt;/merge&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;This means CI is answering a different question than your local test run:&lt;/p&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Environment&lt;/th&gt;
+&lt;th&gt;Question being answered&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;strong&gt;Local&lt;/strong&gt;&lt;/td&gt;
+&lt;td&gt;"Does my branch work?"&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;strong&gt;CI&lt;/strong&gt;&lt;/td&gt;
+&lt;td&gt;"Will my branch work &lt;strong&gt;after&lt;/strong&gt; it's merged into main?"&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;hr&gt;
+&lt;h2&gt;A Real-World Example&lt;/h2&gt;
+&lt;p&gt;Let's make this concrete. Say you're working on adding an &lt;code&gt;action_type&lt;/code&gt; field to an API response.&lt;/p&gt;
+&lt;h3&gt;On your branch, you:&lt;/h3&gt;
+&lt;ol&gt;
+&lt;li&gt;Added &lt;code&gt;action_type&lt;/code&gt; to the Pydantic model:&lt;/li&gt;
+&lt;/ol&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="k"&gt;class&lt;/span&gt; &lt;span class="nc"&gt;OaRResponse&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;BaseModel&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
+    &lt;span class="n"&gt;oar_title&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="nb"&gt;str&lt;/span&gt;
+    &lt;span class="n"&gt;action_type&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="nb"&gt;str&lt;/span&gt; &lt;span class="o"&gt;|&lt;/span&gt; &lt;span class="kc"&gt;None&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="kc"&gt;None&lt;/span&gt;  &lt;span class="c1"&gt;# new field&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;ol&gt;
+&lt;li&gt;Updated the service to populate it:&lt;/li&gt;
+&lt;/ol&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="n"&gt;OaRResponse&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;
+    &lt;span class="n"&gt;oar_title&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;oar&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;oar_title&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+    &lt;span class="n"&gt;action_type&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;oar&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;action_type&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;  &lt;span class="c1"&gt;# new line&lt;/span&gt;
+&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;ol&gt;
+&lt;li&gt;Updated test mocks:&lt;/li&gt;
+&lt;/ol&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="n"&gt;mock&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;action_type&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;review&amp;quot;&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Everything is consistent. Tests pass.&lt;/p&gt;
+&lt;h3&gt;Meanwhile, on &lt;code&gt;main&lt;/code&gt;, a teammate:&lt;/h3&gt;
+&lt;ol&gt;
+&lt;li&gt;Removed &lt;code&gt;action_type&lt;/code&gt; from the model and added &lt;code&gt;generation_context&lt;/code&gt; and &lt;code&gt;scores&lt;/code&gt; instead:&lt;/li&gt;
+&lt;/ol&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="k"&gt;class&lt;/span&gt; &lt;span class="nc"&gt;OaRResponse&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;BaseModel&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
+    &lt;span class="n"&gt;oar_title&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="nb"&gt;str&lt;/span&gt;
+    &lt;span class="n"&gt;generation_context&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="nb"&gt;dict&lt;/span&gt; &lt;span class="o"&gt;|&lt;/span&gt; &lt;span class="kc"&gt;None&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="kc"&gt;None&lt;/span&gt;  &lt;span class="c1"&gt;# replaced action_type&lt;/span&gt;
+    &lt;span class="n"&gt;scores&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="nb"&gt;dict&lt;/span&gt; &lt;span class="o"&gt;|&lt;/span&gt; &lt;span class="kc"&gt;None&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="kc"&gt;None&lt;/span&gt;              &lt;span class="c1"&gt;# new field&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;ol&gt;
+&lt;li&gt;Updated the service accordingly&lt;/li&gt;
+&lt;li&gt;Added new tests that assert on &lt;code&gt;generation_context&lt;/code&gt;&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h3&gt;When CI creates the merge commit:&lt;/h3&gt;
+&lt;p&gt;Git tries to combine both sets of changes. Depending on which files conflict and how they merge, you might end up with:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;A service that sets &lt;code&gt;action_type&lt;/code&gt; on a model that no longer has that field&lt;/li&gt;
+&lt;li&gt;Test mocks missing &lt;code&gt;generation_context&lt;/code&gt; and &lt;code&gt;scores&lt;/code&gt; that the service now requires&lt;/li&gt;
+&lt;li&gt;New tests from &lt;code&gt;main&lt;/code&gt; that assert on fields your service doesn't produce&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;The result: a Frankenstein codebase that neither you nor your teammate intended.&lt;/p&gt;
+&lt;hr&gt;
+&lt;h2&gt;Under the Hood: How &lt;code&gt;actions/checkout&lt;/code&gt; Works&lt;/h2&gt;
+&lt;p&gt;Here's what &lt;code&gt;actions/checkout@v4&lt;/code&gt; does for pull requests, step by step:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="p p-Indicator"&gt;-&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nt"&gt;uses&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="l l-Scalar l-Scalar-Plain"&gt;actions/checkout@v4&lt;/span&gt;&lt;span class="w"&gt;  &lt;/span&gt;&lt;span class="c1"&gt;# This one line hides a lot of complexity&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;ol&gt;
+&lt;li&gt;&lt;strong&gt;Clones the repository&lt;/strong&gt; to the runner&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Detects the event type&lt;/strong&gt; — for &lt;code&gt;pull_request&lt;/code&gt; events, it uses &lt;code&gt;github.ref&lt;/code&gt; which points to &lt;code&gt;refs/pull/&amp;lt;number&amp;gt;/merge&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Checks out the merge ref&lt;/strong&gt; — this is a read-only ref that GitHub maintains, representing the result of merging your PR branch into the base branch&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;The runner now has a working tree&lt;/strong&gt; that represents the merged state&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;You can verify this by adding a debug step to your workflow:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="p p-Indicator"&gt;-&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nt"&gt;name&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="l l-Scalar l-Scalar-Plain"&gt;Debug ref&lt;/span&gt;
+&lt;span class="w"&gt;  &lt;/span&gt;&lt;span class="nt"&gt;run&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="p p-Indicator"&gt;|&lt;/span&gt;
+&lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="no"&gt;echo &amp;quot;github.ref: ${{ github.ref }}&amp;quot;&lt;/span&gt;
+&lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="no"&gt;echo &amp;quot;github.sha: ${{ github.sha }}&amp;quot;&lt;/span&gt;
+&lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="no"&gt;git log --oneline -5&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;For a PR, you'll see something like:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;github.ref: refs/pull/42/merge
+github.sha: abc123def456
+
+abc123d Merge &amp;lt;sha&amp;gt; into &amp;lt;sha&amp;gt;    ← the merge commit
+1234567 Your latest commit
+89abcde Main&amp;#39;s latest commit
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;hr&gt;
+&lt;h2&gt;Why GitHub Does This&lt;/h2&gt;
+&lt;p&gt;This design is intentional and actually protects you. Consider the alternative — if CI only tested your branch in isolation:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;Your branch passes CI ✅&lt;/li&gt;
+&lt;li&gt;Your teammate's branch passes CI ✅&lt;/li&gt;
+&lt;li&gt;You both merge to &lt;code&gt;main&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;main&lt;/code&gt; is now broken 💥&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;Nobody did anything wrong individually, but the combination of changes is broken. By testing the merge result, GitHub catches this &lt;strong&gt;before&lt;/strong&gt; the merge happens.&lt;/p&gt;
+&lt;hr&gt;
+&lt;h2&gt;How to Fix It (and Prevent It)&lt;/h2&gt;
+&lt;h3&gt;Immediate fix: Rebase onto main&lt;/h3&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;git&lt;span class="w"&gt; &lt;/span&gt;fetch&lt;span class="w"&gt; &lt;/span&gt;origin
+git&lt;span class="w"&gt; &lt;/span&gt;rebase&lt;span class="w"&gt; &lt;/span&gt;origin/main
+&lt;span class="c1"&gt;# Resolve any conflicts&lt;/span&gt;
+git&lt;span class="w"&gt; &lt;/span&gt;push&lt;span class="w"&gt; &lt;/span&gt;--force-with-lease
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;After rebasing, your branch starts from the latest &lt;code&gt;main&lt;/code&gt;. The merge commit in CI becomes trivial (no divergence to reconcile), and your local environment matches what CI will test.&lt;/p&gt;
+&lt;h3&gt;Prevention strategies&lt;/h3&gt;
+&lt;p&gt;&lt;strong&gt;1. Rebase frequently&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;If your branch lives for more than a day or two, rebase onto &lt;code&gt;main&lt;/code&gt; regularly:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;git&lt;span class="w"&gt; &lt;/span&gt;fetch&lt;span class="w"&gt; &lt;/span&gt;origin&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;&amp;amp;&amp;amp;&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;git&lt;span class="w"&gt; &lt;/span&gt;rebase&lt;span class="w"&gt; &lt;/span&gt;origin/main
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;&lt;strong&gt;2. Enable branch protection rules&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;In your repo settings, enable &lt;strong&gt;"Require branches to be up to date before merging"&lt;/strong&gt;. This forces contributors to update their branch before the merge button becomes available.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;3. Watch for high-traffic files&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;If you're modifying files that change frequently (models, shared utilities, API schemas), expect merge issues. Communicate with your team about who's touching what.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;4. Keep branches short-lived&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;The longer your branch lives, the more &lt;code&gt;main&lt;/code&gt; diverges, and the higher the chance of this problem. Aim for small, focused PRs that merge within a day or two.&lt;/p&gt;
+&lt;hr&gt;
+&lt;h2&gt;Key Takeaways&lt;/h2&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Concept&lt;/th&gt;
+&lt;th&gt;Detail&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;strong&gt;Local tests&lt;/strong&gt;&lt;/td&gt;
+&lt;td&gt;Run against your branch in isolation&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;strong&gt;CI tests&lt;/strong&gt;&lt;/td&gt;
+&lt;td&gt;Run against a merge of your branch + latest &lt;code&gt;main&lt;/code&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;strong&gt;The merge ref&lt;/strong&gt;&lt;/td&gt;
+&lt;td&gt;GitHub maintains &lt;code&gt;refs/pull/&amp;lt;N&amp;gt;/merge&lt;/code&gt; automatically&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;strong&gt;Why it exists&lt;/strong&gt;&lt;/td&gt;
+&lt;td&gt;To catch integration issues before they reach &lt;code&gt;main&lt;/code&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;strong&gt;The fix&lt;/strong&gt;&lt;/td&gt;
+&lt;td&gt;Rebase your branch onto &lt;code&gt;main&lt;/code&gt; to eliminate divergence&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;p&gt;The next time your tests pass locally but fail in CI, don't assume it's a flaky test or an environment issue. Check how far your branch has diverged from &lt;code&gt;main&lt;/code&gt;:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;git&lt;span class="w"&gt; &lt;/span&gt;log&lt;span class="w"&gt; &lt;/span&gt;HEAD..origin/main&lt;span class="w"&gt; &lt;/span&gt;--oneline&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="p"&gt;|&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;wc&lt;span class="w"&gt; &lt;/span&gt;-l
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;If that number is anything other than zero, you likely have a merge integration problem — and a rebase is your friend.&lt;/p&gt;
+&lt;hr&gt;
+&lt;p&gt;&lt;em&gt;Understanding this CI behavior turns a frustrating debugging session into a 30-second diagnosis. The merge commit isn't a bug — it's a feature that keeps your &lt;code&gt;main&lt;/code&gt; branch healthy.&lt;/em&gt;&lt;/p&gt;</content><category term="Development"/></entry><entry><title>"Claude Code Hooks: Auto-Label Every Terminal Session"</title><link href="claude-code-hooks-auto-label-every-terminal-session.html" rel="alternate"/><published>2026-02-27T10:00:00+05:30</published><updated>2026-02-27T00:00:00+05:30</updated><author><name>Panch Mukesh</name></author><id>tag:None,2026-02-27:claude-code-hooks-auto-label-every-terminal-session.html</id><summary type="html">&lt;ul&gt;
+&lt;li&gt;claude&lt;/li&gt;
+&lt;li&gt;agentic-coding&lt;/li&gt;
+&lt;li&gt;developer-tools&lt;/li&gt;
+&lt;li&gt;productivity&lt;/li&gt;
+&lt;li&gt;automation&lt;/li&gt;
+&lt;li&gt;python
+slug: claude-multi-terminal-session-labels
+author: Panch Mukesh
+summary: Replace Claude Code's random session hashes with meaningful labels like S1 and S2, so notifications tell you exactly which terminal needs your attention.
+status: published&lt;/li&gt;
+&lt;/ul&gt;
+&lt;hr&gt;
+&lt;p&gt;Once you set up Claude Code notifications, you start using Claude more aggressively …&lt;/p&gt;</summary><content type="html">&lt;ul&gt;
+&lt;li&gt;claude&lt;/li&gt;
+&lt;li&gt;agentic-coding&lt;/li&gt;
+&lt;li&gt;developer-tools&lt;/li&gt;
+&lt;li&gt;productivity&lt;/li&gt;
+&lt;li&gt;automation&lt;/li&gt;
+&lt;li&gt;python
+slug: claude-multi-terminal-session-labels
+author: Panch Mukesh
+summary: Replace Claude Code's random session hashes with meaningful labels like S1 and S2, so notifications tell you exactly which terminal needs your attention.
+status: published&lt;/li&gt;
+&lt;/ul&gt;
+&lt;hr&gt;
+&lt;p&gt;Once you set up Claude Code notifications, you start using Claude more aggressively. More terminals, more tasks running in parallel. One fixing a bug, one writing tests, one refactoring a module.&lt;/p&gt;
+&lt;p&gt;And then your phone buzzes.&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;&lt;strong&gt;Action Required [pulse #a3f2]&lt;/strong&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;You have three terminals open. Which one is that? What was it working on? You have no idea without switching to each terminal and checking.&lt;/p&gt;
+&lt;p&gt;This is the multi-terminal problem. And it's surprisingly easy to fix.&lt;/p&gt;
+&lt;hr&gt;
+&lt;h2&gt;Why Random Hashes Are Useless&lt;/h2&gt;
+&lt;p&gt;Claude Code identifies sessions with a UUID — something like &lt;code&gt;d524f0c1-0e93-49d5-9603-e0320534259f&lt;/code&gt;. When you set up notifications, most examples trim that to the last four characters as a "tag", giving you things like &lt;code&gt;#a3f2&lt;/code&gt; or &lt;code&gt;#b891&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;That's better than nothing, but it still doesn't tell you anything meaningful. You can't look at &lt;code&gt;#a3f2&lt;/code&gt; and know it's the terminal that was fixing the auth bug. You have to go hunting.&lt;/p&gt;
+&lt;p&gt;What you actually want is something like this:&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;&lt;strong&gt;Action Required — pulse / S2 "add RBAC"&lt;/strong&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;Now you know exactly which terminal needs you. You don't even have to look at your screen to know.&lt;/p&gt;
+&lt;hr&gt;
+&lt;h2&gt;The Idea: A Session Registry&lt;/h2&gt;
+&lt;p&gt;The fix is a small shared registry file that maps each session UUID to something human-readable.&lt;/p&gt;
+&lt;p&gt;Here's how it works:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;When a session starts, assign it a short label: &lt;code&gt;S1&lt;/code&gt;, &lt;code&gt;S2&lt;/code&gt;, &lt;code&gt;S3&lt;/code&gt; — sequential per project&lt;/li&gt;
+&lt;li&gt;When you type your first message, capture the first few words as a task summary&lt;/li&gt;
+&lt;li&gt;Store both in a JSON file at &lt;code&gt;~/.claude/session-registry.json&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;Your notifications and statusline both read from this file&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;The result is that every terminal gets a unique, meaningful identity that matches up between your notification and your screen.&lt;/p&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Terminal&lt;/th&gt;
+&lt;th&gt;What you see in the statusline&lt;/th&gt;
+&lt;th&gt;What the notification says&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;Terminal 1&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;S1 "fix auth bug"&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;Action Required — pulse / S1 "fix auth bug"&lt;/code&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;Terminal 2&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;S2 "add RBAC"&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;Action Required — pulse / S2 "add RBAC"&lt;/code&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;Terminal 3&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;S3&lt;/code&gt; &lt;em&gt;(no prompt yet)&lt;/em&gt;&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;Action Required — pulse / S3&lt;/code&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;hr&gt;
+&lt;h2&gt;Building It&lt;/h2&gt;
+&lt;p&gt;You need three pieces: a registry library, a hook that populates the registry, and updates to your existing notification script.&lt;/p&gt;
+&lt;h3&gt;1. The Registry Library&lt;/h3&gt;
+&lt;p&gt;This is the core. Save it to &lt;code&gt;~/.claude/hooks/session_registry.py&lt;/code&gt;.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="ch"&gt;#!/usr/bin/env python3&lt;/span&gt;
+&lt;span class="sd"&gt;&amp;quot;&amp;quot;&amp;quot;&lt;/span&gt;
+&lt;span class="sd"&gt;Shared session registry for Claude Code.&lt;/span&gt;
+&lt;span class="sd"&gt;Maps session UUIDs to human-readable labels like S1, S2, S3.&lt;/span&gt;
+&lt;span class="sd"&gt;&amp;quot;&amp;quot;&amp;quot;&lt;/span&gt;
+
+&lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;fcntl&lt;/span&gt;
+&lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;json&lt;/span&gt;
+&lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;os&lt;/span&gt;
+&lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;tempfile&lt;/span&gt;
+&lt;span class="kn"&gt;from&lt;/span&gt; &lt;span class="nn"&gt;datetime&lt;/span&gt; &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="n"&gt;datetime&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;timezone&lt;/span&gt;
+
+&lt;span class="n"&gt;REGISTRY_PATH&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;os&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;path&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;expanduser&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;~/.claude/session-registry.json&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="n"&gt;LOCK_PATH&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;REGISTRY_PATH&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;.lock&amp;quot;&lt;/span&gt;
+&lt;span class="n"&gt;STALE_HOURS&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="mi"&gt;24&lt;/span&gt;
+
+
+&lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;_now_iso&lt;/span&gt;&lt;span class="p"&gt;():&lt;/span&gt;
+    &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="n"&gt;datetime&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;now&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;timezone&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;utc&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;isoformat&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
+
+
+&lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;_load&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;f&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
+    &lt;span class="k"&gt;try&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+        &lt;span class="n"&gt;content&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;f&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;read&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
+        &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="n"&gt;json&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;loads&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;content&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="n"&gt;content&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;strip&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt; &lt;span class="k"&gt;else&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;sessions&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="p"&gt;{}}&lt;/span&gt;
+    &lt;span class="k"&gt;except&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;json&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;JSONDecodeError&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="ne"&gt;AttributeError&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
+        &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;sessions&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="p"&gt;{}}&lt;/span&gt;
+
+
+&lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;_save&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;data&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
+&lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="sd"&gt;&amp;quot;&amp;quot;&amp;quot;Atomic write — readers never see a partial file.&amp;quot;&amp;quot;&amp;quot;&lt;/span&gt;
+    &lt;span class="n"&gt;dir_&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;os&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;path&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;dirname&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;REGISTRY_PATH&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="k"&gt;with&lt;/span&gt; &lt;span class="n"&gt;tempfile&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;NamedTemporaryFile&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;w&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="nb"&gt;dir&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;dir_&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;delete&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="kc"&gt;False&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;suffix&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;.tmp&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="k"&gt;as&lt;/span&gt; &lt;span class="n"&gt;tmp&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+        &lt;span class="n"&gt;json&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;dump&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;data&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;tmp&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;indent&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="mi"&gt;2&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+        &lt;span class="n"&gt;tmp_path&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;tmp&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;name&lt;/span&gt;
+    &lt;span class="n"&gt;os&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;rename&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;tmp_path&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;REGISTRY_PATH&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+
+
+&lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;_purge_stale&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;sessions&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
+&lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="sd"&gt;&amp;quot;&amp;quot;&amp;quot;Remove sessions not seen in the last 24 hours.&amp;quot;&amp;quot;&amp;quot;&lt;/span&gt;
+    &lt;span class="n"&gt;cutoff&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;datetime&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;now&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;timezone&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;utc&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;timestamp&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;STALE_HOURS&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt; &lt;span class="mi"&gt;3600&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+        &lt;span class="n"&gt;sid&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="n"&gt;s&lt;/span&gt; &lt;span class="k"&gt;for&lt;/span&gt; &lt;span class="n"&gt;sid&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;s&lt;/span&gt; &lt;span class="ow"&gt;in&lt;/span&gt; &lt;span class="n"&gt;sessions&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;items&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
+        &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="n"&gt;datetime&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;fromisoformat&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;s&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;last_seen&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;])&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;timestamp&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt; &lt;span class="o"&gt;&amp;gt;&lt;/span&gt; &lt;span class="n"&gt;cutoff&lt;/span&gt;
+    &lt;span class="p"&gt;}&lt;/span&gt;
+
+
+&lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;_next_seq&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;sessions&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;project&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
+&lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="sd"&gt;&amp;quot;&amp;quot;&amp;quot;Find the next available sequence number for a project.&amp;quot;&amp;quot;&amp;quot;&lt;/span&gt;
+    &lt;span class="n"&gt;used&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+        &lt;span class="n"&gt;s&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;seq&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="k"&gt;for&lt;/span&gt; &lt;span class="n"&gt;s&lt;/span&gt; &lt;span class="ow"&gt;in&lt;/span&gt; &lt;span class="n"&gt;sessions&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;values&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
+        &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="n"&gt;s&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;get&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;project&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="o"&gt;==&lt;/span&gt; &lt;span class="n"&gt;project&lt;/span&gt;
+    &lt;span class="p"&gt;}&lt;/span&gt;
+    &lt;span class="n"&gt;seq&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="mi"&gt;1&lt;/span&gt;
+    &lt;span class="k"&gt;while&lt;/span&gt; &lt;span class="n"&gt;seq&lt;/span&gt; &lt;span class="ow"&gt;in&lt;/span&gt; &lt;span class="n"&gt;used&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+        &lt;span class="n"&gt;seq&lt;/span&gt; &lt;span class="o"&gt;+=&lt;/span&gt; &lt;span class="mi"&gt;1&lt;/span&gt;
+    &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="n"&gt;seq&lt;/span&gt;
+
+
+&lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;register_session&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;session_id&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;cwd&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
+&lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="sd"&gt;&amp;quot;&amp;quot;&amp;quot;&lt;/span&gt;
+&lt;span class="sd"&gt;    Register a new session. Assigns it the next available S-number for its project.&lt;/span&gt;
+&lt;span class="sd"&gt;    Safe to call multiple times — skips if already registered.&lt;/span&gt;
+&lt;span class="sd"&gt;    &amp;quot;&amp;quot;&amp;quot;&lt;/span&gt;
+    &lt;span class="n"&gt;project&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;os&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;path&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;basename&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;cwd&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;rstrip&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;/&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt; &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="n"&gt;cwd&lt;/span&gt; &lt;span class="k"&gt;else&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;unknown&amp;quot;&lt;/span&gt;
+
+    &lt;span class="k"&gt;try&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+        &lt;span class="n"&gt;lock&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="nb"&gt;open&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;LOCK_PATH&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;w&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+        &lt;span class="n"&gt;fcntl&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;flock&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;lock&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;fcntl&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;LOCK_EX&lt;/span&gt; &lt;span class="o"&gt;|&lt;/span&gt; &lt;span class="n"&gt;fcntl&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;LOCK_NB&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="k"&gt;except&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="ne"&gt;OSError&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="ne"&gt;IOError&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
+        &lt;span class="c1"&gt;# Can&amp;#39;t get lock — fall back silently&lt;/span&gt;
+        &lt;span class="k"&gt;return&lt;/span&gt;
+
+    &lt;span class="k"&gt;try&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+        &lt;span class="k"&gt;with&lt;/span&gt; &lt;span class="nb"&gt;open&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;REGISTRY_PATH&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;r&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="k"&gt;as&lt;/span&gt; &lt;span class="n"&gt;f&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+            &lt;span class="n"&gt;data&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;_load&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;f&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="k"&gt;except&lt;/span&gt; &lt;span class="ne"&gt;FileNotFoundError&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+        &lt;span class="n"&gt;data&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;sessions&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="p"&gt;{}}&lt;/span&gt;
+
+    &lt;span class="n"&gt;sessions&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;data&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;get&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;sessions&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="p"&gt;{})&lt;/span&gt;
+    &lt;span class="n"&gt;sessions&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;_purge_stale&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;sessions&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+
+    &lt;span class="c1"&gt;# Don&amp;#39;t re-register an existing session&lt;/span&gt;
+    &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="n"&gt;session_id&lt;/span&gt; &lt;span class="ow"&gt;in&lt;/span&gt; &lt;span class="n"&gt;sessions&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+        &lt;span class="n"&gt;sessions&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;session_id&lt;/span&gt;&lt;span class="p"&gt;][&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;last_seen&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;_now_iso&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
+        &lt;span class="n"&gt;data&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;sessions&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;sessions&lt;/span&gt;
+        &lt;span class="n"&gt;_save&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;data&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+        &lt;span class="k"&gt;return&lt;/span&gt;
+
+    &lt;span class="n"&gt;seq&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;_next_seq&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;sessions&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;project&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="n"&gt;sessions&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;session_id&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+        &lt;span class="s2"&gt;&amp;quot;seq&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="n"&gt;seq&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+        &lt;span class="s2"&gt;&amp;quot;project&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="n"&gt;project&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+        &lt;span class="s2"&gt;&amp;quot;label&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="sa"&gt;f&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;S&lt;/span&gt;&lt;span class="si"&gt;{&lt;/span&gt;&lt;span class="n"&gt;seq&lt;/span&gt;&lt;span class="si"&gt;}&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+        &lt;span class="s2"&gt;&amp;quot;task_summary&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+        &lt;span class="s2"&gt;&amp;quot;started_at&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="n"&gt;_now_iso&lt;/span&gt;&lt;span class="p"&gt;(),&lt;/span&gt;
+        &lt;span class="s2"&gt;&amp;quot;last_seen&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="n"&gt;_now_iso&lt;/span&gt;&lt;span class="p"&gt;(),&lt;/span&gt;
+    &lt;span class="p"&gt;}&lt;/span&gt;
+    &lt;span class="n"&gt;data&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;sessions&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;sessions&lt;/span&gt;
+    &lt;span class="n"&gt;_save&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;data&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+
+    &lt;span class="n"&gt;fcntl&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;flock&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;lock&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;fcntl&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;LOCK_UN&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="n"&gt;lock&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;close&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
+
+
+&lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;update_task_summary&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;session_id&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;prompt&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
+&lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="sd"&gt;&amp;quot;&amp;quot;&amp;quot;&lt;/span&gt;
+&lt;span class="sd"&gt;    Store the first prompt as the session&amp;#39;s task summary.&lt;/span&gt;
+&lt;span class="sd"&gt;    Only updates if no summary exists yet.&lt;/span&gt;
+&lt;span class="sd"&gt;    &amp;quot;&amp;quot;&amp;quot;&lt;/span&gt;
+    &lt;span class="k"&gt;try&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+        &lt;span class="n"&gt;lock&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="nb"&gt;open&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;LOCK_PATH&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;w&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+        &lt;span class="n"&gt;fcntl&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;flock&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;lock&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;fcntl&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;LOCK_EX&lt;/span&gt; &lt;span class="o"&gt;|&lt;/span&gt; &lt;span class="n"&gt;fcntl&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;LOCK_NB&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="k"&gt;except&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="ne"&gt;OSError&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="ne"&gt;IOError&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
+        &lt;span class="k"&gt;return&lt;/span&gt;
+
+    &lt;span class="k"&gt;try&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+        &lt;span class="k"&gt;with&lt;/span&gt; &lt;span class="nb"&gt;open&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;REGISTRY_PATH&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;r&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="k"&gt;as&lt;/span&gt; &lt;span class="n"&gt;f&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+            &lt;span class="n"&gt;data&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;_load&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;f&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="k"&gt;except&lt;/span&gt; &lt;span class="ne"&gt;FileNotFoundError&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+        &lt;span class="k"&gt;return&lt;/span&gt;
+
+    &lt;span class="n"&gt;sessions&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;data&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;get&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;sessions&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="p"&gt;{})&lt;/span&gt;
+
+    &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="n"&gt;session_id&lt;/span&gt; &lt;span class="ow"&gt;not&lt;/span&gt; &lt;span class="ow"&gt;in&lt;/span&gt; &lt;span class="n"&gt;sessions&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+        &lt;span class="k"&gt;return&lt;/span&gt;
+
+    &lt;span class="c1"&gt;# Only capture the very first prompt&lt;/span&gt;
+    &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="ow"&gt;not&lt;/span&gt; &lt;span class="n"&gt;sessions&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;session_id&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;get&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;task_summary&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
+        &lt;span class="n"&gt;summary&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;prompt&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;strip&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;replace&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;&lt;/span&gt;&lt;span class="se"&gt;\n&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot; &amp;quot;&lt;/span&gt;&lt;span class="p"&gt;)[:&lt;/span&gt;&lt;span class="mi"&gt;40&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;
+        &lt;span class="n"&gt;sessions&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;session_id&lt;/span&gt;&lt;span class="p"&gt;][&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;task_summary&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;summary&lt;/span&gt;
+        &lt;span class="n"&gt;sessions&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;session_id&lt;/span&gt;&lt;span class="p"&gt;][&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;last_seen&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;_now_iso&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
+        &lt;span class="n"&gt;data&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;sessions&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;sessions&lt;/span&gt;
+        &lt;span class="n"&gt;_save&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;data&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+
+    &lt;span class="n"&gt;fcntl&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;flock&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;lock&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;fcntl&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;LOCK_UN&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="n"&gt;lock&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;close&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
+
+
+&lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;get_session_label&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;session_id&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
+&lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="sd"&gt;&amp;quot;&amp;quot;&amp;quot;&lt;/span&gt;
+&lt;span class="sd"&gt;    Returns a human-readable label for a session.&lt;/span&gt;
+&lt;span class="sd"&gt;    e.g. &amp;#39;S1 &amp;quot;fix auth bug&amp;quot;&amp;#39; or falls back to &amp;#39;#a3f2&amp;#39; if not registered.&lt;/span&gt;
+&lt;span class="sd"&gt;    &amp;quot;&amp;quot;&amp;quot;&lt;/span&gt;
+    &lt;span class="k"&gt;try&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+        &lt;span class="k"&gt;with&lt;/span&gt; &lt;span class="nb"&gt;open&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;REGISTRY_PATH&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;r&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="k"&gt;as&lt;/span&gt; &lt;span class="n"&gt;f&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+            &lt;span class="n"&gt;data&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;_load&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;f&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="k"&gt;except&lt;/span&gt; &lt;span class="ne"&gt;FileNotFoundError&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+        &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="sa"&gt;f&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;#&lt;/span&gt;&lt;span class="si"&gt;{&lt;/span&gt;&lt;span class="n"&gt;session_id&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="mi"&gt;4&lt;/span&gt;&lt;span class="p"&gt;:]&lt;/span&gt;&lt;span class="si"&gt;}&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;&lt;/span&gt;
+
+    &lt;span class="n"&gt;entry&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;data&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;get&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;sessions&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="p"&gt;{})&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;get&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;session_id&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="ow"&gt;not&lt;/span&gt; &lt;span class="n"&gt;entry&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+        &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="sa"&gt;f&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;#&lt;/span&gt;&lt;span class="si"&gt;{&lt;/span&gt;&lt;span class="n"&gt;session_id&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="mi"&gt;4&lt;/span&gt;&lt;span class="p"&gt;:]&lt;/span&gt;&lt;span class="si"&gt;}&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;&lt;/span&gt;
+
+    &lt;span class="n"&gt;label&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;entry&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;get&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;label&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="sa"&gt;f&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;#&lt;/span&gt;&lt;span class="si"&gt;{&lt;/span&gt;&lt;span class="n"&gt;session_id&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="mi"&gt;4&lt;/span&gt;&lt;span class="p"&gt;:]&lt;/span&gt;&lt;span class="si"&gt;}&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="n"&gt;summary&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;entry&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;get&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;task_summary&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="n"&gt;summary&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+        &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="sa"&gt;f&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;&lt;/span&gt;&lt;span class="si"&gt;{&lt;/span&gt;&lt;span class="n"&gt;label&lt;/span&gt;&lt;span class="si"&gt;}&lt;/span&gt;&lt;span class="s1"&gt; &amp;quot;&lt;/span&gt;&lt;span class="si"&gt;{&lt;/span&gt;&lt;span class="n"&gt;summary&lt;/span&gt;&lt;span class="si"&gt;}&lt;/span&gt;&lt;span class="s1"&gt;&amp;quot;&amp;#39;&lt;/span&gt;
+    &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="n"&gt;label&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;The two things worth noting here: &lt;strong&gt;file locking&lt;/strong&gt; with &lt;code&gt;fcntl.flock&lt;/code&gt; makes sure two sessions starting simultaneously don't both claim &lt;code&gt;S1&lt;/code&gt;. And &lt;strong&gt;atomic writes&lt;/strong&gt; via &lt;code&gt;os.rename&lt;/code&gt; means readers can never catch the file in a half-written state.&lt;/p&gt;
+&lt;hr&gt;
+&lt;h3&gt;2. The Hook That Feeds the Registry&lt;/h3&gt;
+&lt;p&gt;This is the thin script that Claude Code actually calls. Save it to &lt;code&gt;~/.claude/hooks/session_register.py&lt;/code&gt;.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="ch"&gt;#!/usr/bin/env python3&lt;/span&gt;
+&lt;span class="sd"&gt;&amp;quot;&amp;quot;&amp;quot;&lt;/span&gt;
+&lt;span class="sd"&gt;Hook entrypoint for SessionStart and UserPromptSubmit events.&lt;/span&gt;
+&lt;span class="sd"&gt;Populates the session registry with labels and task summaries.&lt;/span&gt;
+&lt;span class="sd"&gt;&amp;quot;&amp;quot;&amp;quot;&lt;/span&gt;
+
+&lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;json&lt;/span&gt;
+&lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;sys&lt;/span&gt;
+&lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;os&lt;/span&gt;
+&lt;span class="n"&gt;sys&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;path&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;insert&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;os&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;path&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;expanduser&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;~/.claude/hooks&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+&lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;session_registry&lt;/span&gt;
+
+
+&lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;main&lt;/span&gt;&lt;span class="p"&gt;():&lt;/span&gt;
+    &lt;span class="k"&gt;try&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+        &lt;span class="n"&gt;data&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;json&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;loads&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;sys&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;stdin&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;read&lt;/span&gt;&lt;span class="p"&gt;())&lt;/span&gt;
+    &lt;span class="k"&gt;except&lt;/span&gt; &lt;span class="ne"&gt;Exception&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+        &lt;span class="k"&gt;return&lt;/span&gt;
+
+    &lt;span class="n"&gt;session_id&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;data&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;get&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;session_id&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="n"&gt;event&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;data&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;get&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;hook_event_name&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+
+    &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="ow"&gt;not&lt;/span&gt; &lt;span class="n"&gt;session_id&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+        &lt;span class="k"&gt;return&lt;/span&gt;
+
+    &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="n"&gt;event&lt;/span&gt; &lt;span class="o"&gt;==&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;SessionStart&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+        &lt;span class="n"&gt;cwd&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;data&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;get&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;cwd&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;os&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;getcwd&lt;/span&gt;&lt;span class="p"&gt;())&lt;/span&gt;
+        &lt;span class="n"&gt;session_registry&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;register_session&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;session_id&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;cwd&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+
+    &lt;span class="k"&gt;elif&lt;/span&gt; &lt;span class="n"&gt;event&lt;/span&gt; &lt;span class="o"&gt;==&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;UserPromptSubmit&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+        &lt;span class="n"&gt;prompt&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;data&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;get&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;prompt&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+        &lt;span class="n"&gt;cwd&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;data&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;get&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;cwd&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;os&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;getcwd&lt;/span&gt;&lt;span class="p"&gt;())&lt;/span&gt;
+        &lt;span class="c1"&gt;# Auto-register in case SessionStart was missed&lt;/span&gt;
+        &lt;span class="n"&gt;session_registry&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;register_session&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;session_id&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;cwd&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+        &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="n"&gt;prompt&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+            &lt;span class="n"&gt;session_registry&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;update_task_summary&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;session_id&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;prompt&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+
+
+&lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="vm"&gt;__name__&lt;/span&gt; &lt;span class="o"&gt;==&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;__main__&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+    &lt;span class="n"&gt;main&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;hr&gt;
+&lt;h3&gt;3. Update Your notify.py&lt;/h3&gt;
+&lt;p&gt;You only need to change how the session tag is generated. Replace wherever you currently build the tag (the &lt;code&gt;#{last-4-chars}&lt;/code&gt; part) with a call to &lt;code&gt;get_session_label&lt;/code&gt;:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;sys&lt;/span&gt;
+&lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;os&lt;/span&gt;
+&lt;span class="n"&gt;sys&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;path&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;insert&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;os&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;path&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;expanduser&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;~/.claude/hooks&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+&lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;session_registry&lt;/span&gt;
+
+&lt;span class="c1"&gt;# Replace this:&lt;/span&gt;
+&lt;span class="n"&gt;tag&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="sa"&gt;f&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;#&lt;/span&gt;&lt;span class="si"&gt;{&lt;/span&gt;&lt;span class="n"&gt;session_id&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="mi"&gt;4&lt;/span&gt;&lt;span class="p"&gt;:]&lt;/span&gt;&lt;span class="si"&gt;}&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;&lt;/span&gt;
+
+&lt;span class="c1"&gt;# With this:&lt;/span&gt;
+&lt;span class="n"&gt;tag&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;session_registry&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;get_session_label&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;session_id&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;And update your notification title accordingly:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="n"&gt;notify&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="sa"&gt;f&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;⚠️ Action Required — &lt;/span&gt;&lt;span class="si"&gt;{&lt;/span&gt;&lt;span class="n"&gt;project&lt;/span&gt;&lt;span class="si"&gt;}&lt;/span&gt;&lt;span class="s2"&gt; / &lt;/span&gt;&lt;span class="si"&gt;{&lt;/span&gt;&lt;span class="n"&gt;tag&lt;/span&gt;&lt;span class="si"&gt;}&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="sa"&gt;f&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;Waiting to use: &lt;/span&gt;&lt;span class="si"&gt;{&lt;/span&gt;&lt;span class="n"&gt;tool&lt;/span&gt;&lt;span class="si"&gt;}&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;hr&gt;
+&lt;h3&gt;4. Register the New Hooks in settings.json&lt;/h3&gt;
+&lt;p&gt;Add &lt;code&gt;SessionStart&lt;/code&gt; and &lt;code&gt;UserPromptSubmit&lt;/code&gt; to your hooks config in &lt;code&gt;~/.claude/settings.json&lt;/code&gt;:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="p"&gt;{&lt;/span&gt;
+&lt;span class="w"&gt;  &lt;/span&gt;&lt;span class="nt"&gt;&amp;quot;hooks&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="p"&gt;{&lt;/span&gt;
+&lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="nt"&gt;&amp;quot;SessionStart&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;
+&lt;span class="w"&gt;      &lt;/span&gt;&lt;span class="p"&gt;{&lt;/span&gt;
+&lt;span class="w"&gt;        &lt;/span&gt;&lt;span class="nt"&gt;&amp;quot;hooks&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;
+&lt;span class="w"&gt;          &lt;/span&gt;&lt;span class="p"&gt;{&lt;/span&gt;
+&lt;span class="w"&gt;            &lt;/span&gt;&lt;span class="nt"&gt;&amp;quot;type&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;command&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+&lt;span class="w"&gt;            &lt;/span&gt;&lt;span class="nt"&gt;&amp;quot;command&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;python3 ~/.claude/hooks/session_register.py&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+&lt;span class="w"&gt;            &lt;/span&gt;&lt;span class="nt"&gt;&amp;quot;timeout&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="mi"&gt;3&lt;/span&gt;
+&lt;span class="w"&gt;          &lt;/span&gt;&lt;span class="p"&gt;}&lt;/span&gt;
+&lt;span class="w"&gt;        &lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;
+&lt;span class="w"&gt;      &lt;/span&gt;&lt;span class="p"&gt;}&lt;/span&gt;
+&lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="p"&gt;],&lt;/span&gt;
+&lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="nt"&gt;&amp;quot;UserPromptSubmit&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;
+&lt;span class="w"&gt;      &lt;/span&gt;&lt;span class="p"&gt;{&lt;/span&gt;
+&lt;span class="w"&gt;        &lt;/span&gt;&lt;span class="nt"&gt;&amp;quot;hooks&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;
+&lt;span class="w"&gt;          &lt;/span&gt;&lt;span class="p"&gt;{&lt;/span&gt;
+&lt;span class="w"&gt;            &lt;/span&gt;&lt;span class="nt"&gt;&amp;quot;type&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;command&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+&lt;span class="w"&gt;            &lt;/span&gt;&lt;span class="nt"&gt;&amp;quot;command&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;python3 ~/.claude/hooks/session_register.py&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+&lt;span class="w"&gt;            &lt;/span&gt;&lt;span class="nt"&gt;&amp;quot;timeout&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="mi"&gt;3&lt;/span&gt;
+&lt;span class="w"&gt;          &lt;/span&gt;&lt;span class="p"&gt;}&lt;/span&gt;
+&lt;span class="w"&gt;        &lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;
+&lt;span class="w"&gt;      &lt;/span&gt;&lt;span class="p"&gt;}&lt;/span&gt;
+&lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;
+&lt;span class="w"&gt;  &lt;/span&gt;&lt;span class="p"&gt;}&lt;/span&gt;
+&lt;span class="p"&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;hr&gt;
+&lt;h2&gt;What the Registry File Looks Like&lt;/h2&gt;
+&lt;p&gt;Once a few sessions have run, &lt;code&gt;~/.claude/session-registry.json&lt;/code&gt; will look something like this:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="p"&gt;{&lt;/span&gt;
+&lt;span class="w"&gt;  &lt;/span&gt;&lt;span class="nt"&gt;&amp;quot;sessions&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="p"&gt;{&lt;/span&gt;
+&lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="nt"&gt;&amp;quot;d524f0c1-0e93-49d5-9603-e0320534259f&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="p"&gt;{&lt;/span&gt;
+&lt;span class="w"&gt;      &lt;/span&gt;&lt;span class="nt"&gt;&amp;quot;seq&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+&lt;span class="w"&gt;      &lt;/span&gt;&lt;span class="nt"&gt;&amp;quot;project&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;pulse&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+&lt;span class="w"&gt;      &lt;/span&gt;&lt;span class="nt"&gt;&amp;quot;label&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;S1&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+&lt;span class="w"&gt;      &lt;/span&gt;&lt;span class="nt"&gt;&amp;quot;task_summary&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;fix auth bug in login flow&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+&lt;span class="w"&gt;      &lt;/span&gt;&lt;span class="nt"&gt;&amp;quot;started_at&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;2026-02-21T01:47:00Z&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+&lt;span class="w"&gt;      &lt;/span&gt;&lt;span class="nt"&gt;&amp;quot;last_seen&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;2026-02-21T02:13:00Z&amp;quot;&lt;/span&gt;
+&lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="p"&gt;},&lt;/span&gt;
+&lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="nt"&gt;&amp;quot;b45b5be6-bb5b-43df-b8ce-48d22a03d893&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="p"&gt;{&lt;/span&gt;
+&lt;span class="w"&gt;      &lt;/span&gt;&lt;span class="nt"&gt;&amp;quot;seq&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="mi"&gt;2&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+&lt;span class="w"&gt;      &lt;/span&gt;&lt;span class="nt"&gt;&amp;quot;project&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;pulse&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+&lt;span class="w"&gt;      &lt;/span&gt;&lt;span class="nt"&gt;&amp;quot;label&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;S2&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+&lt;span class="w"&gt;      &lt;/span&gt;&lt;span class="nt"&gt;&amp;quot;task_summary&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;add RBAC to dashboard endpoints&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+&lt;span class="w"&gt;      &lt;/span&gt;&lt;span class="nt"&gt;&amp;quot;started_at&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;2026-02-21T01:52:00Z&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+&lt;span class="w"&gt;      &lt;/span&gt;&lt;span class="nt"&gt;&amp;quot;last_seen&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;2026-02-21T02:10:00Z&amp;quot;&lt;/span&gt;
+&lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="p"&gt;}&lt;/span&gt;
+&lt;span class="w"&gt;  &lt;/span&gt;&lt;span class="p"&gt;}&lt;/span&gt;
+&lt;span class="p"&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Sessions older than 24 hours get purged automatically the next time a new session registers. No cron jobs needed.&lt;/p&gt;
+&lt;hr&gt;
+&lt;h2&gt;Testing It&lt;/h2&gt;
+&lt;p&gt;Open two terminals in the same project. In the first, type something like "fix the login bug". In the second, type "add unit tests for the auth module".&lt;/p&gt;
+&lt;p&gt;Now trigger a permission prompt in either terminal — ask Claude to run a bash command it hasn't run before. The notification should say something like:&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;&lt;strong&gt;⚠️ Action Required — pulse / S1 "fix the login bug"&lt;/strong&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;You'll know exactly which terminal it's coming from without looking.&lt;/p&gt;
+&lt;hr&gt;
+&lt;h2&gt;Extending It Further&lt;/h2&gt;
+&lt;p&gt;Once the registry exists, you can use it for other things:&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Better statusline&lt;/strong&gt; — if you use the &lt;code&gt;statusLine&lt;/code&gt; feature in &lt;code&gt;settings.json&lt;/code&gt;, you can pull the session label from the registry and display it right in your terminal prompt. Then notifications and statusline show the same label, making it effortless to match them.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Usage tracking&lt;/strong&gt; — log each session's task summary to a weekly file and you get a natural record of everything you've been using Claude for. Surprisingly useful for end-of-week reviews.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Context-aware hooks&lt;/strong&gt; — route notifications differently based on what the session is doing. Critical tasks go to your phone, routine ones just make a sound.&lt;/p&gt;
+&lt;hr&gt;
+&lt;h2&gt;The Bigger Point&lt;/h2&gt;
+&lt;p&gt;The random hash wasn't a feature, it was a placeholder. Claude Code's hook system is powerful enough to build real session identity on top of it — you just have to wire it together yourself.&lt;/p&gt;
+&lt;p&gt;Once you have meaningful labels, multi-terminal Claude Code goes from chaotic to genuinely manageable. You stop babysitting terminals and start trusting the system to tell you when it needs you.&lt;/p&gt;
+&lt;p&gt;That's the whole point.&lt;/p&gt;</content><category term="Technology"/></entry><entry><title>"Claude Code Hooks: Get Notified When It Needs You"</title><link href="claude-code-hooks-get-notified-when-it-needs-you.html" rel="alternate"/><published>2026-02-23T10:00:00+05:30</published><updated>2026-02-23T00:00:00+05:30</updated><author><name>Panch Mukesh</name></author><id>tag:None,2026-02-23:claude-code-hooks-get-notified-when-it-needs-you.html</id><summary type="html">&lt;ul&gt;
+&lt;li&gt;claude&lt;/li&gt;
+&lt;li&gt;ai&lt;/li&gt;
+&lt;li&gt;hooks&lt;/li&gt;
+&lt;li&gt;productivity&lt;/li&gt;
+&lt;li&gt;developer-tools&lt;/li&gt;
+&lt;li&gt;notifications&lt;/li&gt;
+&lt;li&gt;agentic-coding
+slug: claude-hooks-guide
+author: Panch Mukesh
+summary: Stop babysitting the terminal. Claude Code hooks let you run scripts on task completion, permission prompts, and idle states — so you get notified the moment Claude needs you, no matter what you're doing.
+status: published&lt;/li&gt;
+&lt;/ul&gt;
+&lt;hr&gt;
+&lt;p&gt;If you've …&lt;/p&gt;</summary><content type="html">&lt;ul&gt;
+&lt;li&gt;claude&lt;/li&gt;
+&lt;li&gt;ai&lt;/li&gt;
+&lt;li&gt;hooks&lt;/li&gt;
+&lt;li&gt;productivity&lt;/li&gt;
+&lt;li&gt;developer-tools&lt;/li&gt;
+&lt;li&gt;notifications&lt;/li&gt;
+&lt;li&gt;agentic-coding
+slug: claude-hooks-guide
+author: Panch Mukesh
+summary: Stop babysitting the terminal. Claude Code hooks let you run scripts on task completion, permission prompts, and idle states — so you get notified the moment Claude needs you, no matter what you're doing.
+status: published&lt;/li&gt;
+&lt;/ul&gt;
+&lt;hr&gt;
+&lt;p&gt;If you've been using Claude Code, you've probably done this at least once — kicked off a big task, switched to another window, and come back ten minutes later only to find Claude has been sitting idle, waiting for you to approve something.&lt;/p&gt;
 &lt;p&gt;It ran into a tool it needed permission to use. It had a question. It finished and was waiting for your next instruction. And it said nothing.&lt;/p&gt;
 &lt;p&gt;That's the problem hooks solve.&lt;/p&gt;
 &lt;hr&gt;
@@ -142,7 +1058,33 @@
 &lt;hr&gt;
 &lt;h2&gt;Where to Go From Here&lt;/h2&gt;
 &lt;p&gt;Once you have basic notifications working, you'll quickly notice the next problem: if you have Claude Code open in multiple terminals at once, all the notifications look the same. You can't tell which terminal is asking for your attention.&lt;/p&gt;
-&lt;p&gt;That's a solvable problem — and it's what the next post covers.&lt;/p&gt;</content><category term="Technology"/><category term="claude"/><category term="ai"/><category term="hooks"/><category term="productivity"/><category term="developer-tools"/><category term="notifications"/><category term="agentic-coding"/></entry><entry><title>Managing Context Across AI Coding Tools</title><link href="context-is-infrastructure.html" rel="alternate"/><published>2026-02-16T10:00:00+05:30</published><updated>2026-02-16T00:00:00+05:30</updated><author><name>Panch Mukesh</name></author><id>tag:None,2026-02-16:context-is-infrastructure.html</id><summary type="html">&lt;p&gt;Context engineering is the meta-skill that separates productive AI-assisted developers from frustrated ones. Learn the universal patterns—project memory, progressive disclosure, and intentional compaction—that work across every AI coding tool.&lt;/p&gt;</summary><content type="html">&lt;p&gt;If there's one thing that separates developers who get value from AI coding tools from those who get frustrated and give up, it's this: &lt;strong&gt;understanding how context works&lt;/strong&gt;.&lt;/p&gt;
+&lt;p&gt;That's a solvable problem — and it's what the next post covers.&lt;/p&gt;</content><category term="Technology"/></entry><entry><title>Managing Context Across AI Coding Tools</title><link href="managing-context-across-ai-coding-tools.html" rel="alternate"/><published>2026-02-16T10:00:00+05:30</published><updated>2026-02-16T00:00:00+05:30</updated><author><name>Panch Mukesh</name></author><id>tag:None,2026-02-16:managing-context-across-ai-coding-tools.html</id><summary type="html">&lt;ul&gt;
+&lt;li&gt;ai&lt;/li&gt;
+&lt;li&gt;context-engineering&lt;/li&gt;
+&lt;li&gt;agentic-coding&lt;/li&gt;
+&lt;li&gt;llm&lt;/li&gt;
+&lt;li&gt;productivity&lt;/li&gt;
+&lt;li&gt;software-development
+slug: context-is-infrastructure
+author: Panch Mukesh
+summary: Context engineering is the meta-skill that separates productive AI-assisted developers from frustrated ones. Learn the universal patterns—project memory, progressive disclosure, and intentional compaction—that work across every AI coding tool.
+status: published&lt;/li&gt;
+&lt;/ul&gt;
+&lt;hr&gt;
+&lt;p&gt;If there's one thing that …&lt;/p&gt;</summary><content type="html">&lt;ul&gt;
+&lt;li&gt;ai&lt;/li&gt;
+&lt;li&gt;context-engineering&lt;/li&gt;
+&lt;li&gt;agentic-coding&lt;/li&gt;
+&lt;li&gt;llm&lt;/li&gt;
+&lt;li&gt;productivity&lt;/li&gt;
+&lt;li&gt;software-development
+slug: context-is-infrastructure
+author: Panch Mukesh
+summary: Context engineering is the meta-skill that separates productive AI-assisted developers from frustrated ones. Learn the universal patterns—project memory, progressive disclosure, and intentional compaction—that work across every AI coding tool.
+status: published&lt;/li&gt;
+&lt;/ul&gt;
+&lt;hr&gt;
+&lt;p&gt;If there's one thing that separates developers who get value from AI coding tools from those who get frustrated and give up, it's this: &lt;strong&gt;understanding how context works&lt;/strong&gt;.&lt;/p&gt;
 &lt;p&gt;Doesn't matter if you're using Cursor, Claude Code, Copilot, or Cline. They all hit the same fundamental constraint: limited memory. And how well you manage that constraint determines whether your AI agent is helpful or just burns through your API credits generating garbage.&lt;/p&gt;
 &lt;p&gt;This is what we call &lt;strong&gt;Context Engineering&lt;/strong&gt;—and it's become more important than the code itself.&lt;/p&gt;
 &lt;h2&gt;The Context Window Reality (And Why It Gets "Dumb")&lt;/h2&gt;
@@ -360,7 +1302,27 @@ AI agents understand common frameworks better than obscure ones. They've been tr
 &lt;p&gt;&lt;strong&gt;Master context engineering, and everything else gets easier.&lt;/strong&gt;&lt;/p&gt;
 &lt;p&gt;You stay in the Smart Zone. The agent stays focused. Your code gets better. Your costs go down. Your velocity goes up.&lt;/p&gt;
 &lt;p&gt;This is the foundation. Get this right, and the advanced patterns we'll cover next—Skills, MCP, the RPI workflow—all become dramatically more effective.&lt;/p&gt;
-&lt;p&gt;Now let's talk about how to extend what these tools can do...&lt;/p&gt;</content><category term="Technology"/><category term="ai"/><category term="context-engineering"/><category term="agentic-coding"/><category term="llm"/><category term="productivity"/><category term="software-development"/></entry><entry><title>From Autocomplete to Orchestration: The New Era of AI Coding</title><link href="agentic-coding-paradigm-shift.html" rel="alternate"/><published>2026-02-14T10:00:00+05:30</published><updated>2026-02-14T00:00:00+05:30</updated><author><name>Panch Mukesh</name></author><id>tag:None,2026-02-14:agentic-coding-paradigm-shift.html</id><summary type="html">&lt;p&gt;Software development is shifting from writing code to orchestrating AI agents. Why structured agentic workflows beat vibe coding, and what your role as an engineer actually becomes.&lt;/p&gt;</summary><content type="html">&lt;p&gt;Remember when GitHub Copilot first came out and we all thought tab-completion with AI was revolutionary? That was 2021. We're now in 2026, and if you're still thinking about AI coding tools as "fancy autocomplete," you're missing what's actually happening.&lt;/p&gt;
+&lt;p&gt;Now let's talk about how to extend what these tools can do...&lt;/p&gt;</content><category term="Technology"/></entry><entry><title>"From Autocomplete to Orchestration: The New Era of AI Coding"</title><link href="from-autocomplete-to-orchestration-the-new-era-of-ai-coding.html" rel="alternate"/><published>2026-02-14T10:00:00+05:30</published><updated>2026-02-14T00:00:00+05:30</updated><author><name>Panch Mukesh</name></author><id>tag:None,2026-02-14:from-autocomplete-to-orchestration-the-new-era-of-ai-coding.html</id><summary type="html">&lt;ul&gt;
+&lt;li&gt;ai&lt;/li&gt;
+&lt;li&gt;agentic-coding&lt;/li&gt;
+&lt;li&gt;software-development&lt;/li&gt;
+&lt;li&gt;productivity
+slug: agentic-coding-paradigm-shift
+summary: Software development is shifting from writing code to orchestrating AI agents. Why structured agentic workflows beat vibe coding, and what your role as an engineer actually becomes.
+status: published&lt;/li&gt;
+&lt;/ul&gt;
+&lt;hr&gt;
+&lt;p&gt;Remember when GitHub Copilot first came out and we all thought tab-completion with AI …&lt;/p&gt;</summary><content type="html">&lt;ul&gt;
+&lt;li&gt;ai&lt;/li&gt;
+&lt;li&gt;agentic-coding&lt;/li&gt;
+&lt;li&gt;software-development&lt;/li&gt;
+&lt;li&gt;productivity
+slug: agentic-coding-paradigm-shift
+summary: Software development is shifting from writing code to orchestrating AI agents. Why structured agentic workflows beat vibe coding, and what your role as an engineer actually becomes.
+status: published&lt;/li&gt;
+&lt;/ul&gt;
+&lt;hr&gt;
+&lt;p&gt;Remember when GitHub Copilot first came out and we all thought tab-completion with AI was revolutionary? That was 2021. We're now in 2026, and if you're still thinking about AI coding tools as "fancy autocomplete," you're missing what's actually happening.&lt;/p&gt;
 &lt;p&gt;The game has changed. Completely.&lt;/p&gt;
 &lt;h2&gt;What's Actually Different Now&lt;/h2&gt;
 &lt;p&gt;Here's the thing: software development is going through one of its biggest changes since we got graphical user interfaces. That's not hype—that's what's happening in real development teams right now.&lt;/p&gt;
@@ -410,7 +1372,28 @@ AI agents understand common frameworks better than obscure ones. They've been tr
 &lt;p&gt;If you're reading this thinking "this sounds complicated," you're right. It is. But so was learning Git, or Kubernetes, or any other tool that fundamentally changed how we work.&lt;/p&gt;
 &lt;p&gt;The difference is: this one's moving fast. The tools available in early 2026 are dramatically better than what existed six months ago. The teams figuring this out now are building the muscle memory and patterns that'll matter for the next decade.&lt;/p&gt;
 &lt;p&gt;You don't need to become an expert overnight. You need to start. Pick one tool. Try it on one real task. See what works and what doesn't. Build from there.&lt;/p&gt;
-&lt;p&gt;The shift from writing code to orchestrating code is happening whether you're ready or not. The question is: are you going to lead that change on your team, or watch it happen to you?&lt;/p&gt;</content><category term="Technology"/><category term="ai"/><category term="agentic-coding"/><category term="software-development"/><category term="productivity"/></entry><entry><title>WSGI vs ASGI: How Python Web Applications Really Work</title><link href="wsgi-vs-asgi-python.html" rel="alternate"/><published>2025-12-30T10:00:00+05:30</published><updated>2025-12-30T00:00:00+05:30</updated><author><name>Panch Mukesh</name></author><id>tag:None,2025-12-30:wsgi-vs-asgi-python.html</id><summary type="html">&lt;p&gt;Understanding WSGI and ASGI interfaces in Python, comparing Gunicorn and Uvicorn servers, and choosing the right deployment setup for your web applications.&lt;/p&gt;</summary><content type="html">&lt;h1&gt;WSGI vs ASGI: How Python Web Applications Really Work&lt;/h1&gt;
+&lt;p&gt;The shift from writing code to orchestrating code is happening whether you're ready or not. The question is: are you going to lead that change on your team, or watch it happen to you?&lt;/p&gt;</content><category term="Technology"/></entry><entry><title>"WSGI vs ASGI: How Python Web Applications Really Work"</title><link href="wsgi-vs-asgi-how-python-web-applications-really-work.html" rel="alternate"/><published>2025-12-30T10:00:00+05:30</published><updated>2025-12-30T00:00:00+05:30</updated><author><name>Panch Mukesh</name></author><id>tag:None,2025-12-30:wsgi-vs-asgi-how-python-web-applications-really-work.html</id><summary type="html">&lt;ul&gt;
+&lt;li&gt;python&lt;/li&gt;
+&lt;li&gt;api&lt;/li&gt;
+&lt;li&gt;uvicorn&lt;/li&gt;
+&lt;li&gt;gunicorn
+slug: wsgi-vs-asgi-python
+summary: Understanding WSGI and ASGI interfaces in Python, comparing Gunicorn and Uvicorn servers, and choosing the right deployment setup for your web applications.
+status: published&lt;/li&gt;
+&lt;/ul&gt;
+&lt;hr&gt;
+&lt;h1&gt;WSGI vs ASGI: How Python Web Applications Really Work&lt;/h1&gt;
+&lt;p&gt;When building Python web applications, most of us focus on …&lt;/p&gt;</summary><content type="html">&lt;ul&gt;
+&lt;li&gt;python&lt;/li&gt;
+&lt;li&gt;api&lt;/li&gt;
+&lt;li&gt;uvicorn&lt;/li&gt;
+&lt;li&gt;gunicorn
+slug: wsgi-vs-asgi-python
+summary: Understanding WSGI and ASGI interfaces in Python, comparing Gunicorn and Uvicorn servers, and choosing the right deployment setup for your web applications.
+status: published&lt;/li&gt;
+&lt;/ul&gt;
+&lt;hr&gt;
+&lt;h1&gt;WSGI vs ASGI: How Python Web Applications Really Work&lt;/h1&gt;
 &lt;p&gt;When building Python web applications, most of us focus on the frameworks we know and love—Flask, Django, FastAPI, and the like. But here's something I've learned over the years: these frameworks don't actually handle HTTP traffic directly.&lt;/p&gt;
 &lt;p&gt;Instead, they rely on a standard interface that acts as a translator between your web server and your Python code. Think of it like a universal adapter that lets different servers talk to different frameworks.&lt;/p&gt;
 &lt;p&gt;That interface is either &lt;strong&gt;WSGI&lt;/strong&gt; or &lt;strong&gt;ASGI&lt;/strong&gt;, and understanding the difference between them will help you make better decisions about how to deploy your applications.&lt;/p&gt;
@@ -606,7 +1589,49 @@ AI agents understand common frameworks better than obscure ones. They've been tr
 &lt;h2&gt;Final Thoughts&lt;/h2&gt;
 &lt;p&gt;Understanding WSGI and ASGI isn't just academic knowledge—it directly impacts how you deploy and scale your applications. I've seen teams struggle with performance issues simply because they chose the wrong server for their use case.&lt;/p&gt;
 &lt;p&gt;The key is to match your server choice with your application's characteristics. If you're building something new, consider starting with ASGI and FastAPI—the async model is the future of Python web development. But if you have an existing WSGI application that's working well, there's no need to rewrite it just for the sake of using ASGI.&lt;/p&gt;
-&lt;p&gt;Remember: the best architecture is the one that solves your problem effectively, not the one that uses the newest technology.&lt;/p&gt;</content><category term="Python"/><category term="python"/><category term="api"/><category term="uvicorn"/><category term="gunicorn"/></entry><entry><title>Scaling Smarter with KEDA: Event-Driven Autoscaling for Kubernetes</title><link href="scaling-smarter-with-keda.html" rel="alternate"/><published>2025-09-25T10:00:00+05:30</published><updated>2025-09-25T00:00:00+05:30</updated><author><name>Panch Mukesh</name></author><id>tag:None,2025-09-25:scaling-smarter-with-keda.html</id><summary type="html">&lt;p&gt;KEDA brings event-driven intelligence to Kubernetes, enabling responsive, cost-efficient scaling tied directly to real-world events.&lt;/p&gt;</summary><content type="html">&lt;h1&gt;Scaling Smarter with KEDA: Event-Driven Autoscaling for Kubernetes&lt;/h1&gt;
+&lt;p&gt;Remember: the best architecture is the one that solves your problem effectively, not the one that uses the newest technology.&lt;/p&gt;</content><category term="Python"/></entry><entry><title>"Scaling Smarter with KEDA: Event-Driven Autoscaling for Kubernetes"</title><link href="scaling-smarter-with-keda-event-driven-autoscaling-for-kubernetes.html" rel="alternate"/><published>2025-09-25T10:00:00+05:30</published><updated>2025-09-25T00:00:00+05:30</updated><author><name>Panch Mukesh</name></author><id>tag:None,2025-09-25:scaling-smarter-with-keda-event-driven-autoscaling-for-kubernetes.html</id><summary type="html">&lt;ul&gt;
+&lt;li&gt;keda&lt;/li&gt;
+&lt;li&gt;kubernetes&lt;/li&gt;
+&lt;li&gt;autoscaling&lt;/li&gt;
+&lt;li&gt;event-driven&lt;/li&gt;
+&lt;li&gt;hpa&lt;/li&gt;
+&lt;li&gt;serverless&lt;/li&gt;
+&lt;li&gt;batch&lt;/li&gt;
+&lt;li&gt;iot&lt;/li&gt;
+&lt;li&gt;ml&lt;/li&gt;
+&lt;li&gt;logging&lt;/li&gt;
+&lt;li&gt;grafana&lt;/li&gt;
+&lt;li&gt;loki&lt;/li&gt;
+&lt;li&gt;cloud-agnostic
+slug: scaling-smarter-with-keda
+author: Panch Mukesh
+summary: KEDA brings event-driven intelligence to Kubernetes, enabling responsive, cost-efficient scaling tied directly to real-world events.
+status: published&lt;/li&gt;
+&lt;/ul&gt;
+&lt;hr&gt;
+&lt;h1&gt;Scaling Smarter with KEDA: Event-Driven Autoscaling for Kubernetes&lt;/h1&gt;
+&lt;h2&gt;Introduction&lt;/h2&gt;
+&lt;p&gt;In cloud-native environments, workloads are …&lt;/p&gt;</summary><content type="html">&lt;ul&gt;
+&lt;li&gt;keda&lt;/li&gt;
+&lt;li&gt;kubernetes&lt;/li&gt;
+&lt;li&gt;autoscaling&lt;/li&gt;
+&lt;li&gt;event-driven&lt;/li&gt;
+&lt;li&gt;hpa&lt;/li&gt;
+&lt;li&gt;serverless&lt;/li&gt;
+&lt;li&gt;batch&lt;/li&gt;
+&lt;li&gt;iot&lt;/li&gt;
+&lt;li&gt;ml&lt;/li&gt;
+&lt;li&gt;logging&lt;/li&gt;
+&lt;li&gt;grafana&lt;/li&gt;
+&lt;li&gt;loki&lt;/li&gt;
+&lt;li&gt;cloud-agnostic
+slug: scaling-smarter-with-keda
+author: Panch Mukesh
+summary: KEDA brings event-driven intelligence to Kubernetes, enabling responsive, cost-efficient scaling tied directly to real-world events.
+status: published&lt;/li&gt;
+&lt;/ul&gt;
+&lt;hr&gt;
+&lt;h1&gt;Scaling Smarter with KEDA: Event-Driven Autoscaling for Kubernetes&lt;/h1&gt;
 &lt;h2&gt;Introduction&lt;/h2&gt;
 &lt;p&gt;In cloud-native environments, workloads are increasingly unpredictable. Some run steadily and can be sized based on CPU or memory usage. Others are irregular and demand-driven. Traditional autoscaling reacts after the fact—based on system resource usage—and can’t always keep up.&lt;/p&gt;
 &lt;p&gt;To handle dynamic, event-driven workloads more effectively, we need a scaling approach that responds to the events themselves. That’s where event-based jobs come in, and KEDA makes them first-class citizens in Kubernetes.&lt;/p&gt;
@@ -697,7 +1722,25 @@ AI agents understand common frameworks better than obscure ones. They've been tr
 &lt;p&gt;KEDA redefines autoscaling for Kubernetes by bringing event-driven intelligence into the cluster. Whether you’re processing IoT data, running ML pipelines, handling batch jobs, or delivering serverless workloads, KEDA ensures your applications are always right-sized, observable, and cloud-ready.&lt;/p&gt;
 &lt;p&gt;It’s not just about scaling pods—it’s about scaling with purpose, tied directly to the events that matter.&lt;/p&gt;
 &lt;hr&gt;
-&lt;p&gt;Source: Scaling Smarter with KEDA: Event-Driven Autoscaling for Kubernetes (LinkedIn)&lt;/p&gt;</content><category term="Technology"/><category term="keda"/><category term="kubernetes"/><category term="autoscaling"/><category term="event-driven"/><category term="hpa"/><category term="serverless"/><category term="batch"/><category term="iot"/><category term="ml"/><category term="logging"/><category term="grafana"/><category term="loki"/><category term="cloud-agnostic"/></entry><entry><title>Configurable Virtual Environments</title><link href="configurable-virtual-environments.html" rel="alternate"/><published>2025-09-12T10:00:00+05:30</published><updated>2025-09-12T00:00:00+05:30</updated><author><name>Panch Mukesh</name></author><id>tag:None,2025-09-12:configurable-virtual-environments.html</id><summary type="html">&lt;p&gt;How to use Pipenv categories and flags to create configurable virtual environments, keeping Docker images lightweight by installing only the dependencies you need.&lt;/p&gt;</summary><content type="html">&lt;p&gt;Virtual environments are essential components of any Python project. When it comes to implementing them, we consider various tools such as pipenv, requirements.txt, etc. &lt;br&gt;&lt;/p&gt;
+&lt;p&gt;Source: Scaling Smarter with KEDA: Event-Driven Autoscaling for Kubernetes (LinkedIn)&lt;/p&gt;</content><category term="Technology"/></entry><entry><title>Configurable Virtual Environments</title><link href="configurable-virtual-environments.html" rel="alternate"/><published>2025-09-12T10:00:00+05:30</published><updated>2025-09-12T00:00:00+05:30</updated><author><name>Panch Mukesh</name></author><id>tag:None,2025-09-12:configurable-virtual-environments.html</id><summary type="html">&lt;ul&gt;
+&lt;li&gt;python&lt;/li&gt;
+&lt;li&gt;pipenv&lt;/li&gt;
+&lt;li&gt;virtualenv
+slug: configurable-virtual-environments
+summary: How to use Pipenv categories and flags to create configurable virtual environments, keeping Docker images lightweight by installing only the dependencies you need.
+status: published&lt;/li&gt;
+&lt;/ul&gt;
+&lt;hr&gt;
+&lt;p&gt;Virtual environments are essential components of any Python project. When it comes to implementing them, we consider various tools …&lt;/p&gt;</summary><content type="html">&lt;ul&gt;
+&lt;li&gt;python&lt;/li&gt;
+&lt;li&gt;pipenv&lt;/li&gt;
+&lt;li&gt;virtualenv
+slug: configurable-virtual-environments
+summary: How to use Pipenv categories and flags to create configurable virtual environments, keeping Docker images lightweight by installing only the dependencies you need.
+status: published&lt;/li&gt;
+&lt;/ul&gt;
+&lt;hr&gt;
+&lt;p&gt;Virtual environments are essential components of any Python project. When it comes to implementing them, we consider various tools such as pipenv, requirements.txt, etc. &lt;br&gt;&lt;/p&gt;
 &lt;p&gt;To cater to our project requirements, we install various packages. However, it’s important to note that some packages are only necessary for specific aspects. For instance, the pytest package is not needed for application startup; it’s only required for development purposes. To maintain lightweight Docker images and application modules, it is advisable to make dependencies as configurable as possible based on the specific requirements.&lt;/p&gt;
 &lt;h2&gt;Development Purpose Packages&lt;/h2&gt;
 &lt;p&gt;Pipenv can be utilized to manage a scenario where we can pass an additional argument, “&lt;em&gt;--dev&lt;/em&gt;,” which can be used to install different packages when necessary.&lt;/p&gt;
@@ -748,78 +1791,26 @@ pipenv&lt;span class="w"&gt; &lt;/span&gt;install&lt;span class="w"&gt; &lt;/spa
 pipenv&lt;span class="w"&gt; &lt;/span&gt;uninstall&lt;span class="w"&gt; &lt;/span&gt;moto&lt;span class="w"&gt; &lt;/span&gt;--categories&lt;span class="w"&gt; &lt;/span&gt;aws
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
-&lt;hr&gt;</content><category term="Python"/><category term="python"/><category term="pipenv"/><category term="virtualenv"/></entry><entry><title>Using GitHub MCP Server to Scale AI-Powered Engineering</title><link href="github-mcp-server-usecases.html" rel="alternate"/><published>2025-09-12T10:00:00+05:30</published><updated>2025-09-12T10:00:00+05:30</updated><author><name>Panch Mukesh</name></author><id>tag:None,2025-09-12:github-mcp-server-usecases.html</id><summary type="html">&lt;p&gt;Explore how GitHub MCP Server can revolutionize AI-powered engineering workflows, from code analysis to automated release notes generation.&lt;/p&gt;</summary><content type="html">&lt;h2&gt;Introduction&lt;/h2&gt;
-&lt;p&gt;&lt;strong&gt;MCP Server&lt;/strong&gt; (Model Context Protocol) serves as a standardized interface between foundational AI models and external data sources or services—especially those the AI can't directly control. Think of it as a bridge that allows AI to fetch information or perform actions in a consistent way, without needing to build custom integrations for each individual service. This makes it easier to connect AI models with the real-world tools and platforms we rely on.&lt;/p&gt;
-&lt;p&gt;One such tool is GitHub—an essential platform for developers and organizations alike. Whether it's organizing codebases, managing releases, or handling deployments, GitHub is a daily driver in the software development lifecycle. Beyond version control, its true power lies in enabling collaboration across teams, making it easier to build, test, and ship software together.&lt;/p&gt;
-&lt;h2&gt;Use Cases of GitHub MCP Server&lt;/h2&gt;
-&lt;h3&gt;Understand Codebases and Generate Insights with AI&lt;/h3&gt;
-&lt;p&gt;By integrating GitHub MCP Server with a large language model (LLM)—such as GitHub Copilot—we can analyze, understand, and enhance code repositories.&lt;/p&gt;
-&lt;p&gt;Instead of manually digging through complex codebases, developers can now use this integration to:&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;🔍 Identify frameworks and design patterns used within a repository&lt;/li&gt;
-&lt;li&gt;📄 Generate human-readable summaries of modules, services, or even entire architectures&lt;/li&gt;
-&lt;li&gt;💡 Receive improvement suggestions, such as optimizations, modernizations, or potential refactoring opportunities&lt;/li&gt;
+&lt;hr&gt;</content><category term="Python"/></entry><entry><title>"Guiding Fresh Faces: A Seamless Introduction to Your Tech Team"</title><link href="guiding-fresh-faces-a-seamless-introduction-to-your-tech-team.html" rel="alternate"/><published>2025-09-12T10:00:00+05:30</published><updated>2025-09-12T00:00:00+05:30</updated><author><name>Panch Mukesh</name></author><id>tag:None,2025-09-12:guiding-fresh-faces-a-seamless-introduction-to-your-tech-team.html</id><summary type="html">&lt;ul&gt;
+&lt;li&gt;onboarding&lt;/li&gt;
+&lt;li&gt;fresher&lt;/li&gt;
+&lt;li&gt;team-culture
+slug: onboarding-freshers-techteam
+summary: Practical strategies for onboarding fresh developers into your tech team, from code reviews and documentation to integration testing and coding standards.
+status: published&lt;/li&gt;
 &lt;/ul&gt;
-&lt;p&gt;&lt;strong&gt;Example:&lt;/strong&gt; Imagine we're onboarding to a new microservices project. The GitHub MCP-powered AI could automatically summarize how the API gateway interacts with backend services, list all third-party dependencies, and suggest architectural improvements based on industry best practices.&lt;/p&gt;
-&lt;h3&gt;Learn from Other Repositories—Internal or Open Source&lt;/h3&gt;
-&lt;p&gt;With GitHub MCP, we're no longer limited to a single codebase. We can analyze and compare multiple repositories—whether they're internal to our organization or from open source communities.&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;⚖️ Perform side-by-side comparisons of different implementations of similar functionality also to make benchmarking with the reference repositories&lt;/li&gt;
-&lt;li&gt;🔄 Identify reusable components, design styles, or libraries used by other teams&lt;/li&gt;
-&lt;li&gt;🔍 Study how leading open-source projects solve problems similar to yours&lt;/li&gt;
+&lt;hr&gt;
+&lt;h2&gt;Unveiling the Importance of Smooth Onboarding&lt;/h2&gt;
+&lt;p&gt;In today's tech landscape, crafting high-performance applications with state-of-the-art technologies is the norm. However, navigating …&lt;/p&gt;</summary><content type="html">&lt;ul&gt;
+&lt;li&gt;onboarding&lt;/li&gt;
+&lt;li&gt;fresher&lt;/li&gt;
+&lt;li&gt;team-culture
+slug: onboarding-freshers-techteam
+summary: Practical strategies for onboarding fresh developers into your tech team, from code reviews and documentation to integration testing and coding standards.
+status: published&lt;/li&gt;
 &lt;/ul&gt;
-&lt;p&gt;&lt;strong&gt;Example:&lt;/strong&gt; Let's take a use case of building a user authentication system. GitHub MCP could compare our current implementation with those from top open-source identity solutions, highlighting where we can enhance security or reduce complexity.&lt;/p&gt;
-&lt;h3&gt;Analyze Pull Request (PR) Changes Across Repositories&lt;/h3&gt;
-&lt;p&gt;In many organizations, especially those working with microservices or modular architectures, it's common to have multiple repositories with similar implementations. When a change is made in one repo—like fixing a bug or updating a config—you often need to replicate or adapt that change across others.&lt;/p&gt;
-&lt;p&gt;This is where GitHub MCP Server shines. By connecting with GitHub's pull requests and branches, MCP enables AI to:&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;🔍 Analyze PR diffs automatically across different repositories&lt;/li&gt;
-&lt;li&gt;🧠 Understand the intent and impact behind each change&lt;/li&gt;
-&lt;li&gt;🤖 Suggest or even automate the propagation of similar changes to other workspaces or services&lt;/li&gt;
-&lt;/ul&gt;
-&lt;p&gt;&lt;strong&gt;Example:&lt;/strong&gt; Suppose you're updating the API response format in a shared service. Once you raise a PR, GitHub MCP can compare this change with other related repos and recommend where similar updates might be needed—saving hours of manual cherry-picking or repetitive updates across environments.&lt;/p&gt;
-&lt;h4&gt;Why This Matters&lt;/h4&gt;
-&lt;ul&gt;
-&lt;li&gt;⏱️ Reduces turnaround time during code reviews and releases&lt;/li&gt;
-&lt;li&gt;✅ Ensures consistency across microservices or shared libraries&lt;/li&gt;
-&lt;li&gt;🚀 Speeds up multi-repo deployment pipelines by aligning changes early&lt;/li&gt;
-&lt;/ul&gt;
-&lt;p&gt;Whether we're preparing a hotfix release or rolling out a new version, GitHub MCP helps us stay ahead of duplication, reducing human error and accelerating collaboration across your engineering teams.&lt;/p&gt;
-&lt;h3&gt;Issue Resolution with Context&lt;/h3&gt;
-&lt;p&gt;One of the most powerful capabilities of GitHub MCP Server is its ability to intelligently retrieve and contextualize GitHub issues. By connecting issue data with the structure and content of the repository, it allows developers to:&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;📌 Understand the issue in full context, including related files, recent commits, and linked pull requests&lt;/li&gt;
-&lt;li&gt;🔧 Propose code fixes automatically or suggest potential solutions based on similar issues from the same or other repositories&lt;/li&gt;
-&lt;li&gt;🧪 Test and validate the fix, and even generate a draft pull request with the suggested changes&lt;/li&gt;
-&lt;/ul&gt;
-&lt;p&gt;&lt;strong&gt;Example:&lt;/strong&gt; Let's say a developer logs a bug about a failed API call. GitHub MCP can scan the relevant modules, fetch related error logs, highlight recent changes, and recommend a potential fix—such as a missing parameter or outdated dependency. It can then generate a pre-filled PR, allowing the developer to review, test, and enhance it further if needed.&lt;/p&gt;
-&lt;p&gt;Instead of manually searching through tickets, commits, and files, developers get a smart, centralized view of the issue and solution path—making it easier to focus on quality, not coordination. This creates a more streamlined and responsive development cycle, particularly useful during high-pressure release sprints.&lt;/p&gt;
-&lt;h3&gt;Automated Release Notes Generation for Different Audiences&lt;/h3&gt;
-&lt;p&gt;Creating release notes is essential, but it often takes up valuable time from product managers, developers, and tech leads. With GitHub MCP Server, this process becomes faster, clearer, and highly tailored to different audiences.&lt;/p&gt;
-&lt;p&gt;By analyzing the differences between two tags or branches in a repository, GitHub MCP can automatically summarize the updates and generate release content that's ready to share.&lt;/p&gt;
-&lt;p&gt;It can create release notes from different perspectives:&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;For business users, it highlights new capabilities and value-added changes&lt;/li&gt;
-&lt;li&gt;For developers, it focuses on API changes, technical upgrades, and potential integration impacts&lt;/li&gt;
-&lt;li&gt;For product managers, it offers a high-level summary that maps changes to roadmap goals or tickets completed&lt;/li&gt;
-&lt;/ul&gt;
-&lt;h2&gt;Best Practices for Using GitHub MCP Server Effectively&lt;/h2&gt;
-&lt;p&gt;To get the most out of GitHub MCP Server and ensure responsible use of AI tools like GitHub Copilot, consider following these best practices:&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;&lt;strong&gt;Train the AI with context:&lt;/strong&gt; Every product and codebase has its own structure and standards. Make sure the AI has enough visibility into your project's design and logic so it can provide relevant and accurate suggestions.&lt;/li&gt;
-&lt;li&gt;&lt;strong&gt;Use secure and minimal authentication:&lt;/strong&gt; When setting up authentication for GitHub MCP, always create a separate Personal Access Token (PAT) with only the necessary permissions. This minimizes security risks and aligns with best security practices.&lt;/li&gt;
-&lt;li&gt;&lt;strong&gt;Standardize prompts for reusability:&lt;/strong&gt; Store prompt files in a dedicated &lt;code&gt;.github/prompts&lt;/code&gt; folder within your repository. Use &lt;code&gt;prompt.md&lt;/code&gt; files for common workflows or queries. This makes it easier for all developers to reuse effective prompts and maintain consistency across teams.&lt;/li&gt;
-&lt;li&gt;&lt;strong&gt;Collaborate with the AI like a team member:&lt;/strong&gt; AI tools are powerful, but not perfect. Treat them like a junior developer—give regular feedback, validate outputs, and guide them with clear instructions. This helps avoid hallucinations and ensures high-quality contributions.&lt;/li&gt;
-&lt;/ul&gt;
-&lt;h3&gt;Reference Documentation&lt;/h3&gt;
-&lt;ul&gt;
-&lt;li&gt;&lt;a href="https://docs.github.com/en/copilot/concepts/prompt-engineering-for-copilot-chat"&gt;GitHub Copilot Prompt Engineering&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href="https://docs.github.com/en/copilot/how-tos/custom-instructions/adding-repository-custom-instructions-for-github-copilot"&gt;GitHub Copilot Custom Instructions&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href="https://github.com/github/github-mcp-server"&gt;GitHub MCP Server Repository&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;
-&lt;h2&gt;Conclusion&lt;/h2&gt;
-&lt;p&gt;GitHub MCP Server is more than just a technical integration—it's a bridge between AI and the software development lifecycle. From understanding repositories and resolving issues to generating tailored release notes, it empowers teams to move faster with more clarity and fewer manual steps.&lt;/p&gt;
-&lt;p&gt;As with any powerful tool, its effectiveness depends on how wisely we use it. Equip it with the right context, provide feedback, and set clear boundaries—and you'll unlock a more collaborative and efficient development workflow.&lt;/p&gt;</content><category term="Technology"/><category term="github"/><category term="mcp"/><category term="ai"/><category term="engineering"/><category term="automation"/><category term="development"/></entry><entry><title>Guiding Fresh Faces: A Seamless Introduction to Your Tech Team</title><link href="onboarding-freshers-techteam.html" rel="alternate"/><published>2025-09-12T10:00:00+05:30</published><updated>2025-09-12T00:00:00+05:30</updated><author><name>Panch Mukesh</name></author><id>tag:None,2025-09-12:onboarding-freshers-techteam.html</id><summary type="html">&lt;p&gt;Practical strategies for onboarding fresh developers into your tech team, from code reviews and documentation to integration testing and coding standards.&lt;/p&gt;</summary><content type="html">&lt;h2&gt;Unveiling the Importance of Smooth Onboarding&lt;/h2&gt;
+&lt;hr&gt;
+&lt;h2&gt;Unveiling the Importance of Smooth Onboarding&lt;/h2&gt;
 &lt;p&gt;In today's tech landscape, crafting high-performance applications with state-of-the-art technologies is the norm. However, navigating through intricate codebases comprising numerous modules and interconnected methods can feel like venturing into a maze, especially for fresh team members.&lt;/p&gt;
 &lt;h2&gt;Understanding the Significance&lt;/h2&gt;
 &lt;p&gt;Lack of familiarity with the codebase poses challenges in resolving bugs or integrating new features seamlessly. This not only dampens the confidence of team members but also becomes a bottleneck for senior developers.&lt;/p&gt;
@@ -837,7 +1828,30 @@ pipenv&lt;span class="w"&gt; &lt;/span&gt;uninstall&lt;span class="w"&gt; &lt;/s
 &lt;li&gt;&lt;strong&gt;Adhering to Code Standards&lt;/strong&gt;: Implement features such as type hint checkers and code linting reviews. This instills discipline in code writing practices and fosters adherence to established coding standards.&lt;/li&gt;
 &lt;/ul&gt;
 &lt;h2&gt;Conclusion&lt;/h2&gt;
-&lt;p&gt;Smooth onboarding lays the foundation for seamless integration of new team members into the tech ecosystem. By prioritizing familiarity with the codebase through structured learning and collaborative practices, organizations foster a culture of continuous growth and innovation. Embracing these strategies not only enhances individual proficiency but also propels the collective success of the team.&lt;/p&gt;</content><category term="General"/><category term="onboarding"/><category term="fresher"/><category term="team-culture"/></entry><entry><title>Product Development vs. Baby Development: A Developer's Perspective</title><link href="product-development-vs-baby-development.html" rel="alternate"/><published>2025-09-12T10:00:00+05:30</published><updated>2025-09-12T10:00:00+05:30</updated><author><name>Panch Mukesh</name></author><id>tag:None,2025-09-12:product-development-vs-baby-development.html</id><summary type="html">&lt;p&gt;A humorous comparison between software development and parenting, exploring the parallels between building products and raising children from a developer's perspective.&lt;/p&gt;</summary><content type="html">&lt;h1&gt;Product Development vs. Baby Development: A Developer's Perspective&lt;/h1&gt;
+&lt;p&gt;Smooth onboarding lays the foundation for seamless integration of new team members into the tech ecosystem. By prioritizing familiarity with the codebase through structured learning and collaborative practices, organizations foster a culture of continuous growth and innovation. Embracing these strategies not only enhances individual proficiency but also propels the collective success of the team.&lt;/p&gt;</content><category term="General"/></entry><entry><title>"Product Development vs. Baby Development: A Developer's Perspective"</title><link href="product-development-vs-baby-development-a-developers-perspective.html" rel="alternate"/><published>2025-09-12T10:00:00+05:30</published><updated>2025-09-12T10:00:00+05:30</updated><author><name>Panch Mukesh</name></author><id>tag:None,2025-09-12:product-development-vs-baby-development-a-developers-perspective.html</id><summary type="html">&lt;ul&gt;
+&lt;li&gt;parenting&lt;/li&gt;
+&lt;li&gt;software-development&lt;/li&gt;
+&lt;li&gt;humor&lt;/li&gt;
+&lt;li&gt;life-lessons&lt;/li&gt;
+&lt;li&gt;development
+slug: product-development-vs-baby-development
+author: Panch Mukesh
+summary: A humorous comparison between software development and parenting, exploring the parallels between building products and raising children from a developer's perspective.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;hr&gt;
+&lt;h1&gt;Product Development vs. Baby Development: A Developer's Perspective&lt;/h1&gt;
+&lt;p&gt;As software developers, we're used to handling complex systems: APIs …&lt;/p&gt;</summary><content type="html">&lt;ul&gt;
+&lt;li&gt;parenting&lt;/li&gt;
+&lt;li&gt;software-development&lt;/li&gt;
+&lt;li&gt;humor&lt;/li&gt;
+&lt;li&gt;life-lessons&lt;/li&gt;
+&lt;li&gt;development
+slug: product-development-vs-baby-development
+author: Panch Mukesh
+summary: A humorous comparison between software development and parenting, exploring the parallels between building products and raising children from a developer's perspective.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;hr&gt;
+&lt;h1&gt;Product Development vs. Baby Development: A Developer's Perspective&lt;/h1&gt;
 &lt;p&gt;As software developers, we're used to handling complex systems: APIs, deployments, AI, GenAI, and rigorous security testing (SAST, DAST, you name it). But recently, I embarked on the ultimate full-stack development project—becoming a parent. Spoiler alert: software development is a breeze compared to baby development! 🍼👨💻&lt;/p&gt;
 &lt;p&gt;Here's a fun side-by-side comparison of the two journeys:&lt;/p&gt;
 &lt;h2&gt;Planning &amp;amp; Requirements Gathering&lt;/h2&gt;
@@ -876,7 +1890,33 @@ pipenv&lt;span class="w"&gt; &lt;/span&gt;uninstall&lt;span class="w"&gt; &lt;/s
 &lt;h2&gt;Final Thoughts&lt;/h2&gt;
 &lt;p&gt;As developers, we fix bugs. As parents, we embrace them as "features." While the tools are different—love, patience, and sleepless nights replace GitHub actions and Git commits—the end goal is the same: a happy, thriving product (or baby).&lt;/p&gt;
 &lt;p&gt;I've learned that software has CI/CD pipelines for continuous improvement, but in parenting, it's more like "CICD"—Constant Iteration, Constant Delight.&lt;/p&gt;
-&lt;p&gt;To all fellow parents and developers out there: this deployment comes with zero downtime, and it's the most fulfilling system you'll ever build.&lt;/p&gt;</content><category term="General"/><category term="parenting"/><category term="software-development"/><category term="humor"/><category term="life-lessons"/><category term="development"/></entry><entry><title>Python Application Configuration</title><link href="python-application-configuration.html" rel="alternate"/><published>2025-09-12T10:00:00+05:30</published><updated>2025-09-12T10:00:00+05:30</updated><author><name>Panch Mukesh</name></author><id>tag:None,2025-09-12:python-application-configuration.html</id><summary type="html">&lt;p&gt;A comprehensive guide to managing configuration and environment variables in Python applications, comparing ConfigParser and python-decouple approaches.&lt;/p&gt;</summary><content type="html">&lt;h1&gt;Python Application Configuration&lt;/h1&gt;
+&lt;p&gt;To all fellow parents and developers out there: this deployment comes with zero downtime, and it's the most fulfilling system you'll ever build.&lt;/p&gt;</content><category term="General"/></entry><entry><title>Python Application Configuration</title><link href="python-application-configuration.html" rel="alternate"/><published>2025-09-12T10:00:00+05:30</published><updated>2025-09-12T10:00:00+05:30</updated><author><name>Panch Mukesh</name></author><id>tag:None,2025-09-12:python-application-configuration.html</id><summary type="html">&lt;ul&gt;
+&lt;li&gt;python&lt;/li&gt;
+&lt;li&gt;configuration&lt;/li&gt;
+&lt;li&gt;environment-variables&lt;/li&gt;
+&lt;li&gt;configparser&lt;/li&gt;
+&lt;li&gt;python-decouple&lt;/li&gt;
+&lt;li&gt;best-practices
+slug: python-application-configuration
+author: Panch Mukesh
+summary: A comprehensive guide to managing configuration and environment variables in Python applications, comparing ConfigParser and python-decouple approaches.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;hr&gt;
+&lt;h1&gt;Python Application Configuration&lt;/h1&gt;
+&lt;h2&gt;Introduction&lt;/h2&gt;
+&lt;p&gt;Python is widely accepted for building various products such as APIs, data pipelines, and machine learning models …&lt;/p&gt;</summary><content type="html">&lt;ul&gt;
+&lt;li&gt;python&lt;/li&gt;
+&lt;li&gt;configuration&lt;/li&gt;
+&lt;li&gt;environment-variables&lt;/li&gt;
+&lt;li&gt;configparser&lt;/li&gt;
+&lt;li&gt;python-decouple&lt;/li&gt;
+&lt;li&gt;best-practices
+slug: python-application-configuration
+author: Panch Mukesh
+summary: A comprehensive guide to managing configuration and environment variables in Python applications, comparing ConfigParser and python-decouple approaches.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;hr&gt;
+&lt;h1&gt;Python Application Configuration&lt;/h1&gt;
 &lt;h2&gt;Introduction&lt;/h2&gt;
 &lt;p&gt;Python is widely accepted for building various products such as APIs, data pipelines, and machine learning models. Our application often relies on different environment variables, which can be adjusted based on the environment in which the application is being executed. These variables include database connection strings, storage bucket names, and more. They need to be configured differently for various environments by injecting environment variables into the Docker container at runtime.&lt;/p&gt;
 &lt;p&gt;We can utilize the &lt;code&gt;os&lt;/code&gt; module to handle reading environment variables with methods like &lt;code&gt;os.environ&lt;/code&gt; and &lt;code&gt;os.environ.get&lt;/code&gt;.&lt;/p&gt;
@@ -947,7 +1987,32 @@ pipenv&lt;span class="w"&gt; &lt;/span&gt;uninstall&lt;span class="w"&gt; &lt;/s
 
 &lt;p&gt;In the example above, we demonstrate how to handle config variables with different classes based on the environment to override values from the parent configuration. This approach allows for easy extension of the configuration module, such as for multi-cloud approaches with different configurations required to access cloud services.&lt;/p&gt;
 &lt;h2&gt;Conclusion&lt;/h2&gt;
-&lt;p&gt;In conclusion, employing an organized approach to managing configuration and environment variables is crucial for the scalability of any application. Such an approach not only simplifies deployment across various platforms using tools like Docker but also streamlines local development. Ideally, designing a robust configuration module during the initial phases of development sets a strong foundation for scalability. This ensures that the application can easily accommodate the addition of new variables as it evolves over time.&lt;/p&gt;</content><category term="Python"/><category term="python"/><category term="configuration"/><category term="environment-variables"/><category term="configparser"/><category term="python-decouple"/><category term="best-practices"/></entry><entry><title>Unlocking the Power of API Testing: Ensuring Robust, Secure, and Scalable Systems</title><link href="unlocking-power-api-testing.html" rel="alternate"/><published>2025-09-12T10:00:00+05:30</published><updated>2025-09-12T10:00:00+05:30</updated><author><name>Panch Mukesh</name></author><id>tag:None,2025-09-12:unlocking-power-api-testing.html</id><summary type="html">&lt;p&gt;A comprehensive guide to API testing methodologies including unit testing, integration testing, load testing, contract testing, health checks, and security testing for building robust systems.&lt;/p&gt;</summary><content type="html">&lt;h1&gt;Unlocking the Power of API Testing: Ensuring Robust, Secure, and Scalable Systems&lt;/h1&gt;
+&lt;p&gt;In conclusion, employing an organized approach to managing configuration and environment variables is crucial for the scalability of any application. Such an approach not only simplifies deployment across various platforms using tools like Docker but also streamlines local development. Ideally, designing a robust configuration module during the initial phases of development sets a strong foundation for scalability. This ensures that the application can easily accommodate the addition of new variables as it evolves over time.&lt;/p&gt;</content><category term="Python"/></entry><entry><title>"Unlocking the Power of API Testing: Ensuring Robust, Secure, and Scalable Systems"</title><link href="unlocking-the-power-of-api-testing-ensuring-robust-secure-and-scalable-systems.html" rel="alternate"/><published>2025-09-12T10:00:00+05:30</published><updated>2025-09-12T10:00:00+05:30</updated><author><name>Panch Mukesh</name></author><id>tag:None,2025-09-12:unlocking-the-power-of-api-testing-ensuring-robust-secure-and-scalable-systems.html</id><summary type="html">&lt;ul&gt;
+&lt;li&gt;api-testing&lt;/li&gt;
+&lt;li&gt;software-testing&lt;/li&gt;
+&lt;li&gt;security-testing&lt;/li&gt;
+&lt;li&gt;load-testing&lt;/li&gt;
+&lt;li&gt;integration-testing&lt;/li&gt;
+&lt;li&gt;best-practices
+slug: unlocking-power-api-testing
+author: Panch Mukesh
+summary: A comprehensive guide to API testing methodologies including unit testing, integration testing, load testing, contract testing, health checks, and security testing for building robust systems.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;hr&gt;
+&lt;h1&gt;Unlocking the Power of API Testing: Ensuring Robust, Secure, and Scalable Systems&lt;/h1&gt;
+&lt;h2&gt;Introduction …&lt;/h2&gt;</summary><content type="html">&lt;ul&gt;
+&lt;li&gt;api-testing&lt;/li&gt;
+&lt;li&gt;software-testing&lt;/li&gt;
+&lt;li&gt;security-testing&lt;/li&gt;
+&lt;li&gt;load-testing&lt;/li&gt;
+&lt;li&gt;integration-testing&lt;/li&gt;
+&lt;li&gt;best-practices
+slug: unlocking-power-api-testing
+author: Panch Mukesh
+summary: A comprehensive guide to API testing methodologies including unit testing, integration testing, load testing, contract testing, health checks, and security testing for building robust systems.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;hr&gt;
+&lt;h1&gt;Unlocking the Power of API Testing: Ensuring Robust, Secure, and Scalable Systems&lt;/h1&gt;
 &lt;h2&gt;Introduction&lt;/h2&gt;
 &lt;p&gt;API, short for Application Programming Interface, serves as a framework facilitating communication between various systems. This interaction occurs through a shared contract defining protocols, functionalities, and more. Additionally, APIs play a crucial role in decoupling different systems, thus mitigating the risk of a single point of failure.&lt;/p&gt;
 &lt;p&gt;For instance, imagine you have n disparate systems interconnected. An API can serve as a decoupled interaction point where clients can communicate with it, allowing the API to relay messages to the systems and return the appropriate data and status.&lt;/p&gt;
@@ -999,4 +2064,100 @@ pipenv&lt;span class="w"&gt; &lt;/span&gt;uninstall&lt;span class="w"&gt; &lt;/s
 &lt;h2&gt;Conclusion&lt;/h2&gt;
 &lt;p&gt;Testing our software is a testament to our fail-safe approach towards development. While there are many other types of testing and frameworks that can be incorporated, it's crucial to recognize that the industry is constantly evolving, as are the ways applications can crash. Therefore, having a robust testing framework provides us with an upper hand in developing fault-tolerant systems.&lt;/p&gt;
 &lt;hr&gt;
-&lt;p&gt;&lt;em&gt;Originally published on &lt;a href="https://www.linkedin.com/pulse/unlocking-power-api-testing-ensuring-robust-secure-scalable-mukesh-3f5rc/?trackingId=Xpqa1KOCoPnRqAEl7lCuTA%3D%3D"&gt;LinkedIn&lt;/a&gt;&lt;/em&gt;&lt;/p&gt;</content><category term="Technology"/><category term="api-testing"/><category term="software-testing"/><category term="security-testing"/><category term="load-testing"/><category term="integration-testing"/><category term="best-practices"/></entry></feed>
+&lt;p&gt;&lt;em&gt;Originally published on &lt;a href="https://www.linkedin.com/pulse/unlocking-power-api-testing-ensuring-robust-secure-scalable-mukesh-3f5rc/?trackingId=Xpqa1KOCoPnRqAEl7lCuTA%3D%3D"&gt;LinkedIn&lt;/a&gt;&lt;/em&gt;&lt;/p&gt;</content><category term="Technology"/></entry><entry><title>Using GitHub MCP Server to Scale AI-Powered Engineering</title><link href="using-github-mcp-server-to-scale-ai-powered-engineering.html" rel="alternate"/><published>2025-09-12T10:00:00+05:30</published><updated>2025-09-12T10:00:00+05:30</updated><author><name>Panch Mukesh</name></author><id>tag:None,2025-09-12:using-github-mcp-server-to-scale-ai-powered-engineering.html</id><summary type="html">&lt;ul&gt;
+&lt;li&gt;github&lt;/li&gt;
+&lt;li&gt;mcp&lt;/li&gt;
+&lt;li&gt;ai&lt;/li&gt;
+&lt;li&gt;engineering&lt;/li&gt;
+&lt;li&gt;automation&lt;/li&gt;
+&lt;li&gt;development
+slug: github-mcp-server-usecases
+author: Panch Mukesh
+summary: Explore how GitHub MCP Server can revolutionize AI-powered engineering workflows, from code analysis to automated release notes generation.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;hr&gt;
+&lt;h2&gt;Introduction&lt;/h2&gt;
+&lt;p&gt;&lt;strong&gt;MCP Server&lt;/strong&gt; (Model Context Protocol) serves as a standardized interface between foundational AI models and external data sources or …&lt;/p&gt;</summary><content type="html">&lt;ul&gt;
+&lt;li&gt;github&lt;/li&gt;
+&lt;li&gt;mcp&lt;/li&gt;
+&lt;li&gt;ai&lt;/li&gt;
+&lt;li&gt;engineering&lt;/li&gt;
+&lt;li&gt;automation&lt;/li&gt;
+&lt;li&gt;development
+slug: github-mcp-server-usecases
+author: Panch Mukesh
+summary: Explore how GitHub MCP Server can revolutionize AI-powered engineering workflows, from code analysis to automated release notes generation.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;hr&gt;
+&lt;h2&gt;Introduction&lt;/h2&gt;
+&lt;p&gt;&lt;strong&gt;MCP Server&lt;/strong&gt; (Model Context Protocol) serves as a standardized interface between foundational AI models and external data sources or services—especially those the AI can't directly control. Think of it as a bridge that allows AI to fetch information or perform actions in a consistent way, without needing to build custom integrations for each individual service. This makes it easier to connect AI models with the real-world tools and platforms we rely on.&lt;/p&gt;
+&lt;p&gt;One such tool is GitHub—an essential platform for developers and organizations alike. Whether it's organizing codebases, managing releases, or handling deployments, GitHub is a daily driver in the software development lifecycle. Beyond version control, its true power lies in enabling collaboration across teams, making it easier to build, test, and ship software together.&lt;/p&gt;
+&lt;h2&gt;Use Cases of GitHub MCP Server&lt;/h2&gt;
+&lt;h3&gt;Understand Codebases and Generate Insights with AI&lt;/h3&gt;
+&lt;p&gt;By integrating GitHub MCP Server with a large language model (LLM)—such as GitHub Copilot—we can analyze, understand, and enhance code repositories.&lt;/p&gt;
+&lt;p&gt;Instead of manually digging through complex codebases, developers can now use this integration to:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;🔍 Identify frameworks and design patterns used within a repository&lt;/li&gt;
+&lt;li&gt;📄 Generate human-readable summaries of modules, services, or even entire architectures&lt;/li&gt;
+&lt;li&gt;💡 Receive improvement suggestions, such as optimizations, modernizations, or potential refactoring opportunities&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;strong&gt;Example:&lt;/strong&gt; Imagine we're onboarding to a new microservices project. The GitHub MCP-powered AI could automatically summarize how the API gateway interacts with backend services, list all third-party dependencies, and suggest architectural improvements based on industry best practices.&lt;/p&gt;
+&lt;h3&gt;Learn from Other Repositories—Internal or Open Source&lt;/h3&gt;
+&lt;p&gt;With GitHub MCP, we're no longer limited to a single codebase. We can analyze and compare multiple repositories—whether they're internal to our organization or from open source communities.&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;⚖️ Perform side-by-side comparisons of different implementations of similar functionality also to make benchmarking with the reference repositories&lt;/li&gt;
+&lt;li&gt;🔄 Identify reusable components, design styles, or libraries used by other teams&lt;/li&gt;
+&lt;li&gt;🔍 Study how leading open-source projects solve problems similar to yours&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;strong&gt;Example:&lt;/strong&gt; Let's take a use case of building a user authentication system. GitHub MCP could compare our current implementation with those from top open-source identity solutions, highlighting where we can enhance security or reduce complexity.&lt;/p&gt;
+&lt;h3&gt;Analyze Pull Request (PR) Changes Across Repositories&lt;/h3&gt;
+&lt;p&gt;In many organizations, especially those working with microservices or modular architectures, it's common to have multiple repositories with similar implementations. When a change is made in one repo—like fixing a bug or updating a config—you often need to replicate or adapt that change across others.&lt;/p&gt;
+&lt;p&gt;This is where GitHub MCP Server shines. By connecting with GitHub's pull requests and branches, MCP enables AI to:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;🔍 Analyze PR diffs automatically across different repositories&lt;/li&gt;
+&lt;li&gt;🧠 Understand the intent and impact behind each change&lt;/li&gt;
+&lt;li&gt;🤖 Suggest or even automate the propagation of similar changes to other workspaces or services&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;strong&gt;Example:&lt;/strong&gt; Suppose you're updating the API response format in a shared service. Once you raise a PR, GitHub MCP can compare this change with other related repos and recommend where similar updates might be needed—saving hours of manual cherry-picking or repetitive updates across environments.&lt;/p&gt;
+&lt;h4&gt;Why This Matters&lt;/h4&gt;
+&lt;ul&gt;
+&lt;li&gt;⏱️ Reduces turnaround time during code reviews and releases&lt;/li&gt;
+&lt;li&gt;✅ Ensures consistency across microservices or shared libraries&lt;/li&gt;
+&lt;li&gt;🚀 Speeds up multi-repo deployment pipelines by aligning changes early&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Whether we're preparing a hotfix release or rolling out a new version, GitHub MCP helps us stay ahead of duplication, reducing human error and accelerating collaboration across your engineering teams.&lt;/p&gt;
+&lt;h3&gt;Issue Resolution with Context&lt;/h3&gt;
+&lt;p&gt;One of the most powerful capabilities of GitHub MCP Server is its ability to intelligently retrieve and contextualize GitHub issues. By connecting issue data with the structure and content of the repository, it allows developers to:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;📌 Understand the issue in full context, including related files, recent commits, and linked pull requests&lt;/li&gt;
+&lt;li&gt;🔧 Propose code fixes automatically or suggest potential solutions based on similar issues from the same or other repositories&lt;/li&gt;
+&lt;li&gt;🧪 Test and validate the fix, and even generate a draft pull request with the suggested changes&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;strong&gt;Example:&lt;/strong&gt; Let's say a developer logs a bug about a failed API call. GitHub MCP can scan the relevant modules, fetch related error logs, highlight recent changes, and recommend a potential fix—such as a missing parameter or outdated dependency. It can then generate a pre-filled PR, allowing the developer to review, test, and enhance it further if needed.&lt;/p&gt;
+&lt;p&gt;Instead of manually searching through tickets, commits, and files, developers get a smart, centralized view of the issue and solution path—making it easier to focus on quality, not coordination. This creates a more streamlined and responsive development cycle, particularly useful during high-pressure release sprints.&lt;/p&gt;
+&lt;h3&gt;Automated Release Notes Generation for Different Audiences&lt;/h3&gt;
+&lt;p&gt;Creating release notes is essential, but it often takes up valuable time from product managers, developers, and tech leads. With GitHub MCP Server, this process becomes faster, clearer, and highly tailored to different audiences.&lt;/p&gt;
+&lt;p&gt;By analyzing the differences between two tags or branches in a repository, GitHub MCP can automatically summarize the updates and generate release content that's ready to share.&lt;/p&gt;
+&lt;p&gt;It can create release notes from different perspectives:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;For business users, it highlights new capabilities and value-added changes&lt;/li&gt;
+&lt;li&gt;For developers, it focuses on API changes, technical upgrades, and potential integration impacts&lt;/li&gt;
+&lt;li&gt;For product managers, it offers a high-level summary that maps changes to roadmap goals or tickets completed&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2&gt;Best Practices for Using GitHub MCP Server Effectively&lt;/h2&gt;
+&lt;p&gt;To get the most out of GitHub MCP Server and ensure responsible use of AI tools like GitHub Copilot, consider following these best practices:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;Train the AI with context:&lt;/strong&gt; Every product and codebase has its own structure and standards. Make sure the AI has enough visibility into your project's design and logic so it can provide relevant and accurate suggestions.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Use secure and minimal authentication:&lt;/strong&gt; When setting up authentication for GitHub MCP, always create a separate Personal Access Token (PAT) with only the necessary permissions. This minimizes security risks and aligns with best security practices.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Standardize prompts for reusability:&lt;/strong&gt; Store prompt files in a dedicated &lt;code&gt;.github/prompts&lt;/code&gt; folder within your repository. Use &lt;code&gt;prompt.md&lt;/code&gt; files for common workflows or queries. This makes it easier for all developers to reuse effective prompts and maintain consistency across teams.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Collaborate with the AI like a team member:&lt;/strong&gt; AI tools are powerful, but not perfect. Treat them like a junior developer—give regular feedback, validate outputs, and guide them with clear instructions. This helps avoid hallucinations and ensures high-quality contributions.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3&gt;Reference Documentation&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="https://docs.github.com/en/copilot/concepts/prompt-engineering-for-copilot-chat"&gt;GitHub Copilot Prompt Engineering&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://docs.github.com/en/copilot/how-tos/custom-instructions/adding-repository-custom-instructions-for-github-copilot"&gt;GitHub Copilot Custom Instructions&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://github.com/github/github-mcp-server"&gt;GitHub MCP Server Repository&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2&gt;Conclusion&lt;/h2&gt;
+&lt;p&gt;GitHub MCP Server is more than just a technical integration—it's a bridge between AI and the software development lifecycle. From understanding repositories and resolving issues to generating tailored release notes, it empowers teams to move faster with more clarity and fewer manual steps.&lt;/p&gt;
+&lt;p&gt;As with any powerful tool, its effectiveness depends on how wisely we use it. Equip it with the right context, provide feedback, and set clear boundaries—and you'll unlock a more collaborative and efficient development workflow.&lt;/p&gt;</content><category term="Technology"/></entry></feed>

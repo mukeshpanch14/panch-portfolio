@@ -40,6 +40,15 @@
 
   {% include "partial/icon.html" %}
   {% include "partial/feed.html" %}
+
+  {# FOWT prevention: apply theme before paint #}
+  <script>
+  (function(){
+    var saved = localStorage.getItem('theme');
+    var theme = saved || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+    document.documentElement.setAttribute('data-theme', theme);
+  })();
+  </script>
 </head>
 <body>
   {# Mobile sidebar toggle #}
@@ -59,6 +68,11 @@
 
   {# Sidebar overlay for mobile #}
   <div id="sidebar-overlay" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.5);z-index:90;" onclick="closeSidebar()"></div>
+
+  {# Dark/light mode toggle #}
+  <button class="theme-toggle" id="theme-toggle" aria-label="Toggle dark mode">
+    <i class="fa-solid fa-moon"></i>
+  </button>
 
   <script>
   (function () {
@@ -85,6 +99,46 @@
         }
       });
     }
+  })();
+  </script>
+
+  <script>
+  (function () {
+    var btn = document.getElementById('theme-toggle');
+
+    function getTheme() {
+      var saved = localStorage.getItem('theme');
+      if (saved) return saved;
+      return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+    }
+
+    function applyTheme(theme) {
+      document.documentElement.setAttribute('data-theme', theme);
+      var icon = btn.querySelector('i');
+      if (theme === 'dark') {
+        icon.className = 'fa-solid fa-sun';
+        btn.setAttribute('aria-label', 'Switch to light mode');
+      } else {
+        icon.className = 'fa-solid fa-moon';
+        btn.setAttribute('aria-label', 'Switch to dark mode');
+      }
+    }
+
+    applyTheme(getTheme());
+
+    btn.addEventListener('click', function () {
+      var current = document.documentElement.getAttribute('data-theme') || 'light';
+      var next = current === 'dark' ? 'light' : 'dark';
+      localStorage.setItem('theme', next);
+      applyTheme(next);
+    });
+
+    // Respond to system preference changes only if no explicit choice saved
+    window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', function (e) {
+      if (!localStorage.getItem('theme')) {
+        applyTheme(e.matches ? 'dark' : 'light');
+      }
+    });
   })();
   </script>
 

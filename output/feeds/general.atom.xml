@@ -1,5 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>Panch Mukesh | Full Stack Developer &amp; Tech Blogger - General</title><link href="/" rel="alternate"/><link href="feeds/general.atom.xml" rel="self"/><id>/</id><updated>2025-09-12T10:00:00+05:30</updated><subtitle>Personal Website &amp; Blog</subtitle><entry><title>Guiding Fresh Faces: A Seamless Introduction to Your Tech Team</title><link href="onboarding-freshers-techteam.html" rel="alternate"/><published>2025-09-12T10:00:00+05:30</published><updated>2025-09-12T00:00:00+05:30</updated><author><name>Panch Mukesh</name></author><id>tag:None,2025-09-12:onboarding-freshers-techteam.html</id><summary type="html">&lt;p&gt;Practical strategies for onboarding fresh developers into your tech team, from code reviews and documentation to integration testing and coding standards.&lt;/p&gt;</summary><content type="html">&lt;h2&gt;Unveiling the Importance of Smooth Onboarding&lt;/h2&gt;
+<feed xmlns="http://www.w3.org/2005/Atom"><title>Panch Mukesh - General</title><link href="/" rel="alternate"/><link href="feeds/general.atom.xml" rel="self"/><id>/</id><updated>2025-09-12T10:00:00+05:30</updated><subtitle>Personal Website &amp; Blog</subtitle><entry><title>"Guiding Fresh Faces: A Seamless Introduction to Your Tech Team"</title><link href="guiding-fresh-faces-a-seamless-introduction-to-your-tech-team.html" rel="alternate"/><published>2025-09-12T10:00:00+05:30</published><updated>2025-09-12T00:00:00+05:30</updated><author><name>Panch Mukesh</name></author><id>tag:None,2025-09-12:guiding-fresh-faces-a-seamless-introduction-to-your-tech-team.html</id><summary type="html">&lt;ul&gt;
+&lt;li&gt;onboarding&lt;/li&gt;
+&lt;li&gt;fresher&lt;/li&gt;
+&lt;li&gt;team-culture
+slug: onboarding-freshers-techteam
+summary: Practical strategies for onboarding fresh developers into your tech team, from code reviews and documentation to integration testing and coding standards.
+status: published&lt;/li&gt;
+&lt;/ul&gt;
+&lt;hr&gt;
+&lt;h2&gt;Unveiling the Importance of Smooth Onboarding&lt;/h2&gt;
+&lt;p&gt;In today's tech landscape, crafting high-performance applications with state-of-the-art technologies is the norm. However, navigating …&lt;/p&gt;</summary><content type="html">&lt;ul&gt;
+&lt;li&gt;onboarding&lt;/li&gt;
+&lt;li&gt;fresher&lt;/li&gt;
+&lt;li&gt;team-culture
+slug: onboarding-freshers-techteam
+summary: Practical strategies for onboarding fresh developers into your tech team, from code reviews and documentation to integration testing and coding standards.
+status: published&lt;/li&gt;
+&lt;/ul&gt;
+&lt;hr&gt;
+&lt;h2&gt;Unveiling the Importance of Smooth Onboarding&lt;/h2&gt;
 &lt;p&gt;In today's tech landscape, crafting high-performance applications with state-of-the-art technologies is the norm. However, navigating through intricate codebases comprising numerous modules and interconnected methods can feel like venturing into a maze, especially for fresh team members.&lt;/p&gt;
 &lt;h2&gt;Understanding the Significance&lt;/h2&gt;
 &lt;p&gt;Lack of familiarity with the codebase poses challenges in resolving bugs or integrating new features seamlessly. This not only dampens the confidence of team members but also becomes a bottleneck for senior developers.&lt;/p&gt;
@@ -17,7 +36,30 @@
 &lt;li&gt;&lt;strong&gt;Adhering to Code Standards&lt;/strong&gt;: Implement features such as type hint checkers and code linting reviews. This instills discipline in code writing practices and fosters adherence to established coding standards.&lt;/li&gt;
 &lt;/ul&gt;
 &lt;h2&gt;Conclusion&lt;/h2&gt;
-&lt;p&gt;Smooth onboarding lays the foundation for seamless integration of new team members into the tech ecosystem. By prioritizing familiarity with the codebase through structured learning and collaborative practices, organizations foster a culture of continuous growth and innovation. Embracing these strategies not only enhances individual proficiency but also propels the collective success of the team.&lt;/p&gt;</content><category term="General"/><category term="onboarding"/><category term="fresher"/><category term="team-culture"/></entry><entry><title>Product Development vs. Baby Development: A Developer's Perspective</title><link href="product-development-vs-baby-development.html" rel="alternate"/><published>2025-09-12T10:00:00+05:30</published><updated>2025-09-12T10:00:00+05:30</updated><author><name>Panch Mukesh</name></author><id>tag:None,2025-09-12:product-development-vs-baby-development.html</id><summary type="html">&lt;p&gt;A humorous comparison between software development and parenting, exploring the parallels between building products and raising children from a developer's perspective.&lt;/p&gt;</summary><content type="html">&lt;h1&gt;Product Development vs. Baby Development: A Developer's Perspective&lt;/h1&gt;
+&lt;p&gt;Smooth onboarding lays the foundation for seamless integration of new team members into the tech ecosystem. By prioritizing familiarity with the codebase through structured learning and collaborative practices, organizations foster a culture of continuous growth and innovation. Embracing these strategies not only enhances individual proficiency but also propels the collective success of the team.&lt;/p&gt;</content><category term="General"/></entry><entry><title>"Product Development vs. Baby Development: A Developer's Perspective"</title><link href="product-development-vs-baby-development-a-developers-perspective.html" rel="alternate"/><published>2025-09-12T10:00:00+05:30</published><updated>2025-09-12T10:00:00+05:30</updated><author><name>Panch Mukesh</name></author><id>tag:None,2025-09-12:product-development-vs-baby-development-a-developers-perspective.html</id><summary type="html">&lt;ul&gt;
+&lt;li&gt;parenting&lt;/li&gt;
+&lt;li&gt;software-development&lt;/li&gt;
+&lt;li&gt;humor&lt;/li&gt;
+&lt;li&gt;life-lessons&lt;/li&gt;
+&lt;li&gt;development
+slug: product-development-vs-baby-development
+author: Panch Mukesh
+summary: A humorous comparison between software development and parenting, exploring the parallels between building products and raising children from a developer's perspective.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;hr&gt;
+&lt;h1&gt;Product Development vs. Baby Development: A Developer's Perspective&lt;/h1&gt;
+&lt;p&gt;As software developers, we're used to handling complex systems: APIs …&lt;/p&gt;</summary><content type="html">&lt;ul&gt;
+&lt;li&gt;parenting&lt;/li&gt;
+&lt;li&gt;software-development&lt;/li&gt;
+&lt;li&gt;humor&lt;/li&gt;
+&lt;li&gt;life-lessons&lt;/li&gt;
+&lt;li&gt;development
+slug: product-development-vs-baby-development
+author: Panch Mukesh
+summary: A humorous comparison between software development and parenting, exploring the parallels between building products and raising children from a developer's perspective.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;hr&gt;
+&lt;h1&gt;Product Development vs. Baby Development: A Developer's Perspective&lt;/h1&gt;
 &lt;p&gt;As software developers, we're used to handling complex systems: APIs, deployments, AI, GenAI, and rigorous security testing (SAST, DAST, you name it). But recently, I embarked on the ultimate full-stack development project—becoming a parent. Spoiler alert: software development is a breeze compared to baby development! 🍼👨💻&lt;/p&gt;
 &lt;p&gt;Here's a fun side-by-side comparison of the two journeys:&lt;/p&gt;
 &lt;h2&gt;Planning &amp;amp; Requirements Gathering&lt;/h2&gt;
@@ -56,4 +98,4 @@
 &lt;h2&gt;Final Thoughts&lt;/h2&gt;
 &lt;p&gt;As developers, we fix bugs. As parents, we embrace them as "features." While the tools are different—love, patience, and sleepless nights replace GitHub actions and Git commits—the end goal is the same: a happy, thriving product (or baby).&lt;/p&gt;
 &lt;p&gt;I've learned that software has CI/CD pipelines for continuous improvement, but in parenting, it's more like "CICD"—Constant Iteration, Constant Delight.&lt;/p&gt;
-&lt;p&gt;To all fellow parents and developers out there: this deployment comes with zero downtime, and it's the most fulfilling system you'll ever build.&lt;/p&gt;</content><category term="General"/><category term="parenting"/><category term="software-development"/><category term="humor"/><category term="life-lessons"/><category term="development"/></entry></feed>
+&lt;p&gt;To all fellow parents and developers out there: this deployment comes with zero downtime, and it's the most fulfilling system you'll ever build.&lt;/p&gt;</content><category term="General"/></entry></feed>
