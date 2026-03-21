@@ -131,6 +131,6 @@ What makes this design clever is that Claude Code treats images as a first-class
 
 This is why the word "image" appears instead of an actual preview: the terminal has no idea an image was pasted. Claude Code just told it to display a placeholder string. The bytes are already in memory, waiting to be sent with your next prompt.
 
-### TL;DR
+### Conclusion
 
 Paste shortcut → Claude Code intercepts keystroke → OS clipboard API reads raw bytes → base64 encode in memory → show "image" placeholder in terminal → on Enter, send as a JSON content block to `/v1/messages` → Claude tokenises and processes it server-side. The terminal is never involved in the actual data transfer.
