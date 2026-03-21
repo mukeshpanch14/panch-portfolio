@@ -31,6 +31,20 @@
   --transition:    0.18s ease;
 }
 
+/* ── Dark Mode Variables ─────────────────────────────────── */
+[data-theme="dark"] {
+  --bg:            #1A1918;
+  --surface:       #242321;
+  --sidebar-bg:    #111110;
+  --accent:        #D4622E;
+  --accent-hover:  #E87A45;
+  --text:          #E0DCD5;
+  --text-muted:    #9E9A93;
+  --border:        #3A3836;
+  --hero-bg:       #111110;
+  --code-bg:       #1E1D1C;
+}
+
 /* ── Reset ───────────────────────────────────────────────── */
 *, *::before, *::after { box-sizing: border-box; }
 
@@ -44,6 +58,7 @@ body {
   font-size: 17px;
   line-height: 1.7;
   -webkit-font-smoothing: antialiased;
+  transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 img { max-width: 100%; height: auto; display: block; }
@@ -1232,3 +1247,129 @@ a:hover { color: var(--accent-hover); text-decoration: underline; }
   .post-card__title { font-size: 1.3rem; }
   .subscribe-widget { padding: 20px 16px; }
 }
+
+/* ── Smooth Transitions ──────────────────────────────────── */
+.sidebar,
+.main,
+.post-card,
+.article-body,
+.article-hero,
+.site-footer,
+.page-wrap,
+.index-wrap {
+  transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+}
+
+/* ── Theme Toggle Button ─────────────────────────────────── */
+.theme-toggle {
+  position: fixed;
+  bottom: 20px;
+  left: 20px;
+  z-index: 200;
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  color: var(--text-muted);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1rem;
+  transition: background var(--transition), color var(--transition), border-color var(--transition), transform var(--transition), box-shadow var(--transition);
+  box-shadow: 0 2px 8px rgba(0,0,0,0.12);
+}
+
+.theme-toggle:hover {
+  background: var(--accent);
+  color: #fff;
+  border-color: var(--accent);
+  transform: scale(1.08);
+}
+
+@media (max-width: 768px) {
+  .theme-toggle {
+    left: auto;
+    right: 20px;
+  }
+}
+
+/* ── Dark Mode Overrides ─────────────────────────────────── */
+
+/* Callout variants */
+[data-theme="dark"] .callout {
+  background: rgba(212, 98, 46, 0.08);
+}
+[data-theme="dark"] .callout.info {
+  background: rgba(59, 130, 246, 0.1);
+  border-color: #3B82F6;
+}
+[data-theme="dark"] .callout.info strong { color: #93C5FD; }
+[data-theme="dark"] .callout.warning {
+  background: rgba(245, 158, 11, 0.1);
+  border-color: #F59E0B;
+}
+[data-theme="dark"] .callout.warning strong { color: #FCD34D; }
+[data-theme="dark"] .callout.success {
+  background: rgba(34, 197, 94, 0.1);
+  border-color: #22C55E;
+}
+[data-theme="dark"] .callout.success strong { color: #86EFAC; }
+
+/* Admonition variants */
+[data-theme="dark"] .admonition.note    { background: rgba(59, 130, 246, 0.1);  border-color: #3B82F6; }
+[data-theme="dark"] .admonition.warning { background: rgba(245, 158, 11, 0.1);  border-color: #F59E0B; }
+[data-theme="dark"] .admonition.danger  { background: rgba(239, 68, 68, 0.1);   border-color: #EF4444; }
+[data-theme="dark"] .admonition.tip     { background: rgba(34, 197, 94, 0.1);   border-color: #22C55E; }
+
+/* Inline code */
+[data-theme="dark"] .article-body code {
+  background: rgba(212, 98, 46, 0.12);
+}
+
+/* Blockquote */
+[data-theme="dark"] .article-body blockquote {
+  background: rgba(212, 98, 46, 0.07);
+}
+
+/* Table header & striping */
+[data-theme="dark"] .article-body th {
+  background: rgba(212, 98, 46, 0.1);
+}
+[data-theme="dark"] .article-body tr:nth-child(even) td {
+  background: rgba(255,255,255,0.03);
+}
+
+/* Tag backgrounds */
+[data-theme="dark"] .post-card__tags a {
+  background: rgba(255,255,255,0.06);
+}
+[data-theme="dark"] .tag-cloud a {
+  background: rgba(212, 98, 46, 0.12);
+}
+[data-theme="dark"] .listing-count {
+  background: rgba(255,255,255,0.07);
+}
+
+/* Archive list borders */
+[data-theme="dark"] .archive-list li {
+  border-bottom-color: rgba(58, 56, 54, 0.7);
+}
+
+/* Subscribe widget */
+[data-theme="dark"] .subscribe-widget {
+  background: rgba(212, 98, 46, 0.06);
+  border-color: rgba(212, 98, 46, 0.2);
+}
+
+/* Token row */
+[data-theme="dark"] .token-row {
+  background: rgba(255,255,255,0.04);
+}
+
+/* Stop badges */
+[data-theme="dark"] .stop-badge.end-turn   { background: rgba(34,197,94,0.15);   color: #86EFAC; }
+[data-theme="dark"] .stop-badge.max-tokens { background: rgba(239,68,68,0.15);   color: #FCA5A5; }
+[data-theme="dark"] .stop-badge.tool-use   { background: rgba(139,92,246,0.15);  color: #C4B5FD; }
+[data-theme="dark"] .stop-badge.stop-seq   { background: rgba(245,158,11,0.15);  color: #FCD34D; }
