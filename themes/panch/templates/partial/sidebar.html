@@ -49,18 +49,7 @@
     </ul>
     {% endif %}
 
-    {# Tags cloud #}
-    {% if DISPLAY_TAGS_ON_SIDEBAR and tags %}
-    <hr class="sidebar__divider" />
-    <p class="sidebar__nav-label">Tags</p>
-    <div class="sidebar__tags-cloud">
-      {% for tag, tag_articles in tags|sort %}
-      <a class="sidebar__tag-link" href="{{ SITEURL }}/{{ tag.url }}">{{ tag }}</a>
-      {% endfor %}
-    </div>
-    {% endif %}
-
-    {# Email subscribe #}
+{# Email subscribe #}
     {% if NOTIFY_WORKER_URL %}
     <hr class="sidebar__divider" />
     {% include "partial/subscribe.html" %}
