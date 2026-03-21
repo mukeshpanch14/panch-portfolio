@@ -110,12 +110,12 @@ Standard OSC 52 handles plain text only. It has no concept of MIME types, so whe
 <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:28px 0">
   <div style="background:#D0EDE9;border:1px solid #1A7A6E;border-radius:10px;padding:20px">
     <div style="font-family:'DM Mono',monospace;font-size:11px;font-weight:500;letter-spacing:0.1em;text-transform:uppercase;color:#1a7a6e;margin-bottom:8px">macOS</div>
-    <div style="font-family:'DM Mono',monospace;font-size:16px;font-weight:500;color:#1a1814;margin-bottom:6px">Ctrl + V</div>
+    <div style="font-family:'DM Mono',monospace;font-size:16px;font-weight:500;color:#1a1814;margin-bottom:6px">Cmd + V</div>
     <p style="font-size:13px;color:#6b6760;margin:0;line-height:1.5">Works natively. Terminal cooperates with the OSC 52 read.</p>
   </div>
   <div style="background:#F2DDD3;border:1px solid #C8501A;border-radius:10px;padding:20px">
     <div style="font-family:'DM Mono',monospace;font-size:11px;font-weight:500;letter-spacing:0.1em;text-transform:uppercase;color:#c8501a;margin-bottom:8px">Windows</div>
-    <div style="font-family:'DM Mono',monospace;font-size:16px;font-weight:500;color:#1a1814;margin-bottom:6px">Alt + V</div>
+    <div style="font-family:'DM Mono',monospace;font-size:16px;font-weight:500;color:#1a1814;margin-bottom:6px">Ctrl + V</div>
     <p style="font-size:13px;color:#6b6760;margin:0;line-height:1.5">Requires workaround or AutoHotkey script to save image and inject path.</p>
   </div>
   <div style="background:#E8E3F7;border:1px solid #5A3DB8;border-radius:10px;padding:20px">
