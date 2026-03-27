@@ -1,4 +1,5 @@
 {% extends "base.html" %}
+{% from "partial/icons.html" import icon_arrow_right %}
 
 {% block title %} – Home{% endblock %}
 
@@ -35,8 +36,8 @@
     <p class="post-card__summary">{{ article.summary|striptags }}</p>
     {% endif %}
 
-    <a class="post-card__read-more" href="{{ SITEURL }}/{{ article.url }}">
-      Read more <i class="fa-solid fa-arrow-right" style="font-size:0.75em;"></i>
+    <a class="post-card__read-more" href="{{ SITEURL }}/{{ article.url }}" aria-label="Read more about {{ article.title|striptags }}">
+      Read more <span style="font-size:0.75em;">{{ icon_arrow_right() }}</span>
     </a>
 
     {% if article.tags and not HOME_HIDE_TAGS %}

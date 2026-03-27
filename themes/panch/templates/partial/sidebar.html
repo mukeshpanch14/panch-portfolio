@@ -1,3 +1,4 @@
+{% from "partial/icons.html" import icon %}
 <nav class="sidebar" id="sidebar">
   <div class="sidebar__inner">
 
@@ -32,7 +33,7 @@
     <div class="sidebar__social">
       {% for name, link in SOCIAL %}
       <a href="{{ link }}" target="_blank" rel="noopener" title="{{ name|title }}">
-        <i class="fa-brands fa-{{ name }}"></i>
+        {{ icon(name) }}
       </a>
       {% endfor %}
     </div>

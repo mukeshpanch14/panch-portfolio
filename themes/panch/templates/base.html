@@ -1,6 +1,7 @@
 {% if 'jinja2.ext.i18n' not in JINJA_ENVIRONMENT.extensions %}
   {%- macro _(msg) -%}{{ msg % kwargs }}{%- endmacro -%}
 {% endif %}
+{% from "partial/icons.html" import icon_bars, icon_moon, icon_sun %}
 <!DOCTYPE html>
 <html lang="{{ DEFAULT_LANG }}">
 <head>
@@ -35,10 +36,7 @@
   <link rel="stylesheet" type="text/css" href="{{ SITEURL }}/{{ THEME_STATIC_DIR }}/css/style.css">
   <link rel="stylesheet" type="text/css" href="{{ SITEURL }}/{{ THEME_STATIC_DIR }}/css/pygments.css">
 
-  {# Font Awesome (for social icons & share buttons) #}
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" crossorigin="anonymous">
-
-  {% include "partial/icon.html" %}
+{% include "partial/icon.html" %}
   {% include "partial/feed.html" %}
 
   {# FOWT prevention: apply theme before paint #}
@@ -53,7 +51,7 @@
 <body>
   {# Mobile sidebar toggle #}
   <button class="sidebar-toggle" id="sidebar-toggle" aria-label="Toggle navigation">
-    <i class="fa-solid fa-bars"></i>
+    {{ icon_bars() }}
   </button>
 
   <div class="layout">
@@ -71,7 +69,7 @@
 
   {# Dark/light mode toggle #}
   <button class="theme-toggle" id="theme-toggle" aria-label="Toggle dark mode">
-    <i class="fa-solid fa-moon"></i>
+    <span class="icon-moon">{{ icon_moon() }}</span><span class="icon-sun" style="display:none;">{{ icon_sun() }}</span>
   </button>
 
   <script>
@@ -114,12 +112,15 @@
 
     function applyTheme(theme) {
       document.documentElement.setAttribute('data-theme', theme);
-      var icon = btn.querySelector('i');
+      var moonIcon = btn.querySelector('.icon-moon');
+      var sunIcon = btn.querySelector('.icon-sun');
       if (theme === 'dark') {
-        icon.className = 'fa-solid fa-sun';
+        moonIcon.style.display = 'none';
+        sunIcon.style.display = '';
         btn.setAttribute('aria-label', 'Switch to light mode');
       } else {
-        icon.className = 'fa-solid fa-moon';
+        moonIcon.style.display = '';
+        sunIcon.style.display = 'none';
         btn.setAttribute('aria-label', 'Switch to dark mode');
       }
     }

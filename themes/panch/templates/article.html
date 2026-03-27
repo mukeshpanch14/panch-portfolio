@@ -1,4 +1,5 @@
 {% extends "base.html" %}
+{% from "partial/icons.html" import icon_x_twitter, icon_linkedin %}
 
 {% block meta %}
 <meta name="author" content="{{ article.author.name }}" />
@@ -64,11 +65,11 @@
     <p>Found this helpful? Share it!</p>
     <a href="https://twitter.com/intent/tweet?url={{ SITEURL }}/{{ article.url }}&text={{ article.title|urlencode }}"
        target="_blank" rel="noopener" title="Share on X / Twitter">
-      <i class="fa-brands fa-x-twitter"></i>
+      {{ icon_x_twitter() }}
     </a>
     <a href="https://www.linkedin.com/sharing/share-offsite/?url={{ (SITEURL ~ '/' ~ article.url)|urlencode }}"
        target="_blank" rel="noopener" title="Share on LinkedIn">
-      <i class="fa-brands fa-linkedin"></i>
+      {{ icon_linkedin() }}
     </a>
   </div>
 

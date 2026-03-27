@@ -1373,3 +1373,10 @@ a:hover { color: var(--accent-hover); text-decoration: underline; }
 [data-theme="dark"] .stop-badge.max-tokens { background: rgba(239,68,68,0.15);   color: #FCA5A5; }
 [data-theme="dark"] .stop-badge.tool-use   { background: rgba(139,92,246,0.15);  color: #C4B5FD; }
 [data-theme="dark"] .stop-badge.stop-seq   { background: rgba(245,158,11,0.15);  color: #FCD34D; }
+
+/* Inline SVG icons */
+.icon {
+  display: inline-block;
+  vertical-align: -0.125em;
+  line-height: 1;
+}
