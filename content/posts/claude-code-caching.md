@@ -58,6 +58,8 @@ The first two layers are what the cache stores. Your message is always fresh.
 
 *Fig 1 — The layered structure of every Claude Code API call. Green = cached, red = always fresh.*
 
+To know about Claude architecture, read my friend's [blog](https://traviteja.com/blog/how-claude-works-architecture/) on it.
+
 ---
 
 ## Why cache reads cost ~1/10th of regular input

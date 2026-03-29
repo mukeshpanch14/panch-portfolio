@@ -52,6 +52,7 @@ html { scroll-behavior: smooth; }
 
 body {
   margin: 0;
+  overflow-x: hidden;
   background: var(--bg);
   color: var(--text);
   font-family: var(--sans);
@@ -1194,6 +1195,7 @@ a:hover { color: var(--accent-hover); text-decoration: underline; }
   .article-hero { padding: 48px 32px 40px; }
   .article-body { padding: 40px 32px 52px; }
   .index-wrap { padding: 32px 32px 48px; }
+  .page-wrap { padding: 40px 32px 52px; }
   .site-footer { padding: 24px 32px; }
 }
 
@@ -1227,6 +1229,10 @@ a:hover { color: var(--accent-hover); text-decoration: underline; }
   }
 
   .index-wrap { padding: 64px 22px 48px; }
+  .page-wrap { padding: 64px 22px 48px; }
+
+  .article-body table { display: block; overflow-x: auto; }
+  .diagram-card { padding: 16px; }
 
   .neighbors {
     grid-template-columns: 1fr;
@@ -1246,6 +1252,8 @@ a:hover { color: var(--accent-hover); text-decoration: underline; }
   .article-hero__title { font-size: 1.5rem; }
   .post-card__title { font-size: 1.3rem; }
   .subscribe-widget { padding: 20px 16px; }
+  .site-intro h1 { font-size: 1.6rem; }
+  .page-wrap h1 { font-size: 1.5rem; }
 }
 
 /* ── Smooth Transitions ──────────────────────────────────── */
