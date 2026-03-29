@@ -32,7 +32,7 @@ If you've read about Claude's prompt caching, the common advice is: write a CLAU
 
 That's not wrong, but it's missing the bigger picture.
 
-I don't have CLAUDE.md files in most of my projects. Yet one session — 230 turns, nearly 3 hours of active Pulse project work — ran on a total of **354 input tokens**. That's 1.54 tokens per turn on average. "ok", "yes", "go", "continue". Those were my messages for most of that session.
+I don't have CLAUDE.md files in most of my projects. Yet one session — 230 turns, nearly 3 hours of work on one of my projects — ran on a total of **354 input tokens**. That's 1.54 tokens per turn on average. "ok", "yes", "go", "continue". Those were my messages for most of that session.
 
 The cache was doing all the heavy lifting. And it wasn't because of any config file.
 
@@ -70,7 +70,7 @@ Anthropic has three pricing tiers for tokens going into the model:
 
 Cache reads are roughly **10× cheaper** than processing the same tokens fresh. One thing to know: the cache has a 5-minute TTL. If you step away from your session for more than 5 minutes between turns, the cached prefix expires and the next turn pays the full write cost again. For most active coding sessions this doesn't matter — you're hitting Enter well within that window. But it explains why slow, sporadic sessions sometimes show worse cache numbers.
 
-Here's why that ratio matters at the scale of real sessions. In my 7h 50m Pulse session (`195d152e`), by turn 387 Claude was reading 226,000 tokens per turn from cache. If those same tokens had been processed as fresh input every turn, the cost would be roughly 10× higher — for every single turn past the first few.
+Here's why that ratio matters at the scale of real sessions. In one of my longer sessions — 7h 50m, 387 turns on one of my projects — by the final turn Claude was reading 226,000 tokens per turn from cache. If those same tokens had been processed as fresh input every turn, the cost would be roughly 10× higher — for every single turn past the first few.
 
 The compounding math is what makes this interesting. A cache write is a one-time slightly elevated cost. But a 387-turn session means that initial write gets amortised across 386 subsequent turns of cheap reads. The longer the session, the better the economics.
 
@@ -80,9 +80,9 @@ This is also why cache writes spiking occasionally isn't bad news — it just me
 
 ## You don't need CLAUDE.md to cache well
 
-Let me show you session `024f6a11` in detail.
+Let me show you one session in detail — I'll call it the "short session".
 
-This session ran for 2 hours and 57 minutes on the Pulse project. 230 assistant turns. And 354 total input tokens — across all 155 of my messages combined.
+This one ran for 2 hours and 57 minutes on one of my projects. 230 assistant turns. And 354 total input tokens — across all 155 of my messages combined.
 
 The per-turn data is striking:
 
@@ -110,7 +110,7 @@ CLAUDE.md would just add a project-specific prefix that persists *across* sessio
 
 ## The cache ramp curve
 
-Here's what the per-turn cache read volume looks like as a session progresses in `195d152e`:
+Here's what the per-turn cache read volume looks like as the long session progresses:
 
 | Turn | Cache reads/turn | Notes |
 |------|-----------------|-------|
@@ -133,7 +133,7 @@ There were 15 context expansion events across this 7h 50m session. The context g
 
 ## When wiping is better than grinding
 
-Session `024f6a11` had something unusual in the data: at turn 80, cache reads dropped to zero.
+The short session had something unusual in the data: at turn 80, cache reads dropped to zero.
 
 ```json
 {
@@ -160,11 +160,11 @@ The technique this suggests: if a session starts drifting — Claude losing trac
 
 Two sessions, completely different working styles, both healthy:
 
-**Session `024f6a11` — 2.3 tokens per user message.** The opening prompt was specific enough that Claude could run autonomously for 230 turns on single-word confirmations. This is what agentic Claude Code usage is supposed to look like. You set up the task clearly, then you supervise.
+**The short session — 2.3 tokens per user message.** The opening prompt was specific enough that Claude could run autonomously for 230 turns on single-word confirmations. This is what agentic Claude Code usage is supposed to look like. You set up the task clearly, then you supervise.
 
-**Session `e14f1038` — 47.5 tokens per user message.** More directive prompts throughout. Not a worse session — just a different mode. More explicit instructions per turn produced a 97.1% cache efficiency, the highest of any session analysed. Longer, more specific prompts meant fewer clarification loops, which meant the cache prefix stayed stable longer between writes.
+**A third session I sampled — 47.5 tokens per user message.** More directive prompts throughout. Not a worse session — just a different mode. More explicit instructions per turn produced a 97.1% cache efficiency, the highest of any session I analysed. Longer, more specific prompts meant fewer clarification loops, which meant the cache prefix stayed stable longer between writes.
 
-Neither pattern is wrong. The thing to watch is the *ratio of output to input*. Session `024f6a11` had a **162× output-to-input ratio** — Claude produced 162 tokens for every 1 token I wrote. That's the signature of a well-bootstrapped agentic session where the work is doing itself.
+Neither pattern is wrong. The thing to watch is the *ratio of output to input*. The short session had a **162× output-to-input ratio** — Claude produced 162 tokens for every 1 token I wrote. That's the signature of a well-bootstrapped agentic session where the work is doing itself.
 
 ---
 
@@ -176,7 +176,7 @@ This usually means one of: you're starting lots of short sessions (cold starts d
 
 **2. Context expansion events clustering late in a session**
 
-In `195d152e`, expansion events started bunching together after turn 200 — every 5–10 turns instead of every 30–50. This is a sign the task scope kept growing rather than being well-defined upfront. The session still worked fine, but a more bounded opening prompt would have produced a flatter ramp and fewer surprise file reads late in the session.
+In the long session, expansion events started bunching together after turn 200 — every 5–10 turns instead of every 30–50. This is a sign the task scope kept growing rather than being well-defined upfront. The session still worked fine, but a more bounded opening prompt would have produced a flatter ramp and fewer surprise file reads late in the session.
 
 **3. The ramp curve shape as a health indicator**
 
@@ -198,4 +198,4 @@ The best thing you can do to improve your cache numbers is also the simplest: st
 
 ---
 
-*All session data in this post is from my personal Claude Code usage tracker running at localhost. Token counts are real; model used across all sessions analysed was claude-opus-4-6.*
+*All session data in this post is from a local token tracker I built for my own Claude Code usage. I sampled a few high-usage sessions to illustrate the patterns. Token counts are real; model used across all sessions analysed was claude-opus-4-6.*
