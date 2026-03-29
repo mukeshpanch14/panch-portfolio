@@ -1,6 +1,5 @@
 ---
-title: Caching While Coding with Claude Code — What's Actually Happening Under
-  the Hood
+title: "Caching While Coding with Claude Code — What's Actually Happening Under the Hood"
 date: 2026-03-29 15:39
 category: Technology
 tags:
@@ -13,9 +12,7 @@ tags:
   - tokens
 slug: caching-while-coding-with-claude-code
 author: Panch Mukesh
-summary: I tracked 65 days, 1,142 sessions, and 1.83 billion cache read tokens.
-  Here's what's actually happening every time you run Claude Code — and why
-  you're probably already benefiting from it without knowing.
+summary: I tracked 65 days, 1,142 sessions, and 1.83 billion cache read tokens. Here's what's actually happening every time you run Claude Code — and why you're probably already benefiting from it without knowing.
 status: published
 ---
 
