@@ -27,7 +27,11 @@
   {% endblock %}
 
   <title>{{ SITENAME }}{% block title %}{% endblock %}</title>
+  {% if output_file == 'index.html' %}
+  <link rel="canonical" href="{{ SITEURL }}/" />
+  {% else %}
   <link rel="canonical" href="{{ SITEURL }}/{{ output_file }}" />
+  {% endif %}
 
   {# Fonts #}
   <link rel="preconnect" href="https://fonts.googleapis.com">
