@@ -93,8 +93,8 @@ UTTERANCES_THEME = "github-light"
 # SEO Configuration
 ROBOTS = 'index, follow'
 GOOGLE_SEARCH_CONSOLE = '2E7Fcuz0shDd0Wb-Q_7L4bjdOWnRp0DjfONR-SMeRlk'
-FAVICON = '/images/favicon.ico'
-APPLE_TOUCH_ICON = '/images/profile.png'
+FAVICON = '/images/favicon.png'
+APPLE_TOUCH_ICON = '/images/apple-touch-icon.png'
 
 # Plugins
 PLUGINS = ['sitemap']
