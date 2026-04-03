@@ -95,6 +95,7 @@ ROBOTS = 'index, follow'
 GOOGLE_SEARCH_CONSOLE = '2E7Fcuz0shDd0Wb-Q_7L4bjdOWnRp0DjfONR-SMeRlk'
 FAVICON = '/images/favicon.png'
 APPLE_TOUCH_ICON = '/images/apple-touch-icon.png'
+OG_IMAGE = '/images/apple-touch-icon.png'
 
 # Plugins
 PLUGINS = ['sitemap']

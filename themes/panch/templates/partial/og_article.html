@@ -20,6 +20,10 @@
 <meta property="og:image" content="{{ SITEURL }}/{{ article.metadata['cover'] }}">
 <meta name="twitter:card" content="summary_large_image" />
 <meta name="twitter:image" content="{{ SITEURL }}/{{ article.metadata['cover'] }}" />
+{% elif OG_IMAGE %}
+<meta property="og:image" content="{{ SITEURL }}{{ OG_IMAGE }}">
+<meta name="twitter:card" content="summary" />
+<meta name="twitter:image" content="{{ SITEURL }}{{ OG_IMAGE }}" />
 {% elif SITELOGO %}
 <meta property="og:image" content="{{ SITEURL }}{{ SITELOGO }}">
 <meta name="twitter:card" content="summary" />
