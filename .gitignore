@@ -62,3 +62,5 @@ __pycache__/
 
 # Pelican output
 output/
+
+.claude/
