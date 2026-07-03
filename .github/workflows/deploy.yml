@@ -46,10 +46,6 @@ jobs:
           python -m pip install --upgrade pip
           pip install -r requirements.txt
           
-      - name: Install Flex theme
-        run: |
-          git clone https://github.com/alexandrevicenzi/Flex.git themes/flex
-          
       - name: Convert YAML frontmatter to Pelican format
         run: |
           python scripts/convert_frontmatter.py
@@ -58,16 +54,6 @@ jobs:
         run: |
           pelican content -s publishconf.py
 
-      - name: Copy admin panel to output
-        run: |
-          mkdir -p output/admin
-          cp content/extra/admin/index.html output/admin/index.html
-          cp content/extra/admin/cms.html output/admin/cms.html
-
-      - name: Create .nojekyll file
-        run: |
-          touch output/.nojekyll
-          
       - name: Setup Pages
         uses: actions/configure-pages@v3
         
