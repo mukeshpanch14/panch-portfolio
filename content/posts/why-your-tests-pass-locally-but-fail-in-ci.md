@@ -4,7 +4,8 @@ date: 2026-03-08 20:12
 modified: 2026-03-08 20:12
 category: Development
 tags:
-  - sdlc;cicd;
+  - sdlc
+  - cicd
 slug: why-tests-pass-locally-but-fail-in-ci
 author: Panch Mukesh
 summary: Most developers don't realize that GitHub Actions tests a merge commit

@@ -58,6 +58,13 @@ def parse_yaml_frontmatter(text):
             i += 1
             continue
 
+        # Folded multi-line value continuation (indented plain text)
+        if line.startswith(" ") and line.strip() and current_key is not None \
+                and isinstance(fields.get(current_key), str):
+            fields[current_key] += " " + line.strip()
+            i += 1
+            continue
+
         # Key: value line
         m = re.match(r'^(\w+):\s*(.*)', line)
         if m:
