@@ -20,14 +20,12 @@
 <meta property="og:image" content="{{ SITEURL }}/{{ article.metadata['cover'] }}">
 <meta name="twitter:card" content="summary_large_image" />
 <meta name="twitter:image" content="{{ SITEURL }}/{{ article.metadata['cover'] }}" />
-{% elif OG_IMAGE %}
-<meta property="og:image" content="{{ SITEURL }}{{ OG_IMAGE }}">
-<meta name="twitter:card" content="summary" />
-<meta name="twitter:image" content="{{ SITEURL }}{{ OG_IMAGE }}" />
-{% elif SITELOGO %}
-<meta property="og:image" content="{{ SITEURL }}{{ SITELOGO }}">
-<meta name="twitter:card" content="summary" />
-<meta name="twitter:image" content="{{ SITEURL }}{{ SITELOGO }}" />
+{% else %}
+<meta property="og:image" content="{{ SITEURL }}/images/og/{{ article.slug }}.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:image" content="{{ SITEURL }}/images/og/{{ article.slug }}.png" />
 {% endif %}
 <meta name="twitter:title" content="{{ article.title|striptags|escape }}" />
 <meta name="twitter:description" content="{{ article.summary|striptags|escape }}" />

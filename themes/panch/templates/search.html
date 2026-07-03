@@ -1,0 +1,10 @@
+[
+{%- for a in articles -%}
+{"title": {{ a.title|striptags|tojson }},
+"url": "/{{ a.url }}",
+"tags": {{ a.tags|default([], true)|map('string')|list|tojson }},
+"category": {{ a.category|string|tojson }},
+"date": {{ a.locale_date|tojson }},
+"summary": {{ a.summary|striptags|truncate(200)|tojson }}}{{ "," if not loop.last }}
+{%- endfor -%}
+]

@@ -27,6 +27,14 @@
     </ul>
     {% endif %}
 
+    {# Search #}
+    <hr class="sidebar__divider" />
+    <p class="sidebar__nav-label" id="search-label">Search</p>
+    <div class="sidebar__search">
+      <input type="search" id="site-search" placeholder="Search posts…" autocomplete="off" aria-labelledby="search-label" />
+      <ul id="search-results" class="sidebar__search-results" hidden></ul>
+    </div>
+
     {# Social links #}
     {% if SOCIAL %}
     <hr class="sidebar__divider" />

@@ -20,6 +20,10 @@ AUTHOR_FEED_RSS = None
 
 DEFAULT_PAGINATION = 3
 
+# Client-side search index (consumed by theme JS for search + tag filters)
+DIRECT_TEMPLATES = ['index', 'tags', 'categories', 'authors', 'archives', 'search']
+SEARCH_SAVE_AS = 'search-index.json'
+
 # Additional configuration
 DISPLAY_PAGES_ON_MENU = True
 DISPLAY_CATEGORIES_ON_MENU = True
@@ -74,6 +78,7 @@ MARKDOWN = {
         'markdown.extensions.codehilite': {'css_class': 'highlight'},
         'markdown.extensions.extra': {},
         'markdown.extensions.meta': {},
+        'markdown.extensions.toc': {'permalink': False},
     },
     'output_format': 'html5',
 }
@@ -98,7 +103,8 @@ APPLE_TOUCH_ICON = '/images/apple-touch-icon.png'
 OG_IMAGE = '/images/apple-touch-icon.png'
 
 # Plugins
-PLUGINS = ['sitemap']
+PLUGIN_PATHS = ['plugins']
+PLUGINS = ['sitemap', 'og_cards']
 
 SITEMAP = {
     'format': 'xml',

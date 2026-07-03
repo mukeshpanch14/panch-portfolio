@@ -16,6 +16,7 @@
 {% endif %}
 
 {% include "partial/og_article.html" %}
+{% include "partial/jsonld_article.html" %}
 {% endblock %}
 
 {% block title %} – {{ article.title|striptags|escape }}{% endblock %}
@@ -126,4 +127,8 @@
     {% include "partial/utterances.html" %}
   </div>
 </div>
+{% endblock %}
+
+{% block additional_js %}
+<script src="{{ SITEURL }}/{{ THEME_STATIC_DIR }}/js/article.js" defer></script>
 {% endblock %}

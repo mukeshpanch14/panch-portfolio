@@ -3,6 +3,13 @@
 
 {% block title %} – Home{% endblock %}
 
+{% block meta %}
+{{ super() }}
+{% if not articles_page.has_previous() %}
+{% include "partial/jsonld_website.html" %}
+{% endif %}
+{% endblock %}
+
 {% block content %}
 <div class="index-wrap">
 
@@ -17,9 +24,23 @@
     </p>
   </section>
 
+  {% if not articles_page.has_previous() %}
+  {% set tag_counts = [] %}
+  {% for tag, tag_articles in tags %}{% if tag_counts.append((tag_articles|length, tag.name)) %}{% endif %}{% endfor %}
+  <div class="filter-chips" id="filter-chips">
+    <button class="chip is-active" data-type="all" type="button">All</button>
+    {% for cat, cat_articles in categories %}
+    <button class="chip" data-type="category" data-value="{{ cat.name }}" type="button">{{ cat.name }}</button>
+    {% endfor %}
+    {% for count, name in (tag_counts|sort(attribute='0', reverse=true))[:8] %}
+    <button class="chip chip--tag" data-type="tag" data-value="{{ name }}" type="button">#{{ name }}</button>
+    {% endfor %}
+  </div>
+  {% endif %}
+
   <ul class="post-list">
   {% for article in articles_page.object_list %}
-  <li class="post-card">
+  <li class="post-card" style="--i:{{ loop.index0 }}">
     <div class="post-card__meta">
       <a class="post-card__category" href="{{ SITEURL }}/{{ article.category.url }}">
         {{ article.category }}

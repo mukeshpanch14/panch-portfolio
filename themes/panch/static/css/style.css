@@ -1388,3 +1388,230 @@ a:hover { color: var(--accent-hover); text-decoration: underline; }
   vertical-align: -0.125em;
   line-height: 1;
 }
+
+/* ── Sidebar Search ──────────────────────────────────────── */
+.sidebar__search { margin-bottom: 20px; }
+
+.sidebar__search input[type="search"] {
+  width: 100%;
+  padding: 8px 12px;
+  border: 1px solid rgba(255,255,255,0.12);
+  border-radius: var(--radius);
+  background: rgba(255,255,255,0.07);
+  color: var(--sidebar-text);
+  font-family: var(--sans);
+  font-size: 0.85rem;
+  outline: none;
+  transition: border-color var(--transition);
+}
+
+.sidebar__search input[type="search"]::placeholder { color: var(--sidebar-muted); }
+.sidebar__search input[type="search"]:focus { border-color: var(--accent); }
+
+.sidebar__search-results {
+  list-style: none;
+  margin: 8px 0 0;
+  padding: 0;
+}
+
+.sidebar__search-results li { margin: 0 0 4px; }
+
+.sidebar__search-results a {
+  display: block;
+  color: var(--sidebar-link);
+  font-size: 0.8rem;
+  line-height: 1.4;
+  padding: 5px 8px;
+  border-radius: var(--radius);
+  text-decoration: none;
+}
+
+.sidebar__search-results a:hover {
+  background: rgba(255,255,255,0.07);
+  color: var(--sidebar-text);
+  text-decoration: none;
+}
+
+.sidebar__search-results .no-results {
+  color: var(--sidebar-muted);
+  font-size: 0.78rem;
+  padding: 4px 8px;
+}
+
+/* ── Copy-code Button ────────────────────────────────────── */
+.copy-btn {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  z-index: 2;
+  padding: 4px 10px;
+  font-family: var(--sans);
+  font-size: 0.72rem;
+  font-weight: 600;
+  color: #C8BFB0;
+  background: rgba(255,255,255,0.08);
+  border: 1px solid rgba(255,255,255,0.15);
+  border-radius: var(--radius);
+  cursor: pointer;
+  opacity: 0;
+  transition: opacity var(--transition), background var(--transition), color var(--transition);
+}
+
+.highlight { position: relative; }
+
+.highlight:hover .copy-btn,
+.article-body pre:hover .copy-btn,
+.copy-btn:focus-visible { opacity: 1; }
+
+.copy-btn:hover { background: var(--accent); border-color: var(--accent); color: #fff; }
+.copy-btn.copied { background: #22C55E; border-color: #22C55E; color: #fff; opacity: 1; }
+
+@media (hover: none) {
+  .copy-btn { opacity: 1; }
+}
+
+/* ── Table of Contents ───────────────────────────────────── */
+.toc {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 16px 22px;
+  margin: 0 0 2.2em;
+  font-size: 0.9rem;
+}
+
+.toc summary {
+  cursor: pointer;
+  font-family: var(--serif);
+  font-weight: 600;
+  font-size: 1rem;
+  color: var(--text);
+}
+
+.toc ol {
+  list-style: none;
+  margin: 12px 0 0;
+  padding: 0;
+}
+
+.toc li { margin: 6px 0; }
+.toc .toc__h3 { padding-left: 18px; }
+
+.toc a { color: var(--text-muted); }
+.toc a:hover { color: var(--accent); text-decoration: none; }
+
+.article-body h2,
+.article-body h3,
+.article-body h4 {
+  scroll-margin-top: 24px;
+}
+
+/* ── Reading Progress Bar ────────────────────────────────── */
+.progress-bar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 3px;
+  width: 0;
+  background: var(--accent);
+  z-index: 300;
+}
+
+/* ── Filter Chips (homepage) ─────────────────────────────── */
+.filter-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 28px;
+}
+
+.chip {
+  padding: 5px 14px;
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  background: transparent;
+  color: var(--text-muted);
+  font-family: var(--sans);
+  font-size: 0.8rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background var(--transition), color var(--transition), border-color var(--transition);
+}
+
+.chip:hover { border-color: var(--accent); color: var(--accent); }
+
+.chip.is-active {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: #fff;
+}
+
+/* ── Back to Top ─────────────────────────────────────────── */
+.back-to-top {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  z-index: 200;
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  color: var(--text-muted);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.12);
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(8px);
+  transition: opacity var(--transition), transform var(--transition), background var(--transition), color var(--transition), border-color var(--transition);
+}
+
+.back-to-top.is-visible {
+  opacity: 1;
+  pointer-events: auto;
+  transform: translateY(0);
+}
+
+.back-to-top:hover {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: #fff;
+}
+
+@media (max-width: 768px) {
+  /* Theme toggle moves bottom-right on mobile; stack above it */
+  .back-to-top { bottom: 72px; }
+}
+
+/* ── Motion ──────────────────────────────────────────────── */
+.post-card__read-more span { transition: transform var(--transition); display: inline-block; }
+.post-card__read-more:hover span { transform: translateX(3px); }
+
+@media (prefers-reduced-motion: no-preference) {
+  @keyframes fade-up {
+    from { opacity: 0; transform: translateY(10px); }
+    to   { opacity: 1; transform: none; }
+  }
+
+  .post-card {
+    animation: fade-up 0.45s ease both;
+    animation-delay: calc(var(--i, 0) * 60ms);
+  }
+
+  .article-hero__inner {
+    animation: fade-up 0.5s ease both;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}

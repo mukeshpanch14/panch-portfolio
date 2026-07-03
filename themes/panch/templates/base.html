@@ -43,6 +43,7 @@
 
 {% include "partial/icon.html" %}
   {% include "partial/feed.html" %}
+  {% include "partial/ga.html" %}
 
   {# FOWT prevention: apply theme before paint #}
   <script>
@@ -75,6 +76,11 @@
   {# Dark/light mode toggle #}
   <button class="theme-toggle" id="theme-toggle" aria-label="Toggle dark mode">
     <span class="icon-moon">{{ icon_moon() }}</span><span class="icon-sun" style="display:none;">{{ icon_sun() }}</span>
+  </button>
+
+  {# Back to top #}
+  <button class="back-to-top" id="back-to-top" aria-label="Back to top">
+    <svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 13V3M3.5 7.5 8 3l4.5 4.5"/></svg>
   </button>
 
   <script>
@@ -148,6 +154,7 @@
   })();
   </script>
 
+  <script src="{{ SITEURL }}/{{ THEME_STATIC_DIR }}/js/site.js" defer></script>
   {% block additional_js %}{% endblock %}
 </body>
 </html>

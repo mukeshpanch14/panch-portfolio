@@ -1,0 +1,22 @@
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "WebSite",
+      "@id": "{{ SITEURL }}/#website",
+      "name": {{ SITENAME|tojson }},
+      "url": "{{ SITEURL }}/",
+      "description": {{ SITEDESCRIPTION|tojson }},
+      "publisher": { "@id": "{{ SITEURL }}/#person" }
+    },
+    {
+      "@type": "Person",
+      "@id": "{{ SITEURL }}/#person",
+      "name": {{ AUTHOR|tojson }},
+      "url": "{{ SITEURL }}/"{% if SOCIAL %},
+      "sameAs": [{% for name, link in SOCIAL %}{{ link|tojson }}{% if not loop.last %}, {% endif %}{% endfor %}]{% endif %}
+    }
+  ]
+}
+</script>

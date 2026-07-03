@@ -1,0 +1,35 @@
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": {{ article.title|striptags|tojson }},
+  "description": {{ article.summary|striptags|tojson }},
+  "datePublished": "{{ article.date.isoformat() }}",
+  "dateModified": "{{ (article.modified if article.modified else article.date).isoformat() }}",
+  {% if article.tags -%}
+  "keywords": {{ article.tags|join(', ')|tojson }},
+  {% endif -%}
+  "author": {
+    "@type": "Person",
+    "name": {{ article.author.name|tojson if article.author else AUTHOR|tojson }},
+    "url": "{{ SITEURL }}/"{% if SOCIAL %},
+    "sameAs": [{% for name, link in SOCIAL %}{{ link|tojson }}{% if not loop.last %}, {% endif %}{% endfor %}]{% endif %}
+  },
+  "publisher": {
+    "@type": "Person",
+    "name": {{ AUTHOR|tojson }},
+    "url": "{{ SITEURL }}/"
+  },
+  {% if 'cover' in article.metadata -%}
+  "image": "{{ SITEURL }}/{{ article.metadata['cover'] }}",
+  {% else -%}
+  "image": "{{ SITEURL }}/images/og/{{ article.slug }}.png",
+  {% endif -%}
+  "articleSection": {{ article.category.name|tojson }},
+  "url": "{{ SITEURL }}/{{ article.url }}",
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "{{ SITEURL }}/{{ article.url }}"
+  }
+}
+</script>
