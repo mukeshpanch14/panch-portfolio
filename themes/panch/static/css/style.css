@@ -1231,7 +1231,12 @@ a:hover { color: var(--accent-hover); text-decoration: underline; }
   .index-wrap { padding: 64px 22px 48px; }
   .page-wrap { padding: 64px 22px 48px; }
 
-  .article-body table { display: block; overflow-x: auto; }
+  .article-body pre code,
+  .highlight pre code {
+    white-space: pre-wrap;
+    word-break: break-word;
+  }
+
   .diagram-card { padding: 16px; }
 
   .neighbors {
@@ -1244,6 +1249,55 @@ a:hover { color: var(--accent-hover); text-decoration: underline; }
     padding: 20px 22px;
     flex-direction: column;
     text-align: center;
+  }
+}
+
+/* Tables: stacked label/value cards on narrow screens instead of a
+   scrolling table — a 4-column table isn't readable at this width even
+   when technically scrollable. */
+@media (max-width: 600px) {
+  .article-body table {
+    display: block;
+    border: none;
+  }
+
+  .article-body table thead { display: none; }
+
+  .article-body table tbody,
+  .article-body table tr {
+    display: block;
+    width: 100%;
+  }
+
+  .article-body table tr {
+    margin-bottom: 1em;
+    padding: 4px 14px;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+  }
+
+  .article-body table tr:nth-child(even) { background: none; }
+  .article-body table tr:nth-child(even) td { background: none; }
+
+  .article-body table td {
+    display: block;
+    width: 100%;
+    padding: 10px 0;
+    border: none;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .article-body table td:last-child { border-bottom: none; }
+
+  .article-body table td::before {
+    content: attr(data-label);
+    display: block;
+    font-weight: 600;
+    font-size: 0.82rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--text-muted);
+    margin-bottom: 4px;
   }
 }
 

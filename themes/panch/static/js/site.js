@@ -87,6 +87,22 @@
     container.appendChild(btn);
   });
 
+  /* ── Responsive tables: label each cell for mobile card view ── */
+  document.querySelectorAll('.article-body table').forEach(function (table) {
+    var headerCells = table.querySelectorAll('thead th');
+    if (!headerCells.length) return;
+
+    var labels = Array.prototype.map.call(headerCells, function (th) {
+      return th.textContent.trim();
+    });
+
+    table.querySelectorAll('tbody tr').forEach(function (row) {
+      Array.prototype.forEach.call(row.children, function (cell, i) {
+        if (labels[i]) cell.setAttribute('data-label', labels[i]);
+      });
+    });
+  });
+
   /* ── Homepage filter chips ─────────────────────────────── */
   var chipRow = document.getElementById('filter-chips');
   var postList = document.querySelector('.post-list');
