@@ -1,0 +1,60 @@
+<svg width="720" height="480" viewBox="0 0 720 480" xmlns="http://www.w3.org/2000/svg" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif">
+
+  <!-- Background -->
+  <rect width="720" height="480" fill="#fafaf9" rx="12"/>
+
+  <!-- Title -->
+  <text x="360" y="36" text-anchor="middle" font-size="15" font-weight="600" fill="#1c1c1a">Claude Code auto-memory: write once, read every session after</text>
+  <text x="360" y="56" text-anchor="middle" font-size="12" fill="#73726c">No transcript needs to survive — just the file it wrote to</text>
+
+  <!-- SESSION 1 column -->
+  <rect x="28" y="80" width="300" height="168" rx="8" fill="#ede9fe" stroke="#7c3aed" stroke-width="1"/>
+  <text x="48" y="104" font-size="12" font-weight="600" fill="#4c1d95">SESSION 1 — today</text>
+  <text x="48" y="128" font-size="11" fill="#4c1d95" font-weight="600">You explain a constraint once:</text>
+  <text x="48" y="148" font-size="11" fill="#6d28d9">"CI runs convert_frontmatter.py</text>
+  <text x="48" y="164" font-size="11" fill="#6d28d9">before pelican — don't hand-write</text>
+  <text x="48" y="180" font-size="11" fill="#6d28d9">Pelican's colon-format directly."</text>
+  <line x1="48" y1="196" x2="308" y2="196" stroke="#7c3aed" stroke-width="1" stroke-dasharray="3 3" opacity="0.5"/>
+  <text x="48" y="216" font-size="11" fill="#4c1d95" font-weight="600">Claude decides it's worth keeping</text>
+  <text x="48" y="234" font-size="11" fill="#6d28d9">and writes it to a memory file —</text>
+
+  <!-- Arrow 1 -->
+  <line x1="328" y1="164" x2="366" y2="164" stroke="#73726c" stroke-width="1.5" marker-end="url(#arr)"/>
+
+  <!-- MEMORY FILE box (middle) -->
+  <rect x="366" y="112" width="326" height="120" rx="8" fill="#d1fae5" stroke="#059669" stroke-width="1"/>
+  <text x="386" y="136" font-size="12" font-weight="600" fill="#064e3b">seo_interactivity_revamp.md</text>
+  <text x="386" y="156" font-size="10" fill="#047857" font-family="'DM Mono', monospace">type: project</text>
+  <text x="386" y="176" font-size="11" fill="#047857">"Posts are YAML frontmatter; CI runs</text>
+  <text x="386" y="192" font-size="11" fill="#047857">scripts/convert_frontmatter.py before</text>
+  <text x="386" y="208" font-size="11" fill="#047857">pelican. Do NOT rename post slugs."</text>
+  <text x="386" y="224" font-size="10" fill="#059669">indexed in MEMORY.md — plain files on disk</text>
+
+  <!-- vertical connector -->
+  <line x1="529" y1="232" x2="529" y2="284" stroke="#73726c" stroke-width="1.5" stroke-dasharray="4 3" marker-end="url(#arr)"/>
+  <text x="545" y="262" font-size="10" fill="#73726c">days pass —</text>
+  <text x="545" y="276" font-size="10" fill="#73726c">no transcript kept</text>
+
+  <!-- SESSION 2 box (bottom) -->
+  <rect x="196" y="288" width="466" height="152" rx="8" fill="#d0ede9" stroke="#1a7a6e" stroke-width="1"/>
+  <text x="216" y="312" font-size="12" font-weight="600" fill="#0f4a43">SESSION 2 — writing this post, later</text>
+  <text x="216" y="336" font-size="11" fill="#0f4a43" font-weight="600">MEMORY.md is loaded at session start —</text>
+  <text x="216" y="356" font-size="11" fill="#1a7a6e">the constraint is already known before</text>
+  <text x="216" y="372" font-size="11" fill="#1a7a6e">a single message is typed. No re-explaining</text>
+  <text x="216" y="388" font-size="11" fill="#1a7a6e">the frontmatter pipeline, no re-deriving</text>
+  <text x="216" y="404" font-size="11" fill="#1a7a6e">why the slugs can't be renamed.</text>
+  <text x="216" y="426" font-size="10" fill="#0f4a43" font-weight="600">A compacted transcript could have lost this. A kept file didn't.</text>
+
+  <!-- arrow from memory file down into session 2 -->
+  <line x1="420" y1="232" x2="420" y2="284" stroke="#059669" stroke-width="1.5" stroke-dasharray="4 3" marker-end="url(#arr2)"/>
+
+  <defs>
+    <marker id="arr" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M2 1L8 5L2 9" fill="none" stroke="#73726c" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+    </marker>
+    <marker id="arr2" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M2 1L8 5L2 9" fill="none" stroke="#059669" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+    </marker>
+  </defs>
+
+</svg>
