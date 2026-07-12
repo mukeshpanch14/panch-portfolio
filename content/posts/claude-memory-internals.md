@@ -65,7 +65,7 @@ This one has nothing to do with claude.ai's consumer feature, despite sharing a 
 
 The design point is **just-in-time context**, not automatic synthesis. Instead of loading everything relevant up front, Claude writes what it learns to memory files, and reads them back later, on demand — the same instinct behind why you don't load an entire codebase into context before writing one function.
 
-The part that surprises people who assume this works like claude.ai's memory: **it's entirely client-side.** Claude doesn't have a storage backend of its own here. It requests file operations — create, read, update, delete — and *your application* executes them against whatever storage you've wired up. Files live under a `/memories` path prefix that you define; Claude never touches a disk or database directly.
+The part that surprises people who assume this works like claude.ai's memory: **it's entirely client-side.** Claude doesn't have a storage backend of its own here. It requests file operations: create, read, update, delete. Your application executes them against whatever storage you've wired up. Files live under a `/memories` path prefix that you define; Claude never touches a disk or database directly.
 
 Two practical consequences:
 
@@ -80,7 +80,7 @@ If claude.ai's memory is "a profile Anthropic maintains about you," this is "a s
 
 This is the one I actually use every day, and it's worth separating into its two halves because they behave completely differently — described in the [Claude Code docs](https://code.claude.com/docs/en/memory).
 
-**`CLAUDE.md`** is instructions *you* wrote. It's loaded at the start of every session, and — this is the detail that trips people up — the project-root `CLAUDE.md` gets re-read from disk after a `/compact`, but nested `CLAUDE.md` files in subdirectories don't auto-reload once the context has been compacted. If you're relying on a nested one, know that a mid-session compaction can silently drop it.
+**`CLAUDE.md`** is instructions *you* wrote. It's loaded at the start of every session. Here's the detail that trips people up: the project-root `CLAUDE.md` gets re-read from disk after a `/compact`, but nested `CLAUDE.md` files in subdirectories don't auto-reload once the context has been compacted. If you're relying on a nested one, know that a mid-session compaction can silently drop it.
 
 **Auto-memory** is the other half, and it's the one nobody explicitly writes. Claude decides, on its own, what's worth saving as it works — build commands that took three tries to get right, a debugging insight, a style preference you stated once. It's on by default, keyed to the project's git repo, and toggleable via `/memory` or the `autoMemoryEnabled` setting.
 
@@ -129,7 +129,7 @@ Researching this, I went through a stack of third-party write-ups on Claude memo
 
 **"Memory is only accessed when you explicitly prompt Claude."** This undersells what's actually happening on claude.ai. Background synthesis runs automatically, roughly every 24 hours, with no prompting required — the summary is just *there* the next time you start a conversation. Explicit "remember X" is a way to force an update sooner, not the only way memory gets written.
 
-**A specific hard cap — "30 edits, 200 characters each" — for explicit memory edits.** This number shows up in at least one popular write-up, and it's precise enough to sound authoritative. It isn't backed by Anthropic's own documentation, and other sources give different numbers. If you're relying on a specific limit for something you're building, verify it in the current Settings UI rather than citing a blog post's number — including this one, since limits like this are exactly the kind of detail that changes without a docs update.
+**A specific hard cap of "30 edits, 200 characters each" for explicit memory edits.** This number shows up in at least one popular write-up, and it's precise enough to sound authoritative. It isn't backed by Anthropic's own documentation, and other sources give different numbers. If you're relying on a specific limit for something you're building, verify it in the current Settings UI rather than citing a blog post's number — including this one, since limits like this are exactly the kind of detail that changes without a docs update.
 
 **Treating CLAUDE.md-style file memory and claude.ai's synthesis-based memory as the same mechanism described from different angles.** They're not. One is instructions you author that get loaded verbatim; the other is a profile Anthropic's models generate by summarizing your conversations. Conflating them makes both systems sound more magic, and less predictable, than they are.
 
