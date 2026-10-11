@@ -80,15 +80,24 @@
   {# Email subscribe widget — disabled #}
   {# {% include "partial/subscribe.html" %} #}
 
-  {# Related posts #}
-  {% if article.related_posts %}
+  {# Related posts: ranked by shared tags (x2) + same category, ties keep newest first #}
+  {% set mine = article.tags|map('string')|list %}
+  {% set ns = namespace(items=[]) %}
+  {% for a in articles if a.slug != article.slug %}
+    {% set shared = a.tags|map('string')|select('in', mine)|list|length %}
+    {% set score = shared * 2 + (1 if a.category == article.category else 0) %}
+    {% if score > 0 %}
+      {% set ns.items = ns.items + [{'score': score, 'post': a}] %}
+    {% endif %}
+  {% endfor %}
+  {% if ns.items %}
   <div class="related-posts" style="margin-top:32px;">
     <h4 style="font-family:var(--serif);font-size:1.1rem;margin:0 0 14px;">You might enjoy</h4>
     <ul style="list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:8px;">
-    {% for related_post in article.related_posts %}
+    {% for item in (ns.items|sort(attribute='score', reverse=true))[:3] %}
       <li>
-        <a href="{{ SITEURL }}/{{ related_post.url }}" style="color:var(--text);font-size:0.95rem;">
-          {{ related_post.title }}
+        <a href="{{ SITEURL }}/{{ item.post.url }}" style="color:var(--text);font-size:0.95rem;">
+          {{ item.post.title }}
         </a>
       </li>
     {% endfor %}

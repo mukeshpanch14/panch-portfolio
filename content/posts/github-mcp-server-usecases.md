@@ -6,12 +6,10 @@ tags:
   - github
   - mcp
   - ai
-  - engineering
   - automation
-  - development
 slug: github-mcp-server-usecases
 author: Panch Mukesh
-summary: Explore how GitHub MCP Server can revolutionize AI-powered engineering workflows, from code analysis to automated release notes generation.
+summary: Five practical ways to use the GitHub MCP Server with AI: codebase insight, PR analysis, issue resolution and release notes.
 ---
 
 

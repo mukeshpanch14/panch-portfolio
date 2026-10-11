@@ -9,7 +9,7 @@ tags:
   - uvicorn
   - gunicorn
 slug: wsgi-vs-asgi-python
-summary: Understanding WSGI and ASGI interfaces in Python, comparing Gunicorn and Uvicorn servers, and choosing the right deployment setup for your web applications.
+summary: WSGI vs ASGI explained, plus how Gunicorn and Uvicorn fit together and which deployment setup to choose for your Python web app.
 status: published
 ---
 
