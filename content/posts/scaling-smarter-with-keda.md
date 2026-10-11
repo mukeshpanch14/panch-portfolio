@@ -1,25 +1,17 @@
 ---
 title: "Scaling Smarter with KEDA: Event-Driven Autoscaling for Kubernetes"
 date: 2025-09-25 10:00
-modified: 2025-09-25
+modified: 2026-10-12
 category: Technology
 tags:
   - keda
   - kubernetes
   - autoscaling
   - event-driven
-  - hpa
   - serverless
-  - batch
-  - iot
-  - ml
-  - logging
-  - grafana
-  - loki
-  - cloud-agnostic
 slug: scaling-smarter-with-keda
 author: Panch Mukesh
-summary: KEDA brings event-driven intelligence to Kubernetes, enabling responsive, cost-efficient scaling tied directly to real-world events.
+summary: How KEDA scales Kubernetes workloads on events like queue depth or cron, including scale-to-zero, with a ScaledObject example.
 status: published
 ---
 
@@ -128,6 +120,55 @@ This allows you to confidently run event-driven workloads without losing operati
 - Metrics Trigger: Scale based on custom metrics (e.g., queue depth)
 
 This flexibility allows developers to declaratively scale workloads without manual oversight.
+
+### A minimal ScaledObject
+
+Scaling rules live in a `ScaledObject` resource next to your Deployment. This one scales a queue worker from zero up to 20 replicas, aiming for roughly 10 pending messages per replica:
+
+```yaml
+apiVersion: keda.sh/v1alpha1
+kind: ScaledObject
+metadata:
+  name: orders-worker
+spec:
+  scaleTargetRef:
+    name: orders-worker        # the Deployment to scale
+  minReplicaCount: 0           # scale to zero when the queue is empty
+  maxReplicaCount: 20
+  cooldownPeriod: 300          # seconds to wait before scaling back to zero
+  triggers:
+    - type: rabbitmq
+      metadata:
+        queueName: orders
+        mode: QueueLength
+        value: "10"            # target messages per replica
+        hostFromEnv: RABBITMQ_HOST
+```
+
+A cron trigger works the same way, for example keeping capacity up during business hours:
+
+```yaml
+  triggers:
+    - type: cron
+      metadata:
+        timezone: Asia/Kolkata
+        start: 0 9 * * 1-5
+        end: 0 18 * * 1-5
+        desiredReplicas: "5"
+```
+
+### How KEDA relates to the HPA
+
+KEDA does not replace the Horizontal Pod Autoscaler. It creates and manages an HPA for you to handle scaling between 1 and N replicas, and it handles the 0 to 1 and 1 to 0 transitions itself, which the plain HPA cannot do. Its metrics adapter feeds external values such as queue depth to the HPA.
+
+### ScaledObject or ScaledJob?
+
+- **ScaledObject** scales a long-running Deployment or StatefulSet. Use it for queue consumers and API workers.
+- **ScaledJob** launches a Kubernetes Job per batch of events. Use it when each unit of work is finite and should run to completion, such as video processing or report generation.
+
+### When KEDA is not the right tool
+
+If a service is steady and CPU or memory-bound, a plain HPA is simpler and needs no extra component. KEDA earns its place when load is driven by something outside the pod, such as a queue, a stream, a schedule or a custom metric, or when you want scale-to-zero.
 
 ## Benefits of KEDA
 

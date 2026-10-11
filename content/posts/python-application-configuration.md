@@ -1,17 +1,15 @@
 ---
-title: Python Application Configuration
+title: "Python Application Configuration: ConfigParser vs python-decouple"
 date: 2025-09-12 10:00
+modified: 2026-10-12
 category: Python
 tags:
   - python
   - configuration
-  - environment-variables
-  - configparser
-  - python-decouple
   - best-practices
 slug: python-application-configuration
 author: Panch Mukesh
-summary: A comprehensive guide to managing configuration and environment variables in Python applications, comparing ConfigParser and python-decouple approaches.
+summary: ConfigParser vs python-decouple: how to manage config and environment variables across DEV, QA and PROD in Python apps, with code.
 ---
 
 
@@ -102,6 +100,35 @@ def get_config(env=config("ENVIRONMENT", default="")):
 ```
 
 In the example above, we demonstrate how to handle config variables with different classes based on the environment to override values from the parent configuration. This approach allows for easy extension of the configuration module, such as for multi-cloud approaches with different configurations required to access cloud services.
+
+## Which Value Wins?
+
+The most common configuration bug is not knowing which source supplied a value. `python-decouple` has a fixed lookup order, so it is easy to reason about:
+
+1. Environment variables
+2. The `.env` or `settings.ini` file
+3. The `default` argument
+
+That order is what you want for containers: the same image runs everywhere, and DEV, QA and PROD only differ in the environment variables injected at runtime. A variable with no default raises `UndefinedValueError` when it is read, so a missing setting fails loudly at startup, not halfway through a request.
+
+## Quick Comparison
+
+| | `os.environ` | `ConfigParser` | `python-decouple` |
+|---|---|---|---|
+| Ships with Python | Yes | Yes | No (`pip install python-decouple`) |
+| Reads environment variables | Yes | No | Yes |
+| Reads a config file | No | `.ini` only | `.ini` and `.env` |
+| Type casting | Manual | Helpers such as `getint`, `getboolean` | `cast=int`, `cast=bool`, `Csv()` |
+| Defaults | `.get(key, default)` | `fallback=` | `default=` |
+| Best for | A handful of variables | Notebooks, local tools | Services deployed through containers |
+
+## Keep Secrets Out of Config Files
+
+The `config.ini` example above includes a password to keep the example short. In a real project, do not commit credentials to a file in the repository. Keep a `.env` file out of version control (add it to `.gitignore`), and inject secrets as environment variables from your secret manager or CI system. Commit a `.env.example` with placeholder values so new contributors know which variables exist.
+
+## When to Use Something Else
+
+Both approaches treat values as strings that you cast yourself. If you want validation of types and required fields, a typed settings library such as `pydantic-settings` reads environment variables and `.env` files into a validated model. For a handful of variables, plain `os.environ.get` with a default is enough, and adding a dependency is not worth it.
 
 ## Conclusion
 
