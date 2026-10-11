@@ -10,8 +10,12 @@
   <meta name="HandheldFriendly" content="True" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
+  {# Thin listing pages (tag/category/author indexes, paginated pages) stay crawlable but unindexed #}
+  {% set thin_listing = output_file.startswith(('tag/', 'category/', 'author/')) or output_file in ('tags.html', 'categories.html', 'authors.html') or (articles_page is defined and articles_page and articles_page.number > 1) %}
   {% if page is defined and page and page in hidden_pages %}
   <meta name="robots" content="noindex, nofollow" />
+  {% elif thin_listing %}
+  <meta name="robots" content="noindex, follow" />
   {% else %}
   <meta name="robots" content="{{ ROBOTS|default('index, follow') }}" />
   {% endif %}

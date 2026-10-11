@@ -18,7 +18,7 @@ TRANSLATION_FEED_ATOM = None
 AUTHOR_FEED_ATOM = None
 AUTHOR_FEED_RSS = None
 
-DEFAULT_PAGINATION = 3
+DEFAULT_PAGINATION = 10
 
 # Client-side search index (consumed by theme JS for search + tag filters)
 DIRECT_TEMPLATES = ['index', 'tags', 'categories', 'authors', 'archives', 'search']
@@ -108,6 +108,14 @@ PLUGINS = ['sitemap', 'og_cards']
 
 SITEMAP = {
     'format': 'xml',
+    # Thin listing pages are noindex (see base.html); keep them out of the sitemap
+    'exclude': [
+        r'(^|/)tag/', r'(^|/)tags\.html$',
+        r'(^|/)category/', r'(^|/)categories\.html$',
+        r'(^|/)author/', r'(^|/)authors\.html$',
+        r'(^|/)index\d+\.html$',
+        r'(^|/)search-index\.json$',
+    ],
     'priorities': {
         'articles': 0.8,
         'indexes': 0.5,
