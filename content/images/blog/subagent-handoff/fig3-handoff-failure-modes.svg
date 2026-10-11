@@ -1,0 +1,62 @@
+<svg width="720" height="420" viewBox="0 0 720 420" xmlns="http://www.w3.org/2000/svg" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif">
+
+  <rect width="720" height="420" fill="#fafaf9" rx="12"/>
+
+  <text x="360" y="36" text-anchor="middle" font-size="15" font-weight="600" fill="#1c1c1a">Four ways a handoff fails, and the fix for each</text>
+  <text x="360" y="56" text-anchor="middle" font-size="12" fill="#73726c">All four look like a model problem. All four are packet problems.</text>
+
+  <!-- column headers -->
+  <text x="48" y="88" font-size="11" font-weight="600" fill="#73726c">WHAT GOES WRONG</text>
+  <text x="388" y="88" font-size="11" font-weight="600" fill="#73726c">THE FIX</text>
+
+  <!-- Row 1 -->
+  <rect x="28" y="100" width="330" height="68" rx="8" fill="#fee2e2" stroke="#dc2626" stroke-width="1"/>
+  <text x="44" y="122" font-size="12" font-weight="600" fill="#7f1d1d">Lossy summary</text>
+  <text x="44" y="140" font-size="11" fill="#b91c1c">"Add rate limiting" arrives with no limits,</text>
+  <text x="44" y="155" font-size="11" fill="#b91c1c">no storage choice, no error shape.</text>
+  <line x1="358" y1="134" x2="380" y2="134" stroke="#73726c" stroke-width="1.5" marker-end="url(#arr)"/>
+  <rect x="380" y="100" width="312" height="68" rx="8" fill="#d1fae5" stroke="#059669" stroke-width="1"/>
+  <text x="396" y="122" font-size="12" font-weight="600" fill="#064e3b">Hand off a file with a fixed shape</text>
+  <text x="396" y="140" font-size="11" fill="#047857">Same six sections every time, so a gap</text>
+  <text x="396" y="155" font-size="11" fill="#047857">is visible before the builder starts.</text>
+
+  <!-- Row 2 -->
+  <rect x="28" y="180" width="330" height="68" rx="8" fill="#fee2e2" stroke="#dc2626" stroke-width="1"/>
+  <text x="44" y="202" font-size="12" font-weight="600" fill="#7f1d1d">Rationale loss</text>
+  <text x="44" y="220" font-size="11" fill="#b91c1c">Builder sees the what, not the why, and</text>
+  <text x="44" y="235" font-size="11" fill="#b91c1c">"simplifies" away a deliberate choice.</text>
+  <line x1="358" y1="214" x2="380" y2="214" stroke="#73726c" stroke-width="1.5" marker-end="url(#arr)"/>
+  <rect x="380" y="180" width="312" height="68" rx="8" fill="#d1fae5" stroke="#059669" stroke-width="1"/>
+  <text x="396" y="202" font-size="12" font-weight="600" fill="#064e3b">Record decisions with reasons</text>
+  <text x="396" y="220" font-size="11" fill="#047857">One line of "because" per decision is</text>
+  <text x="396" y="235" font-size="11" fill="#047857">cheap and stops the quiet reversal.</text>
+
+  <!-- Row 3 -->
+  <rect x="28" y="260" width="330" height="68" rx="8" fill="#fee2e2" stroke="#dc2626" stroke-width="1"/>
+  <text x="44" y="282" font-size="12" font-weight="600" fill="#7f1d1d">Context bloat</text>
+  <text x="44" y="300" font-size="11" fill="#b91c1c">Whole planning transcript pasted in. The</text>
+  <text x="44" y="315" font-size="11" fill="#b91c1c">signal drowns and the cost climbs.</text>
+  <line x1="358" y1="294" x2="380" y2="294" stroke="#73726c" stroke-width="1.5" marker-end="url(#arr)"/>
+  <rect x="380" y="260" width="312" height="68" rx="8" fill="#d1fae5" stroke="#059669" stroke-width="1"/>
+  <text x="396" y="282" font-size="12" font-weight="600" fill="#064e3b">Pass conclusions, link to sources</text>
+  <text x="396" y="300" font-size="11" fill="#047857">Include paths the receiver can open if it</text>
+  <text x="396" y="315" font-size="11" fill="#047857">needs more, rather than the raw history.</text>
+
+  <!-- Row 4 -->
+  <rect x="28" y="340" width="330" height="68" rx="8" fill="#fee2e2" stroke="#dc2626" stroke-width="1"/>
+  <text x="44" y="362" font-size="12" font-weight="600" fill="#7f1d1d">Unverified "done"</text>
+  <text x="44" y="380" font-size="11" fill="#b91c1c">Builder reports success; docs agent writes</text>
+  <text x="44" y="395" font-size="11" fill="#b91c1c">up behavior nobody actually ran.</text>
+  <line x1="358" y1="374" x2="380" y2="374" stroke="#73726c" stroke-width="1.5" marker-end="url(#arr)"/>
+  <rect x="380" y="340" width="312" height="68" rx="8" fill="#d1fae5" stroke="#059669" stroke-width="1"/>
+  <text x="396" y="362" font-size="12" font-weight="600" fill="#064e3b">Make acceptance checks runnable</text>
+  <text x="396" y="380" font-size="11" fill="#047857">The orchestrator runs them at the boundary</text>
+  <text x="396" y="395" font-size="11" fill="#047857">before the next agent starts.</text>
+
+  <defs>
+    <marker id="arr" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M2 1L8 5L2 9" fill="none" stroke="#73726c" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+    </marker>
+  </defs>
+
+</svg>

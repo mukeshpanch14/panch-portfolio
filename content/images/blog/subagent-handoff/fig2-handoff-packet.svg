@@ -1,0 +1,56 @@
+<svg width="720" height="440" viewBox="0 0 720 440" xmlns="http://www.w3.org/2000/svg" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif">
+
+  <rect width="720" height="440" fill="#fafaf9" rx="12"/>
+
+  <text x="360" y="36" text-anchor="middle" font-size="15" font-weight="600" fill="#1c1c1a">Anatomy of a handoff packet</text>
+  <text x="360" y="56" text-anchor="middle" font-size="12" fill="#73726c">The receiver starts with a clean context. Past its own prompt, this is what it knows.</text>
+
+  <!-- Left: packet -->
+  <rect x="28" y="80" width="400" height="336" rx="8" fill="#ffffff" stroke="#a8a79f" stroke-width="1"/>
+  <text x="48" y="104" font-size="12" font-weight="600" fill="#1c1c1a" font-family="'DM Mono', monospace">PLAN.md</text>
+  <line x1="28" y1="116" x2="428" y2="116" stroke="#e5e3dc" stroke-width="1"/>
+
+  <rect x="44" y="128" width="368" height="40" rx="6" fill="#ede9fe"/>
+  <text x="58" y="146" font-size="11" font-weight="600" fill="#4c1d95">1. Goal</text>
+  <text x="58" y="161" font-size="10" fill="#6d28d9">One sentence on the outcome, not the steps</text>
+
+  <rect x="44" y="176" width="368" height="40" rx="6" fill="#ede9fe"/>
+  <text x="58" y="194" font-size="11" font-weight="600" fill="#4c1d95">2. Decisions made, and why</text>
+  <text x="58" y="209" font-size="10" fill="#6d28d9">So the builder doesn't quietly reverse them</text>
+
+  <rect x="44" y="224" width="368" height="40" rx="6" fill="#d0ede9"/>
+  <text x="58" y="242" font-size="11" font-weight="600" fill="#0f4a43">3. Files in scope</text>
+  <text x="58" y="257" font-size="10" fill="#1a7a6e">Paths to touch, plus paths to leave alone</text>
+
+  <rect x="44" y="272" width="368" height="40" rx="6" fill="#d0ede9"/>
+  <text x="58" y="290" font-size="11" font-weight="600" fill="#0f4a43">4. Constraints and non-goals</text>
+  <text x="58" y="305" font-size="10" fill="#1a7a6e">What must hold, and what is explicitly out of scope</text>
+
+  <rect x="44" y="320" width="368" height="40" rx="6" fill="#fef3c7"/>
+  <text x="58" y="338" font-size="11" font-weight="600" fill="#78350f">5. Acceptance checks</text>
+  <text x="58" y="353" font-size="10" fill="#b45309">Commands or observations that prove it is done</text>
+
+  <rect x="44" y="368" width="368" height="40" rx="6" fill="#fee2e2"/>
+  <text x="58" y="386" font-size="11" font-weight="600" fill="#7f1d1d">6. Open questions</text>
+  <text x="58" y="401" font-size="10" fill="#b91c1c">What the receiver should stop and ask, not guess</text>
+
+  <!-- Right: annotations -->
+  <text x="460" y="106" font-size="12" font-weight="600" fill="#1c1c1a">Why each part earns its place</text>
+
+  <text x="460" y="138" font-size="11" fill="#4c1d95" font-weight="600">Intent (1, 2)</text>
+  <text x="460" y="154" font-size="11" fill="#73726c">Lets a cheaper model act on the</text>
+  <text x="460" y="169" font-size="11" fill="#73726c">reasoning without redoing it.</text>
+
+  <text x="460" y="205" font-size="11" fill="#0f4a43" font-weight="600">Boundaries (3, 4)</text>
+  <text x="460" y="221" font-size="11" fill="#73726c">Keeps the work inside the lines.</text>
+  <text x="460" y="236" font-size="11" fill="#73726c">Prevents silent scope creep.</text>
+
+  <text x="460" y="272" font-size="11" fill="#78350f" font-weight="600">Verification (5)</text>
+  <text x="460" y="288" font-size="11" fill="#73726c">The receiver checks its own work</text>
+  <text x="460" y="303" font-size="11" fill="#73726c">against something it can run.</text>
+
+  <text x="460" y="339" font-size="11" fill="#7f1d1d" font-weight="600">Escape hatch (6)</text>
+  <text x="460" y="355" font-size="11" fill="#73726c">A way to hand a question back up</text>
+  <text x="460" y="370" font-size="11" fill="#73726c">instead of guessing.</text>
+
+</svg>

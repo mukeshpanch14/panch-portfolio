@@ -1,0 +1,61 @@
+<svg width="720" height="400" viewBox="0 0 720 400" xmlns="http://www.w3.org/2000/svg" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif">
+
+  <rect width="720" height="400" fill="#fafaf9" rx="12"/>
+
+  <text x="360" y="36" text-anchor="middle" font-size="15" font-weight="600" fill="#1c1c1a">Plan, build, document: each stage hands off a file, not a chat</text>
+  <text x="360" y="56" text-anchor="middle" font-size="12" fill="#73726c">The main session routes every handoff. Here, subagents never call each other.</text>
+
+  <!-- Planner -->
+  <rect x="28" y="96" width="170" height="110" rx="8" fill="#ede9fe" stroke="#7c3aed" stroke-width="1"/>
+  <text x="113" y="122" text-anchor="middle" font-size="12" font-weight="600" fill="#4c1d95">PLANNER</text>
+  <text x="113" y="142" text-anchor="middle" font-size="11" fill="#6d28d9">model: opus</text>
+  <text x="113" y="168" text-anchor="middle" font-size="11" fill="#4c1d95">Reads, reasons, decides</text>
+  <text x="113" y="186" text-anchor="middle" font-size="11" fill="#6d28d9">Tools: read + write plan</text>
+
+  <!-- Builder -->
+  <rect x="275" y="96" width="170" height="110" rx="8" fill="#d0ede9" stroke="#1a7a6e" stroke-width="1"/>
+  <text x="360" y="122" text-anchor="middle" font-size="12" font-weight="600" fill="#0f4a43">BUILDER</text>
+  <text x="360" y="142" text-anchor="middle" font-size="11" fill="#1a7a6e">model: sonnet</text>
+  <text x="360" y="168" text-anchor="middle" font-size="11" fill="#0f4a43">Implements, runs tests</text>
+  <text x="360" y="186" text-anchor="middle" font-size="11" fill="#1a7a6e">Tools: edit + shell</text>
+
+  <!-- Docs -->
+  <rect x="522" y="96" width="170" height="110" rx="8" fill="#fef3c7" stroke="#d97706" stroke-width="1"/>
+  <text x="607" y="122" text-anchor="middle" font-size="12" font-weight="600" fill="#78350f">DOCS</text>
+  <text x="607" y="142" text-anchor="middle" font-size="11" fill="#b45309">model: haiku</text>
+  <text x="607" y="168" text-anchor="middle" font-size="11" fill="#78350f">Writes docs, changelog</text>
+  <text x="607" y="186" text-anchor="middle" font-size="11" fill="#b45309">Tools: read + write docs</text>
+
+  <!-- Arrows between agents -->
+  <line x1="198" y1="151" x2="273" y2="151" stroke="#73726c" stroke-width="1.5" marker-end="url(#arr)"/>
+  <line x1="445" y1="151" x2="520" y2="151" stroke="#73726c" stroke-width="1.5" marker-end="url(#arr)"/>
+
+  <!-- Artifact chips -->
+  <rect x="190" y="166" width="92" height="44" rx="6" fill="#ffffff" stroke="#a8a79f" stroke-width="1"/>
+  <text x="236" y="184" text-anchor="middle" font-size="11" font-weight="600" fill="#1c1c1a" font-family="'DM Mono', monospace">PLAN.md</text>
+  <text x="236" y="200" text-anchor="middle" font-size="10" fill="#73726c">intent + checks</text>
+
+  <rect x="437" y="166" width="92" height="44" rx="6" fill="#ffffff" stroke="#a8a79f" stroke-width="1"/>
+  <text x="483" y="184" text-anchor="middle" font-size="11" font-weight="600" fill="#1c1c1a" font-family="'DM Mono', monospace">BUILD.md</text>
+  <text x="483" y="200" text-anchor="middle" font-size="10" fill="#73726c">diff + rationale</text>
+
+  <!-- Orchestrator bar -->
+  <rect x="28" y="262" width="664" height="64" rx="8" fill="#f1efe8" stroke="#a8a79f" stroke-width="1"/>
+  <text x="360" y="288" text-anchor="middle" font-size="12" font-weight="600" fill="#1c1c1a">MAIN SESSION (orchestrator)</text>
+  <text x="360" y="308" text-anchor="middle" font-size="11" fill="#73726c">Spawns each agent, passes the file path, checks the result, decides what happens next</text>
+
+  <!-- Dashed spokes -->
+  <line x1="113" y1="206" x2="113" y2="260" stroke="#73726c" stroke-width="1.2" stroke-dasharray="4 3" marker-end="url(#arr)"/>
+  <line x1="360" y1="206" x2="360" y2="260" stroke="#73726c" stroke-width="1.2" stroke-dasharray="4 3" marker-end="url(#arr)"/>
+  <line x1="607" y1="206" x2="607" y2="260" stroke="#73726c" stroke-width="1.2" stroke-dasharray="4 3" marker-end="url(#arr)"/>
+
+  <text x="360" y="360" text-anchor="middle" font-size="11" fill="#73726c">Solid arrows: the artifact that crosses the boundary. Dashed: each agent reports back to the orchestrator.</text>
+  <text x="360" y="378" text-anchor="middle" font-size="11" fill="#73726c">Models and tool sets above are one reasonable split, not a rule.</text>
+
+  <defs>
+    <marker id="arr" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M2 1L8 5L2 9" fill="none" stroke="#73726c" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+    </marker>
+  </defs>
+
+</svg>
