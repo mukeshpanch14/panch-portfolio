@@ -120,7 +120,27 @@ Don't take "done" at face value. The packet's acceptance checks should be things
 
 If you want that to happen automatically, Claude Code fires a `SubagentStop` hook when a sub-agent finishes, matched by agent name. And it isn't just a notification — a `SubagentStop` hook can block the sub-agent from stopping (exit code 2, or a `block` decision), which sends it back to work. Point it at your acceptance checks and "done" has to be earned.
 
-I wrote about hooks in [Claude Code Hooks: Get Notified When It Needs You]({filename}claude-hooks-guide.md). That post covers the notification side; the [hooks docs](https://code.claude.com/docs/en/hooks) cover blocking.
+I wrote about hooks in [Claude Code Hooks: Get Notified When It Needs You]({filename}claude-hooks-guide.md). That post is about notifications; for the blocking side, the [hooks docs](https://code.claude.com/docs/en/hooks) are the place to look.
+
+---
+
+## Handoffs aren't only at the start
+
+Most sessions aren't a clean pipeline. You're deep into a task with Opus or Sonnet when a chore turns up: lint that PR, raise issues for the three things you just found, triage the docs this change made stale. None of it needs your main model's judgment, and all of it floods the context you've been building. That's a handoff too, with slightly different rules.
+
+| Side quest | One reasonable fit | What should come back |
+|---|---|---|
+| Lint a PR | Haiku, read + shell | Pass or fail, plus a short `file:line` list |
+| Raise GitHub issues | Haiku or Sonnet, `gh` access | Drafts first; after your OK, the issue URLs |
+| Triage docs | Haiku, read-only | A punch list: page, what's stale, suggested fix |
+
+**Dig the packet out of the conversation.** The sub-agent can't see it, so pass only what the task needs: the PR number, the rules that matter, what done looks like. Three or four lines. Pasting the conversation in is the context bloat covered next, arriving through a side door.
+
+**Design the return.** Only the final summary comes back, and it lands in the context you're protecting, so its shape is the contract: "pass or fail, at most ten findings, full output in `lint-report.txt`."
+
+**Draft before anything outward-facing.** Linting only reads; filing issues writes to a tracker other people see. Have the sub-agent draft, review, then file.
+
+For a one-off chore the main model can pick a cheaper model for that single call. Save agent files for chores you repeat, and run slow ones in the background so you can keep working.
 
 ---
 
@@ -138,7 +158,10 @@ Every one of these looks like the model being bad at its job. Every one of them 
 
 Take a deliberately ordinary task: add a rate-limited `/reports` endpoint to an existing service.
 
-The planner reads the codebase and writes this:
+The planner reads the codebase and writes a `PLAN.md`. Expand it to see exactly what gets handed over:
+
+<details markdown="1" style="margin-bottom:1.5rem">
+<summary style="cursor:pointer;font-weight:600">PLAN.md — the full handoff packet</summary>
 
 ```markdown
 # PLAN: rate-limited /reports endpoint
@@ -166,6 +189,8 @@ Expose GET /reports, limited to 60 requests per minute per API key.
 - If Redis is unreachable, fail open or closed? Stop and ask; do not choose.
 ```
 
+</details>
+
 **Step 1:** The orchestrator hands that path to the builder — a Sonnet agent with edit and shell tools.
 
 **Step 2:** The builder implements it, runs the acceptance command, hits the Redis question, and returns it instead of guessing.
@@ -188,6 +213,7 @@ Handoffs cost tokens, latency, and your attention.
 - The work is big enough that isolating context helps
 - Stages need different tool access
 - One stage is cheap enough to hand to a smaller model
+- A chore would flood your main context with output — lint runs, issue triage, docs sweeps
 
 **When NOT to split:**
 - The change is small — one agent holding the whole task will beat a pipeline
@@ -207,5 +233,6 @@ Model tiers are a cost lever. The handoff is the design.
 - Write acceptance checks the orchestrator can actually run
 - Give the receiver an explicit way to hand a question back
 - Keep orchestration flat until you have a reason not to
+- Treat mid-session chores as handoffs too: a small packet, a defined return, and a draft before anything outward-facing
 
 A sub-agent only knows what you hand it. Hand it something worth knowing.
