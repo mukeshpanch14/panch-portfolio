@@ -3,7 +3,7 @@
   <rect width="720" height="400" fill="#fafaf9" rx="12"/>
 
   <text x="360" y="36" text-anchor="middle" font-size="15" font-weight="600" fill="#1c1c1a">Plan, build, document: each stage hands off a file, not a chat</text>
-  <text x="360" y="56" text-anchor="middle" font-size="12" fill="#73726c">The main session routes every handoff. Here, subagents never call each other.</text>
+  <text x="360" y="56" text-anchor="middle" font-size="12" fill="#73726c">The main session routes every handoff. Here, sub-agents never call each other.</text>
 
   <!-- Planner -->
   <rect x="28" y="96" width="170" height="110" rx="8" fill="#ede9fe" stroke="#7c3aed" stroke-width="1"/>

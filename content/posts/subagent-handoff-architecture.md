@@ -11,15 +11,15 @@ tags:
   - developer-tools
 slug: subagent-handoff-architecture
 author: Panch Mukesh
-summary: Choosing a model per subagent takes one line of config. Making the work survive the trip between them takes a handoff contract. Here's how to design one.
+summary: Picking a model per sub-agent takes one line of config. Making the work survive the trip between them takes a handoff contract — here's how to design one.
 status: published
 ---
 
-The pitch for multi-model subagents is easy to like. Give the planning to your strongest model, the implementation to a faster one, and the docs and changelog to the cheapest. Each stage gets the model it deserves, and the bill goes down.
+The pitch for multi-model sub-agents is easy to like. Give the planning to your strongest model, the building to a faster one, and the docs and changelog to the cheapest. Every stage gets the model it deserves, and the bill goes down.
 
-Then you try it, and the results disappoint. The plan was good. The code was competent. The docs were fluent. But the code doesn't do what the plan meant, and the docs describe behavior nobody built.
+Then you try it, and the result is oddly disappointing. The plan was good. The code was competent. The docs read beautifully. But the code doesn't do what the plan meant, and the docs describe behavior nobody built.
 
-The model split usually isn't the culprit. Every boundary between agents is a place where context gets lost, and with a split like this you have created two of them.
+The models weren't the problem. Every boundary between agents is a place where context gets lost, and a three-stage pipeline gives you two of them.
 
 ---
 
@@ -27,17 +27,19 @@ The model split usually isn't the culprit. Every boundary between agents is a pl
 
 Different stages of the same task ask for different things:
 
-- **Planning** is judgment-heavy. You are weighing trade-offs, reading unfamiliar code, and deciding what *not* to do. A mistake here is expensive because everything downstream inherits it.
-- **Building** is execution-heavy. Given a clear plan, the work is writing code, running tests, and fixing what breaks.
-- **Documentation and metadata** are high-volume and low-risk. They need accuracy and a consistent voice more than deep reasoning.
+**Planning** is judgment-heavy. You're weighing trade-offs, reading unfamiliar code, and deciding what *not* to do. A mistake here is expensive, because everything downstream inherits it.
 
-Matching model to stage is a reasonable instinct. I'm deliberately not putting prices in this post, because they go stale. The shape holds regardless: spend where a wrong answer is costly, save where it isn't.
+**Building** is execution-heavy. Given a clear plan, the work is writing code, running tests, and fixing what breaks.
+
+**Documentation and metadata** are high-volume and low-risk. They need accuracy and a consistent voice more than deep reasoning.
+
+Matching the model to the stage is a sensible instinct. I'm deliberately leaving prices out of this post, because they go stale fast. The principle doesn't: spend where a wrong answer is costly, save where it isn't.
 
 ---
 
-## Defining a subagent of your choice
+## Defining a sub-agent of your choice
 
-In Claude Code, a custom subagent is a Markdown file with YAML frontmatter, in `.claude/agents/` for a project or `~/.claude/agents/` for all your projects. The body is its system prompt. The `model` field is where you choose.
+In Claude Code, a custom sub-agent is just a Markdown file with YAML frontmatter. It lives in `.claude/agents/` for one project, or `~/.claude/agents/` for all of them. The body is its system prompt, and the `model` field is where you choose.
 
 ```markdown
 ---
@@ -52,41 +54,47 @@ and write PLAN.md using the template in docs/handoff-template.md.
 Do not write implementation code.
 ```
 
-`model` accepts the aliases `opus`, `sonnet` and `haiku`, a full model ID, or `inherit` to use whatever the main conversation is running. If you leave it out, the subagent follows the main conversation's model. `tools` is an allowlist, which is how you keep a planner from editing source and a docs agent from touching anything but docs.
+`model` accepts the aliases `opus`, `sonnet` and `haiku`, a full model ID, or `inherit` to use whatever your main conversation is running. Leave it out and the sub-agent follows the main conversation's model. `tools` is an allowlist — it's how you stop a planner from editing source, or a docs agent from touching anything but docs.
 
-That is the entire cost of the routing. Everything else in this post is the part people skip.
+That's the entire cost of the routing. Everything else in this post is the part people skip.
 
 ---
 
 ## Handoff architecture
 
-### A subagent starts nearly blind
+### A sub-agent starts nearly blind
 
-A subagent gets a fresh context window. It does not inherit your conversation, the files the parent already read, or the reasoning that led to the current plan. What it does get is short: its own system prompt, basic environment details, your project's CLAUDE.md, and the prompt the parent writes when delegating.
+A sub-agent gets a fresh context window. It doesn't inherit your conversation, the files the parent already read, or the reasoning that produced the current plan. What it does get is short: its own system prompt, basic environment details, your project's CLAUDE.md, and the prompt the parent writes when it delegates.
 
-That delegation prompt is the handoff. When the parent is finished, only the subagent's final summary comes back, not its tool calls or intermediate work. I covered the reasoning behind this isolation in [Context Is Infrastructure]({filename}context-infrastructure.md). This post is about what to do given it.
+**That delegation prompt is the handoff.** And when the sub-agent finishes, only its final summary comes back — not the tool calls, not the intermediate work.
+
+I covered *why* this isolation is useful in [Managing Context Across AI Coding Tools]({filename}context-infrastructure.md). This post is about what to do once you've accepted it.
 
 ![Fig 1 — Planner, builder and docs agents each hand a file to the next, with the main session routing every handoff]({static}/images/blog/subagent-handoff/fig1-pipeline.svg)
+
+*Fig 1 — Each stage hands a file to the next. The main session spawns every agent and routes every handoff.*
 
 ### Hand off artifacts, not summaries
 
 A summary is whatever the sender remembers to say. A file has a shape, so gaps in it are visible.
 
-The pattern in the figure is simple. The planner writes `PLAN.md`. The orchestrator, which is your main session, spawns the builder and points it at that path. The builder writes a `BUILD.md` with what changed and why. The docs agent reads that, plus the diff.
+The pattern in the figure is simple. The planner writes `PLAN.md`. Your main session — the orchestrator — spawns the builder and points it at that path. The builder writes a `BUILD.md` covering what changed and why. The docs agent reads that, plus the diff.
 
-A file also survives. If the builder fails halfway, a fresh builder can pick up the same plan. A chat summary can't be reloaded.
+A file also survives. If the builder dies halfway through, a fresh one picks up the same plan. A chat summary can't be reloaded.
 
 ### What goes in the packet
 
-Fix the shape of the file so the planner fills the same sections every time and a missing one is obvious.
+Fix the shape of the file. The planner fills the same sections every time, and a missing one jumps out.
 
 ![Fig 2 — The six parts of a handoff packet and what each one is for]({static}/images/blog/subagent-handoff/fig2-handoff-packet.svg)
 
+*Fig 2 — Six sections, every time. Intent, boundaries, verification, and an escape hatch.*
+
 Two of these deserve more attention than they usually get.
 
-**Decisions, with reasons.** "Use a token bucket" is an instruction. "Use a token bucket, because we need to allow short bursts and a fixed window would reject them" is something a builder can act on intelligently. Without the reason, the first time the instruction is awkward, a capable model will helpfully pick something simpler.
+**Decisions, with reasons.** "Use a token bucket" is an instruction. "Use a token bucket, because clients batch requests and a fixed window would reject the burst" is something a builder can act on intelligently. Without the reason, the first time the instruction feels awkward, a capable model will helpfully pick something simpler.
 
-**Open questions.** Give the receiver permission to stop. A cheaper model handed an ambiguous plan will guess confidently. Telling it which questions to hand back instead of resolving is cheap insurance.
+**Open questions.** Give the receiver permission to stop. A cheaper model handed an ambiguous plan won't say so — it'll guess, confidently. Telling it which questions to hand back instead of resolving is cheap insurance.
 
 ### Direction changes what crosses the boundary
 
@@ -95,22 +103,22 @@ Not every handoff carries the same thing:
 | Direction | Example | What it should carry |
 |---|---|---|
 | Forward | planner to builder | Intent, decisions, boundaries, checks |
-| Backward | builder to planner | The blocker, what was tried, and the specific decision needed |
+| Backward | builder to planner | The blocker, what was tried, the specific decision needed |
 | Sideways | builder to docs | The diff plus the rationale, not just the diff |
 
-Backward handoffs are the ones teams forget to design. If the builder hits something the plan didn't anticipate, there needs to be a path back to the planner that doesn't involve the builder improvising.
+Backward handoffs are the ones everyone forgets to design. If the builder hits something the plan didn't anticipate, there needs to be a path back to the planner — one that doesn't involve the builder improvising.
 
 ### Who orchestrates
 
-Claude Code allows subagents to spawn their own subagents, to a depth of three by default. I'd still start flat: the main session spawns each agent and passes the baton itself.
+Claude Code lets sub-agents spawn their own sub-agents, three levels deep by default. I'd still start flat: the main session spawns each agent and passes the baton itself.
 
-That keeps every handoff visible in one place, which matters when you are debugging a bad result. It also means the main session is the natural spot to verify between stages.
+That keeps every handoff visible in one place, which matters a lot when you're debugging a bad result. It's also the natural spot to verify between stages.
 
 ### Verify at the boundary
 
-Don't take "done" at face value. The packet's acceptance checks should be things the orchestrator can run: a test command, a lint pass, a file that must exist. Run them before spawning the next agent.
+Don't take "done" at face value. The packet's acceptance checks should be things the orchestrator can actually run — a test command, a lint pass, a file that has to exist. Run them *before* spawning the next agent.
 
-If you want that to be automatic, Claude Code fires a `SubagentStop` hook when a subagent finishes, matched by agent name. I wrote about hooks in [the Claude hooks guide]({filename}claude-hooks-guide.md). Check the hooks docs for exactly what a stop hook can and can't do before you build a gate on it.
+If you want that to happen automatically, Claude Code fires a `SubagentStop` hook when a sub-agent finishes, matched by agent name. I wrote about hooks in [Claude Code Hooks: Get Notified When It Needs You]({filename}claude-hooks-guide.md). Check the hooks docs for exactly what a stop hook can and can't do before you build a gate on it.
 
 ---
 
@@ -118,7 +126,9 @@ If you want that to be automatic, Claude Code fires a `SubagentStop` hook when a
 
 ![Fig 3 — Four handoff failure modes and the packet-level fix for each]({static}/images/blog/subagent-handoff/fig3-handoff-failure-modes.svg)
 
-Each of these looks like a model failure, and each one is fixed in the packet, not by switching models.
+*Fig 3 — Four failures that look like model problems, and the packet-level fix for each.*
+
+Every one of these looks like the model being bad at its job. Every one of them is fixed in the packet, not by switching models.
 
 ---
 
@@ -154,31 +164,46 @@ Expose GET /reports, limited to 60 requests per minute per API key.
 - If Redis is unreachable, fail open or closed? Stop and ask; do not choose.
 ```
 
-The orchestrator hands that path to the builder, a Sonnet agent with edit and shell tools. The builder implements it, runs the acceptance command, hits the Redis question, and returns it instead of guessing.
+**Step 1:** The orchestrator hands that path to the builder — a Sonnet agent with edit and shell tools.
 
-The orchestrator answers it (fail open, with a logged warning), records that in the plan, and resumes. Then it runs the acceptance checks itself. Only after they pass does it spawn the Haiku docs agent, which gets `PLAN.md`, the builder's `BUILD.md` and the diff. It has what it needs to document the 429 behavior accurately, including the fail-open decision a reader would otherwise never learn.
+**Step 2:** The builder implements it, runs the acceptance command, hits the Redis question, and returns it instead of guessing.
+
+**Step 3:** The orchestrator answers (fail open, with a logged warning), records that in the plan, and resumes the build.
+
+**Step 4:** The orchestrator runs the acceptance checks itself. Only when they pass does it spawn the Haiku docs agent.
+
+**Step 5:** The docs agent gets `PLAN.md`, the builder's `BUILD.md`, and the diff. It has everything it needs to document the 429 behavior accurately — including the fail-open decision a reader would otherwise never learn about.
 
 None of the model choices in that story is the interesting part. The interesting part is that every agent could do its job from a file.
 
 ---
 
-## When not to split
+## When to split, and when not to
 
-Handoffs cost tokens, latency and your attention. For a small change, a single agent holding the whole task in one context will beat a pipeline. The split pays off when the work is large enough that isolating context helps, when stages need different tool access, or when one stage is cheap enough to hand to a smaller model.
+Handoffs cost tokens, latency, and your attention.
 
-If you can describe the whole task in two sentences, don't build a pipeline for it.
+**When the split pays off:**
+- The work is big enough that isolating context helps
+- Stages need different tool access
+- One stage is cheap enough to hand to a smaller model
+
+**When NOT to split:**
+- The change is small — one agent holding the whole task will beat a pipeline
+- You can describe the whole task in two sentences
+- Just because it sounds cool
 
 ---
 
-## The checklist
+### The short version
 
-- Pick the model per stage in the agent's frontmatter, and the tool allowlist while you're there.
-- Hand off a file with a fixed shape, not a chat summary.
-- Record decisions and their reasons, not just instructions.
-- State non-goals and files off limits.
-- Write acceptance checks the orchestrator can actually run.
-- Give the receiver an explicit way to hand a question back.
-- Keep orchestration flat until you have a reason not to.
-- Skip the whole thing for small tasks.
+Model tiers are a cost lever. The handoff is the design.
 
-The model tiers are a cost lever. The handoff is the design.
+- Pick the model per stage in the agent's frontmatter — and the tool allowlist while you're there
+- Hand off a file with a fixed shape, not a chat summary
+- Record decisions *and* their reasons
+- State non-goals and files that are off limits
+- Write acceptance checks the orchestrator can actually run
+- Give the receiver an explicit way to hand a question back
+- Keep orchestration flat until you have a reason not to
+
+A sub-agent only knows what you hand it. Hand it something worth knowing.
