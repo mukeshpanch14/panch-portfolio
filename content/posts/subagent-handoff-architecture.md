@@ -54,7 +54,7 @@ and write PLAN.md using the template in docs/handoff-template.md.
 Do not write implementation code.
 ```
 
-`model` accepts the aliases `opus`, `sonnet` and `haiku`, a full model ID, or `inherit` to use whatever your main conversation is running. Leave it out and the sub-agent follows the main conversation's model. `tools` is an allowlist — it's how you stop a planner from editing source, or a docs agent from touching anything but docs.
+`model` accepts the aliases `opus`, `sonnet` and `haiku`, a full model ID, or `inherit` to use whatever your main conversation is running. Leave it out and the sub-agent falls back to the main conversation's model, unless you've set the `CLAUDE_CODE_SUBAGENT_MODEL` environment variable. `tools` is an allowlist — it's how you stop a planner from editing source, or a docs agent from touching anything but docs.
 
 That's the entire cost of the routing. Everything else in this post is the part people skip.
 
@@ -64,13 +64,13 @@ That's the entire cost of the routing. Everything else in this post is the part 
 
 ### A sub-agent starts nearly blind
 
-A sub-agent gets a fresh context window. It doesn't inherit your conversation, the files the parent already read, or the reasoning that produced the current plan. What it does get is short: its own system prompt, basic environment details, your project's CLAUDE.md, and the prompt the parent writes when it delegates.
+A sub-agent gets a fresh context window. It doesn't inherit your conversation, the files the parent already read, or the reasoning that produced the current plan. What it does get is short: its own system prompt plus basic environment details, your project's CLAUDE.md files, a git status snapshot, and the prompt the parent writes when it delegates.
 
 **That delegation prompt is the handoff.** And when the sub-agent finishes, only its final summary comes back — not the tool calls, not the intermediate work.
 
 I covered *why* this isolation is useful in [Managing Context Across AI Coding Tools]({filename}context-infrastructure.md). This post is about what to do once you've accepted it.
 
-![Fig 1 — Planner, builder and docs agents each hand a file to the next, with the main session routing every handoff]({static}/images/blog/subagent-handoff/fig1-pipeline.svg)
+<div style="width:0;min-width:100%;overflow-x:auto"><img alt="Fig 1 — Planner, builder and docs agents each hand a file to the next, with the main session routing every handoff" src="{static}/images/blog/subagent-handoff/fig1-pipeline.svg" style="min-width:640px;max-width:none;width:100%;height:auto"></div>
 
 *Fig 1 — Each stage hands a file to the next. The main session spawns every agent and routes every handoff.*
 
@@ -86,7 +86,7 @@ A file also survives. If the builder dies halfway through, a fresh one picks up 
 
 Fix the shape of the file. The planner fills the same sections every time, and a missing one jumps out.
 
-![Fig 2 — The six parts of a handoff packet and what each one is for]({static}/images/blog/subagent-handoff/fig2-handoff-packet.svg)
+<div style="width:0;min-width:100%;overflow-x:auto"><img alt="Fig 2 — The six parts of a handoff packet and what each one is for" src="{static}/images/blog/subagent-handoff/fig2-handoff-packet.svg" style="min-width:640px;max-width:none;width:100%;height:auto"></div>
 
 *Fig 2 — Six sections, every time. Intent, boundaries, verification, and an escape hatch.*
 
@@ -118,13 +118,15 @@ That keeps every handoff visible in one place, which matters a lot when you're d
 
 Don't take "done" at face value. The packet's acceptance checks should be things the orchestrator can actually run — a test command, a lint pass, a file that has to exist. Run them *before* spawning the next agent.
 
-If you want that to happen automatically, Claude Code fires a `SubagentStop` hook when a sub-agent finishes, matched by agent name. I wrote about hooks in [Claude Code Hooks: Get Notified When It Needs You]({filename}claude-hooks-guide.md). Check the hooks docs for exactly what a stop hook can and can't do before you build a gate on it.
+If you want that to happen automatically, Claude Code fires a `SubagentStop` hook when a sub-agent finishes, matched by agent name. And it isn't just a notification — a `SubagentStop` hook can block the sub-agent from stopping (exit code 2, or a `block` decision), which sends it back to work. Point it at your acceptance checks and "done" has to be earned.
+
+I wrote about hooks in [Claude Code Hooks: Get Notified When It Needs You]({filename}claude-hooks-guide.md). That post covers the notification side; the [hooks docs](https://code.claude.com/docs/en/hooks) cover blocking.
 
 ---
 
 ## How handoffs fail
 
-![Fig 3 — Four handoff failure modes and the packet-level fix for each]({static}/images/blog/subagent-handoff/fig3-handoff-failure-modes.svg)
+<div style="width:0;min-width:100%;overflow-x:auto"><img alt="Fig 3 — Four handoff failure modes and the packet-level fix for each" src="{static}/images/blog/subagent-handoff/fig3-handoff-failure-modes.svg" style="min-width:640px;max-width:none;width:100%;height:auto"></div>
 
 *Fig 3 — Four failures that look like model problems, and the packet-level fix for each.*
 
