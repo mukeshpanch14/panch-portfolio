@@ -3,6 +3,8 @@
 
 {% block title %} – {{ author }}{% endblock %}
 
+{% block description %}All {{ articles|count }} posts by {{ author }}: technology, Python and AI-assisted engineering.{% endblock %}
+
 {% block content %}
 <div class="index-wrap">
   <section class="site-intro">
