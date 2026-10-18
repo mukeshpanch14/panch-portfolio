@@ -74,13 +74,7 @@ A **trace** is the story of one request. It's made of **spans**, each one a time
 
 For an agent answering a question, that looks like this:
 
-```
-handle_request                      (root span)
-├── retrieve_documents              (retrieval)
-├── chat claude-sonnet              (LLM call)
-├── execute_tool search_orders      (tool call)
-└── chat claude-sonnet              (LLM call, with the tool result)
-```
+![Fig 1 — Trace tree for an agent request: a root span containing a retrieval step, two LLM calls and a tool call]({static}/images/blog/llm-call-traceability/trace-tree.svg)
 
 Each LLM call is one `CLIENT` span, named after the operation and model, for example `chat gpt-4o-mini`.
 
