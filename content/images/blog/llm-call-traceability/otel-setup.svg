@@ -29,7 +29,7 @@
   <!-- box contents -->
   <g font-size="12" fill="#1e293b" font-family="ui-monospace, SFMono-Regular, Menlo, monospace">
     <text x="38" y="116">handle_request</text>
-    <text x="38" y="138">  └ ask()</text>
+    <text x="38" y="138">  └ LLM call</text>
     <text x="38" y="160">  gen_ai.* attrs</text>
     <text x="226" y="116">TracerProvider</text>
     <text x="226" y="138">Batch</text>

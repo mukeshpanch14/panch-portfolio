@@ -97,36 +97,13 @@ Agent and tool spans add attributes like `gen_ai.agent.name` and `gen_ai.tool.na
 
 The conventions treat message content as opt-in, and for good reason. Prompts often contain user data. Capture content in dev and on sampled traffic, and keep it off or redacted elsewhere. Many instrumentation libraries gate this behind a setting, such as `OTEL_INSTRUMENTATION_GENAI_CAPTURE_MESSAGE_CONTENT`.
 
-### A minimal manual example
+### What instrumenting a call looks like
 
-Auto-instrumentation libraries do this for you, but it helps to see what's underneath:
+Instrumentation libraries do this for you, but the idea is simple. You open a span before calling the provider, then fill in the attributes from the request and the response:
 
-```python
-from opentelemetry import trace
-import anthropic
-
-tracer = trace.get_tracer("my-app")
-client = anthropic.Anthropic()
-
-def ask(question: str) -> str:
-    with tracer.start_as_current_span("chat claude-sonnet-4") as span:
-        span.set_attribute("gen_ai.operation.name", "chat")
-        span.set_attribute("gen_ai.provider.name", "anthropic")
-        span.set_attribute("gen_ai.request.model", "claude-sonnet-4")
-
-        resp = client.messages.create(
-            model="claude-sonnet-4",
-            max_tokens=500,
-            messages=[{"role": "user", "content": question}],
-        )
-
-        span.set_attribute("gen_ai.response.model", resp.model)
-        span.set_attribute("gen_ai.response.id", resp.id)
-        span.set_attribute("gen_ai.usage.input_tokens", resp.usage.input_tokens)
-        span.set_attribute("gen_ai.usage.output_tokens", resp.usage.output_tokens)
-        span.set_attribute("gen_ai.response.finish_reasons", [resp.stop_reason])
-        return resp.content[0].text
-```
+- **Before the call:** set the operation, provider and requested model.
+- **After the call:** set the response model, response ID, input and output tokens and finish reason.
+- **On failure:** record the error on the span, so failed and retried calls show up in the trace.
 
 Add your own attributes for things the standard doesn't cover yet, like the prompt template ID and version.
 
@@ -148,55 +125,23 @@ Here's the shortest path to seeing an LLM call as a trace. You'll need Python an
 
 ### Step 1: Install the SDK and exporter
 
-```bash
-pip install opentelemetry-sdk opentelemetry-exporter-otlp anthropic
-```
+Install the OpenTelemetry Python SDK and the OTLP exporter (`opentelemetry-sdk` and `opentelemetry-exporter-otlp`), alongside your provider's SDK.
 
 ### Step 2: Start a trace backend
 
-Jaeger accepts OTLP (the OTel wire protocol) and gives you a UI:
-
-```bash
-docker run --rm -p 16686:16686 -p 4317:4317 -p 4318:4318 \
-  jaegertracing/all-in-one:latest
-```
-
-Open `http://localhost:16686` for the UI. Port 4317 receives OTLP over gRPC.
+Run Jaeger's all-in-one Docker image. It accepts OTLP and gives you a UI at `http://localhost:16686`. Port 4317 receives OTLP over gRPC and 4318 over HTTP.
 
 ### Step 3: Configure OpenTelemetry once at startup
 
-```python
-from opentelemetry import trace
-from opentelemetry.sdk.resources import Resource
-from opentelemetry.sdk.trace import TracerProvider
-from opentelemetry.sdk.trace.export import BatchSpanProcessor
-from opentelemetry.exporter.otlp.proto.grpc.trace_exporter import OTLPSpanExporter
-
-provider = TracerProvider(
-    resource=Resource.create({"service.name": "llm-demo"})
-)
-provider.add_span_processor(
-    BatchSpanProcessor(OTLPSpanExporter(endpoint="http://localhost:4317", insecure=True))
-)
-trace.set_tracer_provider(provider)
-```
-
-The `service.name` is how your app shows up in the backend. The batch processor sends spans in the background so tracing doesn't slow your calls.
+Create a tracer provider with a `service.name` so your app is easy to find in the backend. Attach a batch span processor with an OTLP exporter pointing at `localhost:4317`, then register the provider globally. The batch processor sends spans in the background, so tracing doesn't slow your calls.
 
 ### Step 4: Wrap an LLM call
 
-Use the `ask()` function from the earlier example, and group a request under a parent span:
-
-```python
-tracer = trace.get_tracer("my-app")
-
-with tracer.start_as_current_span("handle_request"):
-    print(ask("Why is the sky blue?"))
-```
+Open a parent span for the request, such as `handle_request`, and make your instrumented LLM call inside it. The LLM span then nests under the request automatically.
 
 ### Step 5: Look at the trace
 
-Run the script, pick `llm-demo` in Jaeger and open the trace. You should see `handle_request` with the `chat ...` span inside it, carrying the model, token counts and finish reason as attributes.
+Run your app, pick your service in Jaeger and open the trace. You should see the parent span with the `chat ...` span inside it, carrying the model, token counts and finish reason as attributes.
 
 ### Step 6: Replace manual spans with auto-instrumentation
 
