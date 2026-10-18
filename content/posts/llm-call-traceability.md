@@ -1,4 +1,22 @@
-# LLM Call Traceability: Why You Need It and How to Start with OpenTelemetry
+---
+title: "LLM Call Traceability: Why You Need It and How to Start with OpenTelemetry"
+date: 2026-10-18 10:00
+modified: 2026-10-18
+category: Technology
+tags:
+  - llm
+  - ai
+  - observability
+  - opentelemetry
+  - tracing
+  - genai
+  - developer-tools
+slug: llm-call-traceability
+author: Panch Mukesh
+summary: LLM failures return a 200 and a wrong answer. Learn why tracing every call matters, how OpenTelemetry's GenAI conventions model it, and how to get your first trace running.
+status: published
+---
+
 
 Your app gave a user a wrong answer yesterday. You open the logs and find an HTTP 200 from your LLM provider, a latency number, and nothing else. Which prompt was sent? What context was retrieved? Which model version answered? Did the agent call a tool first, and what did it return?
 
