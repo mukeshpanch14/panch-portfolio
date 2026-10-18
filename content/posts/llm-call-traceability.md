@@ -26,6 +26,26 @@ Traditional observability assumes that the same input gives the same output, and
 
 ---
 
+## Why Use OpenTelemetry for Traceability?
+
+You could log prompts to a file, or use the SDK that ships with an LLM tool. So why OTel?
+
+**One standard, many backends.** Instrument once and send the data to Phoenix, Langfuse, Jaeger, Grafana, Datadog or whatever you adopt next year. Changing tools means changing an endpoint, not rewriting your code.
+
+**LLM calls live inside real requests.** An LLM call is rarely the whole story. It sits between an HTTP handler, a database query, a vector search and a tool server. OTel traces all of these in one tree, so you see that the "slow LLM" was actually a slow retrieval step before it.
+
+**Shared vocabulary.** The GenAI semantic conventions mean `gen_ai.usage.input_tokens` means the same thing in every tool. Dashboards, alerts and cost reports built on those names carry over between providers and frameworks.
+
+**Context propagation is built in.** The `traceparent` header already links services together. Your agent, gateway and tool servers join one trace without custom ID plumbing.
+
+**It's not tied to one framework or provider.** Whether you call OpenAI, Anthropic, a local model or a mix, the same span structure applies. Framework-specific tracers don't cover code outside the framework.
+
+**You control the data.** Collectors let you redact, drop or sample spans before they leave your network. That matters when prompts can contain personal data.
+
+**The trade-off.** The GenAI conventions are still maturing, and generic backends don't understand prompts, token costs or evals out of the box. OTel is the plumbing, and you choose the viewing layer on top.
+
+---
+
 ## How OpenTelemetry Works for LLM Calls
 
 OpenTelemetry (OTel) is the vendor-neutral standard for traces, metrics and logs. It has a set of **GenAI semantic conventions**: agreed names for the attributes of an LLM call, so any tool can read them.
@@ -108,7 +128,78 @@ The GenAI conventions are still evolving. Sources disagree on whether they've be
 
 ---
 
-## Options to Get Started
+## Getting Started: Your First OTel Trace
+
+Here's the shortest path to seeing an LLM call as a trace. You'll need Python and Docker.
+
+### Step 1: Install the SDK and exporter
+
+```bash
+pip install opentelemetry-sdk opentelemetry-exporter-otlp anthropic
+```
+
+### Step 2: Start a trace backend
+
+Jaeger accepts OTLP (the OTel wire protocol) and gives you a UI:
+
+```bash
+docker run --rm -p 16686:16686 -p 4317:4317 -p 4318:4318 \
+  jaegertracing/all-in-one:latest
+```
+
+Open `http://localhost:16686` for the UI. Port 4317 receives OTLP over gRPC.
+
+### Step 3: Configure OpenTelemetry once at startup
+
+```python
+from opentelemetry import trace
+from opentelemetry.sdk.resources import Resource
+from opentelemetry.sdk.trace import TracerProvider
+from opentelemetry.sdk.trace.export import BatchSpanProcessor
+from opentelemetry.exporter.otlp.proto.grpc.trace_exporter import OTLPSpanExporter
+
+provider = TracerProvider(
+    resource=Resource.create({"service.name": "llm-demo"})
+)
+provider.add_span_processor(
+    BatchSpanProcessor(OTLPSpanExporter(endpoint="http://localhost:4317", insecure=True))
+)
+trace.set_tracer_provider(provider)
+```
+
+The `service.name` is how your app shows up in the backend. The batch processor sends spans in the background so tracing doesn't slow your calls.
+
+### Step 4: Wrap an LLM call
+
+Use the `ask()` function from the earlier example, and group a request under a parent span:
+
+```python
+tracer = trace.get_tracer("my-app")
+
+with tracer.start_as_current_span("handle_request"):
+    print(ask("Why is the sky blue?"))
+```
+
+### Step 5: Look at the trace
+
+Run the script, pick `llm-demo` in Jaeger and open the trace. You should see `handle_request` with the `chat ...` span inside it, carrying the model, token counts and finish reason as attributes.
+
+### Step 6: Replace manual spans with auto-instrumentation
+
+Once you've seen how it works, you rarely hand-write these spans. Instrumentation packages wrap the provider SDK and emit the attributes for you:
+
+- The OpenTelemetry community maintains an OpenAI instrumentation package (`opentelemetry-instrumentation-openai-v2`).
+- Projects like OpenLLMetry and OpenInference cover Anthropic and many frameworks.
+
+Check each package's docs for its current status and the attributes it emits, since this area changes quickly. Turn on message-content capture only in environments where you're allowed to store prompts.
+
+### Next: add what the standard doesn't
+
+Once the basics work, add a prompt template ID and version, a correlation ID, and cost to your spans. Those are what turn a trace from a timing view into a debugging tool.
+
+---
+
+## Where to Send Your Traces: Backend Options
 
 OTel gives you the instrumentation. You still need somewhere to send the data. Here are three starting points, from lightest to most integrated.
 
