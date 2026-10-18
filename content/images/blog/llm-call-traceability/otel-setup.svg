@@ -1,0 +1,71 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 768 320" width="768" height="320" role="img" aria-labelledby="t d" font-family="system-ui, -apple-system, Segoe UI, sans-serif">
+  <title id="t">OpenTelemetry setup for LLM calls</title>
+  <desc id="d">Spans flow from your app through the OpenTelemetry SDK, over OTLP to an optional collector, and on to a trace backend. The app also calls the LLM provider.</desc>
+  <defs>
+    <marker id="ar" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0 0 L10 5 L0 10 z" fill="#64748b"/>
+    </marker>
+  </defs>
+  <rect width="768" height="320" rx="12" fill="#f8fafc" stroke="#cbd5e1"/>
+  <text x="24" y="34" font-size="15" font-weight="600" fill="#0f172a">How a trace gets from your LLM call to a dashboard</text>
+
+  <!-- boxes -->
+  <rect x="24" y="64" width="156" height="128" rx="8" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+  <rect x="212" y="64" width="172" height="128" rx="8" fill="#ecfdf5" stroke="#0d9488" stroke-width="1.5"/>
+  <rect x="416" y="64" width="156" height="128" rx="8" fill="#fffbeb" stroke="#d97706" stroke-width="1.5" stroke-dasharray="6 4"/>
+  <rect x="604" y="64" width="140" height="128" rx="8" fill="#f1f5f9" stroke="#475569" stroke-width="1.5"/>
+
+  <!-- box titles -->
+  <g font-size="13.5" font-weight="600" fill="#0f172a">
+    <text x="38" y="88">Your app</text>
+    <text x="226" y="88">OTel SDK</text>
+    <text x="430" y="88">Collector</text>
+    <text x="618" y="88">Backend</text>
+  </g>
+  <g font-size="11" fill="#475569">
+    <text x="430" y="104">optional</text>
+  </g>
+
+  <!-- box contents -->
+  <g font-size="12" fill="#1e293b" font-family="ui-monospace, SFMono-Regular, Menlo, monospace">
+    <text x="38" y="116">handle_request</text>
+    <text x="38" y="138">  └ ask()</text>
+    <text x="38" y="160">  gen_ai.* attrs</text>
+    <text x="226" y="116">TracerProvider</text>
+    <text x="226" y="138">Batch</text>
+    <text x="226" y="154">SpanProcessor</text>
+    <text x="226" y="176">OTLP exporter</text>
+    <text x="430" y="128">redact PII</text>
+    <text x="430" y="148">sample</text>
+    <text x="430" y="168">route</text>
+    <text x="618" y="116">Jaeger</text>
+    <text x="618" y="138">Phoenix</text>
+    <text x="618" y="160">Langfuse</text>
+  </g>
+
+  <!-- flow arrows -->
+  <g stroke="#64748b" stroke-width="1.8" fill="none" marker-end="url(#ar)">
+    <line x1="182" y1="128" x2="210" y2="128"/>
+    <line x1="386" y1="128" x2="414" y2="128"/>
+    <line x1="574" y1="128" x2="602" y2="128"/>
+  </g>
+  <g font-size="10.5" fill="#64748b" text-anchor="middle">
+    <text x="196" y="118">spans</text>
+    <text x="400" y="118">OTLP</text>
+    <text x="588" y="118">OTLP</text>
+  </g>
+
+  <!-- provider -->
+  <rect x="24" y="236" width="156" height="44" rx="8" fill="#ffffff" stroke="#94a3b8" stroke-width="1.5"/>
+  <text x="38" y="256" font-size="13.5" font-weight="600" fill="#0f172a">LLM provider</text>
+  <text x="38" y="272" font-size="11" fill="#475569">the call being traced</text>
+  <g stroke="#64748b" stroke-width="1.8" fill="none" marker-start="url(#ar)" marker-end="url(#ar)">
+    <line x1="102" y1="194" x2="102" y2="234"/>
+  </g>
+
+  <g font-size="11.5" fill="#475569">
+    <text x="212" y="238">In the tutorial the SDK exports straight to Jaeger</text>
+    <text x="212" y="256">(OTLP on :4317 gRPC or :4318 HTTP).</text>
+    <text x="212" y="278">Add a collector later to redact, sample and route.</text>
+  </g>
+</svg>

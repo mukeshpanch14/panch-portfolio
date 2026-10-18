@@ -144,6 +144,8 @@ The GenAI conventions are still evolving. Sources disagree on whether they've be
 
 Here's the shortest path to seeing an LLM call as a trace. You'll need Python and Docker.
 
+![Fig 2 — OpenTelemetry setup: spans flow from your app through the SDK and OTLP to an optional collector and a trace backend]({static}/images/blog/llm-call-traceability/otel-setup.svg)
+
 ### Step 1: Install the SDK and exporter
 
 ```bash
