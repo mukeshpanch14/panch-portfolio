@@ -143,9 +143,9 @@ Open a parent span for the request, such as `handle_request`, and make your inst
 
 Run your app, pick your service in Jaeger and open the trace. You should see the parent span with the `chat ...` span inside it, carrying the model, token counts and finish reason as attributes.
 
-### Step 6: Replace manual spans with auto-instrumentation
+### Step 6: Use auto-instrumentation
 
-Once you've seen how it works, you rarely hand-write these spans. Instrumentation packages wrap the provider SDK and emit the attributes for you:
+Once you have seen how it works, you rarely need to write these spans by hand. Instrumentation packages wrap the provider SDK and emit the attributes for you:
 
 - The OpenTelemetry community maintains an OpenAI instrumentation package (`opentelemetry-instrumentation-openai-v2`).
 - Projects like OpenLLMetry and OpenInference cover Anthropic and many frameworks.
