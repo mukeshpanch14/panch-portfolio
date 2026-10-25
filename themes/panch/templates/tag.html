@@ -3,6 +3,8 @@
 
 {% block title %} – #{{ tag }}{% endblock %}
 
+{% block description %}{{ articles|count }} post{% if articles|count != 1 %}s{% endif %} tagged #{{ tag }} on {{ SITENAME }}: {{ articles|map(attribute='title')|map('striptags')|join('; ')|truncate(110) }}{% endblock %}
+
 {% block content %}
 <div class="index-wrap">
   <section class="site-intro">
