@@ -15,11 +15,9 @@ summary: Picking a model per sub-agent takes one line of config. Making the work
 status: published
 ---
 
-The pitch for multi-model sub-agents is easy to like. Give the planning to your strongest model, the building to a faster one, and the docs and changelog to the cheapest. Every stage gets the model it deserves, and the bill goes down.
+I recently built a feature that needed real design work: several upstream data sources, a non-trivial computation layer, and an API on top. I split it by model. Opus did the architecture and the computation design. Sonnet built the API layer once the computation was in place. Haiku wrote the docs and fixed lint errors.
 
-Then you try it, and the result is oddly disappointing. The plan was good. The code was competent. The docs read beautifully. But the code doesn't do what the plan meant, and the docs describe behavior nobody built.
-
-The models weren't the problem. Every boundary between agents is a place where context gets lost, and a three-stage pipeline gives you two of them.
+Choosing the models was the easy part, one line of config each. The seams are where the design work is. The API layer depended on what the computation produced, and the docs depended on both. Every boundary between agents is a place where context can get lost, and a three-stage pipeline has two of them.
 
 ---
 
@@ -56,7 +54,7 @@ Do not write implementation code.
 
 `model` accepts the aliases `opus`, `sonnet` and `haiku`, a full model ID, or `inherit` to use whatever your main conversation is running. Leave it out and the sub-agent falls back to the main conversation's model, unless you've set the `CLAUDE_CODE_SUBAGENT_MODEL` environment variable. `tools` is an allowlist — it's how you stop a planner from editing source, or a docs agent from touching anything but docs.
 
-That's the entire cost of the routing. Everything else in this post is the part people skip.
+That's the entire cost of the routing. The rest of this post is about what happens at the boundaries.
 
 ---
 
@@ -92,9 +90,9 @@ Fix the shape of the file. The planner fills the same sections every time, and a
 
 Two of these deserve more attention than they usually get.
 
-**Decisions, with reasons.** "Use a token bucket" is an instruction. "Use a token bucket, because clients batch requests and a fixed window would reject the burst" is something a builder can act on intelligently. Without the reason, the first time the instruction feels awkward, a capable model will helpfully pick something simpler.
+**Decisions, with reasons.** "Use a token bucket" is an instruction. "Use a token bucket, because clients batch requests and a fixed window would reject the burst" is something a builder can act on intelligently. Without the reason, the first time the instruction feels awkward, a model may reasonably pick something simpler.
 
-**Open questions.** Give the receiver permission to stop. A cheaper model handed an ambiguous plan won't say so — it'll guess, confidently. Telling it which questions to hand back instead of resolving is cheap insurance.
+**Open questions.** Give the receiver permission to stop. A model handed an ambiguous plan may not flag it; it may just pick an interpretation and carry on. Telling it which questions to hand back instead of resolving is cheap insurance.
 
 ### Direction changes what crosses the boundary
 
@@ -110,7 +108,7 @@ Backward handoffs are the ones everyone forgets to design. If the builder hits s
 
 ### Who orchestrates
 
-Claude Code lets sub-agents spawn their own sub-agents, three levels deep by default. I'd still start flat: the main session spawns each agent and passes the baton itself.
+Claude Code lets sub-agents spawn their own sub-agents, three levels deep by default. A flat setup is the simpler place to start: the main session spawns each agent and passes the baton itself.
 
 That keeps every handoff visible in one place, which matters a lot when you're debugging a bad result. It's also the natural spot to verify between stages.
 
@@ -118,7 +116,7 @@ That keeps every handoff visible in one place, which matters a lot when you're d
 
 Don't take "done" at face value. The packet's acceptance checks should be things the orchestrator can actually run — a test command, a lint pass, a file that has to exist. Run them *before* spawning the next agent.
 
-If you want that to happen automatically, Claude Code fires a `SubagentStop` hook when a sub-agent finishes, matched by agent name. And it isn't just a notification — a `SubagentStop` hook can block the sub-agent from stopping (exit code 2, or a `block` decision), which sends it back to work. Point it at your acceptance checks and "done" has to be earned.
+If you want that to happen automatically, Claude Code fires a `SubagentStop` hook when a sub-agent finishes, matched by agent name. And it isn't just a notification — a `SubagentStop` hook can block the sub-agent from stopping (exit code 2, or a `block` decision), which sends it back to work. Point it at your acceptance checks and a sub-agent can't call itself done until they pass.
 
 I wrote about hooks in [Claude Code Hooks: Get Notified When It Needs You]({filename}claude-hooks-guide.md). That post is about notifications; for the blocking side, the [hooks docs](https://code.claude.com/docs/en/hooks) are the place to look.
 
@@ -126,7 +124,7 @@ I wrote about hooks in [Claude Code Hooks: Get Notified When It Needs You]({file
 
 ## Handoffs aren't only at the start
 
-Most sessions aren't a clean pipeline. You're deep into a task with Opus or Sonnet when a chore turns up: lint that PR, raise issues for the three things you just found, triage the docs this change made stale. None of it needs your main model's judgment, and all of it floods the context you've been building. That's a handoff too, with slightly different rules.
+Most sessions aren't a clean pipeline. You're deep into a task with Opus or Sonnet when a chore turns up: lint that PR, raise issues for the three things you just found, triage the docs this change made stale. None of it needs your main model's judgment, and all of it floods the context you've been building. Fixing lint errors, which was Haiku's job in my build, is exactly this kind of chore. It's a handoff too, with slightly different rules.
 
 | Side quest | One reasonable fit | What should come back |
 |---|---|---|
@@ -156,7 +154,7 @@ Every one of these looks like the model being bad at its job. Every one of them 
 
 ## A worked example
 
-Take a deliberately ordinary task: add a rate-limited `/reports` endpoint to an existing service.
+My real feature had more moving parts, so here's a deliberately ordinary stand-in: add a rate-limited `/reports` endpoint to an existing service. The plan below is illustrative, not the one from my build.
 
 The planner reads the codebase and writes a `PLAN.md`. Expand it to see exactly what gets handed over:
 
@@ -201,8 +199,6 @@ Expose GET /reports, limited to 60 requests per minute per API key.
 
 **Step 5:** The docs agent gets `PLAN.md`, the builder's `BUILD.md`, and the diff. It has everything it needs to document the 429 behavior accurately — including the fail-open decision a reader would otherwise never learn about.
 
-None of the model choices in that story is the interesting part. The interesting part is that every agent could do its job from a file.
-
 ---
 
 ## When to split, and when not to
@@ -216,7 +212,7 @@ Handoffs cost tokens, latency, and your attention.
 - A chore would flood your main context with output — lint runs, issue triage, docs sweeps
 
 **When NOT to split:**
-- The change is small — one agent holding the whole task will beat a pipeline
+- The change is small — one agent holding the whole task is usually simpler than a pipeline
 - You can describe the whole task in two sentences
 - Just because it sounds cool
 
@@ -235,4 +231,4 @@ Model tiers are a cost lever. The handoff is the design.
 - Keep orchestration flat until you have a reason not to
 - Treat mid-session chores as handoffs too: a small packet, a defined return, and a draft before anything outward-facing
 
-A sub-agent only knows what you hand it. Hand it something worth knowing.
+A sub-agent only knows what you hand it.
