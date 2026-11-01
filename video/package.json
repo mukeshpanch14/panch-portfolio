@@ -1,0 +1,17 @@
+{
+  "name": "panch-portfolio-video",
+  "private": true,
+  "scripts": {
+    "studio": "remotion studio src/index.ts",
+    "render": "remotion render src/index.ts HandoffReel out/handoff-reel.mp4",
+    "still": "remotion still src/index.ts HandoffReel out/frame.png --frame=60"
+  },
+  "dependencies": {
+    "@remotion/cli": "^4.0.539",
+    "@types/react": "^19.3.0",
+    "react": "^19.3.1",
+    "react-dom": "^19.3.1",
+    "remotion": "^4.0.539",
+    "typescript": "^7.0.2"
+  }
+}
