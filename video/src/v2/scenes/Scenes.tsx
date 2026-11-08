@@ -1,6 +1,7 @@
 import React from 'react';
 import {Audio, Sequence, staticFile, useCurrentFrame, useVideoConfig, interpolate} from 'remotion';
 import {theme, scenes} from '../theme';
+import {ReelContent} from '../content';
 import {Entrance, WordReveal, SceneShell, Breathe, Counter, useSpringIn} from '../components/motion';
 
 const T = theme.colors;
@@ -23,24 +24,24 @@ const Eyebrow: React.FC<{children: React.ReactNode; delay?: number}> = ({childre
   </Entrance>
 );
 
-export const Hook: React.FC = () => {
+export const Hook: React.FC<{c: ReelContent['hook']}> = ({c}) => {
   const len = useLen(scenes.hook);
   return (
     <SceneShell len={len}>
       <Sfx at={0.05} file="whoosh" />
       <Sfx at={0.9} file="thump" volume={0.8} />
-      <Eyebrow>CLAUDE CODE / SUB-AGENTS</Eyebrow>
+      <Eyebrow>{c.eyebrow}</Eyebrow>
       <div style={{height: 44}} />
       <WordReveal
         delay={0.15}
         per={0.12}
         style={{fontSize: 124, fontWeight: 700, letterSpacing: '-0.03em', lineHeight: 1.05}}
-        words={[{t: 'Opus'}, {t: 'plans.'}, {t: 'Sonnet'}, {t: 'builds.'}, {t: 'Haiku'}, {t: 'documents.'}]}
+        words={c.words}
       />
       <div style={{height: 70}} />
       <Entrance delay={1.5}>
         <div style={{fontSize: 62, fontWeight: 500, letterSpacing: '-0.02em'}}>
-          The hard part is the <span style={{color: T.primary, textShadow: `0 0 60px ${T.glow}`}}>handoff.</span>
+          {c.subPre}<span style={{color: T.primary, textShadow: `0 0 60px ${T.glow}`}}>{c.subHero}</span>
         </div>
       </Entrance>
     </SceneShell>
@@ -87,7 +88,7 @@ const Link: React.FC<{file: string; delay: number}> = ({file, delay}) => {
   );
 };
 
-export const Pipeline: React.FC = () => {
+export const Pipeline: React.FC<{c: ReelContent['flow']}> = ({c}) => {
   const len = useLen(scenes.pipeline);
   return (
     <SceneShell len={len}>
@@ -97,52 +98,42 @@ export const Pipeline: React.FC = () => {
       <Sfx at={3.3} file="pop" />
       <Entrance>
         <div style={{fontSize: 64, fontWeight: 700, letterSpacing: '-0.03em', marginBottom: 56, lineHeight: 1.1}}>
-          Hand off <span style={{color: T.primary, textShadow: `0 0 60px ${T.glow}`}}>files</span>,
-          <br />
-          not summaries.
+          {c.titlePre}<span style={{color: T.primary, textShadow: `0 0 60px ${T.glow}`}}>{c.titleHero}</span>{c.titlePost}
         </div>
       </Entrance>
-      <Agent name="Opus" role="Planner" delay={0.5} />
-      <Link file="PLAN.md" delay={1.15} />
-      <Agent name="Sonnet" role="Builder" delay={1.85} />
-      <Link file="BUILD.md + diff" delay={2.5} />
-      <Agent name="Haiku" role="Docs & lint" delay={3.25} />
+      {c.nodes.map((n, i) => (
+        <React.Fragment key={n.name}>
+          <Agent name={n.name} role={n.role} delay={0.5 + i * 1.35} />
+          {i < c.links.length && <Link file={c.links[i]} delay={1.15 + i * 1.35} />}
+        </React.Fragment>
+      ))}
     </SceneShell>
   );
 };
 
-const SECTIONS: [string, string][] = [
-  ['Goal', 'what done looks like'],
-  ['Decisions', 'with the reasons'],
-  ['Files', 'touch / do not touch'],
-  ['Non-goals', 'what NOT to build'],
-  ['Acceptance', 'checks you can run'],
-  ['Open questions', 'stop and ask'],
-];
-
-export const Packet: React.FC = () => {
+export const Packet: React.FC<{c: ReelContent['list']}> = ({c}) => {
   const len = useLen(scenes.packet);
   return (
     <SceneShell len={len}>
       <Sfx at={0.05} file="whoosh" />
-      {SECTIONS.map((_, i) => (
+      {c.items.map((_, i) => (
         <Sfx key={i} at={0.7 + i * 0.28} file="pop" volume={0.35} />
       ))}
       <Entrance>
         <div style={{display: 'flex', alignItems: 'baseline', gap: 30}}>
           <span style={{fontSize: 190, fontWeight: 700, letterSpacing: '-0.05em', color: T.primary, textShadow: `0 0 60px ${T.glow}`, lineHeight: 1}}>
-            <Counter to={6} delay={0.3} />
+            <Counter to={c.count} delay={0.3} />
           </span>
           <span style={{fontSize: 60, fontWeight: 700, letterSpacing: '-0.03em', lineHeight: 1.1}}>
-            parts in every
+            {c.heading}
             <br />
-            <span style={{fontFamily: theme.fonts.mono, fontWeight: 500, color: T.textDim, fontSize: 48}}>PLAN.md</span>
+            <span style={{fontFamily: theme.fonts.mono, fontWeight: 500, color: T.textDim, fontSize: 48}}>{c.mono}</span>
           </span>
         </div>
       </Entrance>
       <div style={{height: 44}} />
       <div style={{display: 'flex', flexDirection: 'column', gap: 20}}>
-        {SECTIONS.map(([t, d], i) => (
+        {c.items.map(([t, d], i) => (
           <Entrance key={t} delay={0.7 + i * 0.28} from={36}>
             <div
               style={{
@@ -160,31 +151,24 @@ export const Packet: React.FC = () => {
   );
 };
 
-const FAILS: [string, string][] = [
-  ['Builder guesses', 'Hand open questions back'],
-  ['Reasons lost', 'Record decisions + why'],
-  ['Scope creep', 'State non-goals, off-limits files'],
-  ['"Done" on faith', 'Run acceptance checks yourself'],
-];
-
-export const Fail: React.FC = () => {
+export const Fail: React.FC<{c: ReelContent['contrast']}> = ({c}) => {
   const len = useLen(scenes.fail);
   return (
     <SceneShell len={len}>
       <Sfx at={0.05} file="whoosh" />
-      {FAILS.map((_, i) => (
+      {c.cards.map((_, i) => (
         <Sfx key={i} at={0.9 + i * 0.45} file="pop" volume={0.4} />
       ))}
       <Entrance>
         <div style={{fontSize: 62, fontWeight: 700, letterSpacing: '-0.03em', lineHeight: 1.1}}>
-          Looks like a bad model.
+          {c.line1}
           <br />
-          <span style={{color: T.primary, textShadow: `0 0 60px ${T.glow}`}}>Is a bad packet.</span>
+          <span style={{color: T.primary, textShadow: `0 0 60px ${T.glow}`}}>{c.line2Hero}</span>
         </div>
       </Entrance>
       <div style={{height: 54}} />
       <div style={{display: 'flex', flexDirection: 'column', gap: 24}}>
-        {FAILS.map(([a, b], i) => (
+        {c.cards.map(([a, b], i) => (
           <Entrance key={a} delay={0.9 + i * 0.45}>
             <div style={{background: T.bgAlt, border: `2px solid ${T.line}`, borderRadius: 22, padding: '26px 36px'}}>
               <div style={{fontSize: 46, fontWeight: 700, letterSpacing: '-0.02em'}}>{a}</div>
@@ -197,7 +181,7 @@ export const Fail: React.FC = () => {
   );
 };
 
-export const Outro: React.FC = () => {
+export const Outro: React.FC<{c: ReelContent['outro']}> = ({c}) => {
   const len = useLen(scenes.outro);
   return (
     <SceneShell len={len}>
@@ -207,12 +191,12 @@ export const Outro: React.FC = () => {
         delay={0.15}
         per={0.12}
         style={{fontSize: 104, fontWeight: 700, letterSpacing: '-0.03em', lineHeight: 1.08}}
-        words={[{t: 'A'}, {t: 'sub-agent'}, {t: 'only'}, {t: 'knows'}, {t: 'what'}, {t: 'you'}, {t: 'hand', hero: true}, {t: 'it.', hero: true}]}
+        words={c.words}
       />
       <div style={{height: 80}} />
       <Entrance delay={1.3}>
-        <div style={{fontSize: 42, color: T.textDim, fontWeight: 500}}>Full post · link in bio</div>
-        <div style={{fontSize: 54, fontWeight: 700, marginTop: 10, letterSpacing: '-0.02em'}}>Panch Mukesh</div>
+        <div style={{fontSize: 42, color: T.textDim, fontWeight: 500}}>{c.cta}</div>
+        <div style={{fontSize: 54, fontWeight: 700, marginTop: 10, letterSpacing: '-0.02em'}}>{c.name}</div>
       </Entrance>
     </SceneShell>
   );

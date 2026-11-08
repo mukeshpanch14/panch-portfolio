@@ -4,7 +4,9 @@
   "scripts": {
     "studio": "remotion studio src/index.ts",
     "render": "remotion render src/index.ts HandoffReel out/handoff-reel.mp4",
-    "still": "remotion still src/index.ts HandoffReel out/frame.png --frame=60"
+    "still": "remotion still src/index.ts HandoffReel out/frame.png --frame=60",
+    "reel": "remotion render src/index.ts HandoffReelV2 out/reel.mp4 --codec h264 --crf 17 --overwrite --props",
+    "sfx": "node scripts/make-sfx.mjs"
   },
   "dependencies": {
     "@fontsource/jetbrains-mono": "^5.3.0",

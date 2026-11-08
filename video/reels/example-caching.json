@@ -1,0 +1,7 @@
+{
+  "hook": {"eyebrow": "CLAUDE CODE / CACHING", "words": [{"t":"Cache"},{"t":"the"},{"t":"prefix.","hero":true},{"t":"Pay"},{"t":"less."}], "subPre": "Order matters: ", "subHero": "stable first."},
+  "flow": {"titlePre": "Put ", "titleHero": "static", "titlePost": " content first.", "nodes": [{"name":"System","role":"never changes"},{"name":"Tools","role":"rarely changes"},{"name":"Messages","role":"always changes"}], "links": ["cache hit", "cache miss"]},
+  "list": {"count": 3, "heading": "rules for", "mono": "prompt layout", "items": [["Stable first","system + tools"],["Volatile last","user turns"],["Never reorder","breaks the prefix"]]},
+  "contrast": {"line1": "Looks like a slow model.", "line2Hero": "Is a busted cache.", "cards": [["Timestamp in prompt","move it to the end"],["Tool list shuffles","sort it"]]},
+  "outro": {"words": [{"t":"Order"},{"t":"is"},{"t":"a","hero":true},{"t":"feature.","hero":true}], "cta": "Full post · link in bio", "name": "Panch Mukesh"}
+}
