@@ -1,0 +1,43 @@
+{
+  "hook": {
+    "eyebrow": "THINKING MODELS / DEEP RESEARCH",
+    "words": [{"t":"Let"},{"t":"it"},{"t":"think."},{"t":"Let"},{"t":"it"},{"t":"search."}],
+    "subPre": "The wait is worth it ",
+    "subHero": "sometimes."
+  },
+  "flow": {
+    "titlePre": "Two buttons that make AI ", "titleHero": "slower", "titlePost": " on purpose.",
+    "nodes": [
+      {"name": "Standard", "role": "seconds"},
+      {"name": "Thinking", "role": "minutes"},
+      {"name": "Research", "role": "up to 30 min"}
+    ],
+    "links": ["+ scratch pad", "+ search loop"]
+  },
+  "list": {
+    "count": 4,
+    "heading": "modes. Pick by",
+    "mono": "the task",
+    "items": [
+      ["Standard", "drafting, rewriting"],
+      ["Thinking", "debug, design, plan"],
+      ["Search", "recent or obscure facts"],
+      ["Deep research", "many sources, a report"]
+    ]
+  },
+  "contrast": {
+    "line1": "Slower is not better.",
+    "line2Hero": "Fit is.",
+    "cards": [
+      ["Thinking on easy tasks", "Start low, turn the dial up"],
+      ["Vague research brief", "Brief it like a teammate"],
+      ["Report trusted blindly", "Click through the key claims"],
+      ["Stale prices and policies", "Check the dates"]
+    ]
+  },
+  "outro": {
+    "words": [{"t":"Know"},{"t":"what"},{"t":"you're"},{"t":"waiting","hero":true},{"t":"for.","hero":true}],
+    "cta": "Full post · link in bio",
+    "name": "Panch Mukesh"
+  }
+}
