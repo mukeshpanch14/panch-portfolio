@@ -1,0 +1,64 @@
+<svg width="720" height="420" viewBox="0 0 720 420" xmlns="http://www.w3.org/2000/svg" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif">
+
+  <rect width="720" height="420" fill="#fafaf9" rx="12"/>
+
+  <text x="360" y="36" text-anchor="middle" font-size="15" font-weight="600" fill="#1c1c1a">Deep research is a loop, not a lookup</text>
+  <text x="360" y="56" text-anchor="middle" font-size="12" fill="#73726c">Plan, fan out, read, look for gaps, go again, and only then write.</text>
+
+  <!-- Question -->
+  <rect x="28" y="170" width="112" height="70" rx="8" fill="#f1efe8" stroke="#a8a79f" stroke-width="1"/>
+  <text x="84" y="200" text-anchor="middle" font-size="12" font-weight="600" fill="#1c1c1a">Your question</text>
+  <text x="84" y="218" text-anchor="middle" font-size="11" fill="#73726c">+ any scoping</text>
+
+  <!-- Lead -->
+  <rect x="168" y="150" width="150" height="110" rx="8" fill="#ede9fe" stroke="#7c3aed" stroke-width="1"/>
+  <text x="243" y="176" text-anchor="middle" font-size="12" font-weight="600" fill="#4c1d95">LEAD AGENT</text>
+  <text x="243" y="200" text-anchor="middle" font-size="11" fill="#4c1d95">Plans the research</text>
+  <text x="243" y="218" text-anchor="middle" font-size="11" fill="#4c1d95">Splits sub-questions</text>
+  <text x="243" y="236" text-anchor="middle" font-size="11" fill="#6d28d9">Decides when it's done</text>
+
+  <!-- Subagents -->
+  <rect x="362" y="86" width="176" height="64" rx="8" fill="#d0ede9" stroke="#1a7a6e" stroke-width="1"/>
+  <text x="450" y="112" text-anchor="middle" font-size="12" font-weight="600" fill="#0f4a43">Sub-question A</text>
+  <text x="450" y="132" text-anchor="middle" font-size="11" fill="#1a7a6e">search → read → summarize</text>
+
+  <rect x="362" y="173" width="176" height="64" rx="8" fill="#d0ede9" stroke="#1a7a6e" stroke-width="1"/>
+  <text x="450" y="199" text-anchor="middle" font-size="12" font-weight="600" fill="#0f4a43">Sub-question B</text>
+  <text x="450" y="219" text-anchor="middle" font-size="11" fill="#1a7a6e">search → read → summarize</text>
+
+  <rect x="362" y="260" width="176" height="64" rx="8" fill="#d0ede9" stroke="#1a7a6e" stroke-width="1"/>
+  <text x="450" y="286" text-anchor="middle" font-size="12" font-weight="600" fill="#0f4a43">Sub-question C</text>
+  <text x="450" y="306" text-anchor="middle" font-size="11" fill="#1a7a6e">search → read → summarize</text>
+
+  <!-- Report -->
+  <rect x="580" y="150" width="112" height="110" rx="8" fill="#fef3c7" stroke="#d97706" stroke-width="1"/>
+  <text x="636" y="186" text-anchor="middle" font-size="12" font-weight="600" fill="#78350f">REPORT</text>
+  <text x="636" y="210" text-anchor="middle" font-size="11" fill="#78350f">Synthesis</text>
+  <text x="636" y="228" text-anchor="middle" font-size="11" fill="#b45309">+ citations</text>
+
+  <!-- Arrows -->
+  <line x1="140" y1="205" x2="166" y2="205" stroke="#73726c" stroke-width="1.5" marker-end="url(#arr)"/>
+  <line x1="318" y1="180" x2="360" y2="120" stroke="#73726c" stroke-width="1.5" marker-end="url(#arr)"/>
+  <line x1="318" y1="205" x2="360" y2="205" stroke="#73726c" stroke-width="1.5" marker-end="url(#arr)"/>
+  <line x1="318" y1="230" x2="360" y2="290" stroke="#73726c" stroke-width="1.5" marker-end="url(#arr)"/>
+
+  <line x1="538" y1="120" x2="578" y2="180" stroke="#73726c" stroke-width="1.5" marker-end="url(#arr)"/>
+  <line x1="538" y1="205" x2="578" y2="205" stroke="#73726c" stroke-width="1.5" marker-end="url(#arr)"/>
+  <line x1="538" y1="290" x2="578" y2="230" stroke="#73726c" stroke-width="1.5" marker-end="url(#arr)"/>
+
+  <!-- Loop back -->
+  <path d="M450 324 L450 356 L243 356 L243 264" fill="none" stroke="#7c3aed" stroke-width="1.3" stroke-dasharray="5 3" marker-end="url(#arrp)"/>
+  <text x="346" y="374" text-anchor="middle" font-size="11" fill="#6d28d9">Summaries flow back. Gaps or contradictions? Another round.</text>
+
+  <text x="360" y="402" text-anchor="middle" font-size="11" fill="#73726c">Each helper reads on its own, so the lead only ever sees short summaries.</text>
+
+  <defs>
+    <marker id="arr" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M2 1L8 5L2 9" fill="none" stroke="#73726c" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+    </marker>
+    <marker id="arrp" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M2 1L8 5L2 9" fill="none" stroke="#7c3aed" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+    </marker>
+  </defs>
+
+</svg>
