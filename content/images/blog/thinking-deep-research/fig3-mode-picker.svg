@@ -1,0 +1,57 @@
+<svg width="720" height="480" viewBox="0 0 720 480" xmlns="http://www.w3.org/2000/svg" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif">
+
+  <rect width="720" height="480" fill="#fafaf9" rx="12"/>
+
+  <text x="360" y="36" text-anchor="middle" font-size="15" font-weight="600" fill="#1c1c1a">Pick the mode from two questions</text>
+  <text x="360" y="56" text-anchor="middle" font-size="12" fill="#73726c">How hard is the reasoning? How much does it depend on information the model doesn't have?</text>
+
+  <!-- Top-left: Thinking -->
+  <rect x="100" y="80" width="292" height="168" rx="8" fill="#ede9fe" stroke="#7c3aed" stroke-width="1"/>
+  <text x="246" y="108" text-anchor="middle" font-size="13" font-weight="600" fill="#4c1d95">THINKING (higher effort)</text>
+  <text x="246" y="128" text-anchor="middle" font-size="11" fill="#6d28d9">seconds to minutes</text>
+  <text x="246" y="160" text-anchor="middle" font-size="11" fill="#4c1d95">Find the race condition in this code</text>
+  <text x="246" y="180" text-anchor="middle" font-size="11" fill="#4c1d95">Design a schema with these constraints</text>
+  <text x="246" y="200" text-anchor="middle" font-size="11" fill="#4c1d95">Plan a migration with no downtime</text>
+  <text x="246" y="220" text-anchor="middle" font-size="11" fill="#4c1d95">Check this proof or estimate</text>
+
+  <!-- Top-right: Deep research -->
+  <rect x="400" y="80" width="292" height="168" rx="8" fill="#fef3c7" stroke="#d97706" stroke-width="1"/>
+  <text x="546" y="108" text-anchor="middle" font-size="13" font-weight="600" fill="#78350f">DEEP RESEARCH</text>
+  <text x="546" y="128" text-anchor="middle" font-size="11" fill="#b45309">several minutes to half an hour</text>
+  <text x="546" y="160" text-anchor="middle" font-size="11" fill="#78350f">Compare 6 vendors on 8 criteria</text>
+  <text x="546" y="180" text-anchor="middle" font-size="11" fill="#78350f">Map the players in a market</text>
+  <text x="546" y="200" text-anchor="middle" font-size="11" fill="#78350f">Summarize the evidence on a question</text>
+  <text x="546" y="220" text-anchor="middle" font-size="11" fill="#78350f">Audit a product's privacy claims</text>
+
+  <!-- Bottom-left: Standard -->
+  <rect x="100" y="256" width="292" height="168" rx="8" fill="#f1efe8" stroke="#a8a79f" stroke-width="1"/>
+  <text x="246" y="284" text-anchor="middle" font-size="13" font-weight="600" fill="#1c1c1a">STANDARD (low effort)</text>
+  <text x="246" y="304" text-anchor="middle" font-size="11" fill="#73726c">seconds</text>
+  <text x="246" y="336" text-anchor="middle" font-size="11" fill="#1c1c1a">Draft or rewrite an email</text>
+  <text x="246" y="356" text-anchor="middle" font-size="11" fill="#1c1c1a">Explain a well-known concept</text>
+  <text x="246" y="376" text-anchor="middle" font-size="11" fill="#1c1c1a">Turn notes into a table</text>
+  <text x="246" y="396" text-anchor="middle" font-size="11" fill="#1c1c1a">Write a regex or a quick script</text>
+
+  <!-- Bottom-right: Search -->
+  <rect x="400" y="256" width="292" height="168" rx="8" fill="#d0ede9" stroke="#1a7a6e" stroke-width="1"/>
+  <text x="546" y="284" text-anchor="middle" font-size="13" font-weight="600" fill="#0f4a43">WEB SEARCH</text>
+  <text x="546" y="304" text-anchor="middle" font-size="11" fill="#1a7a6e">seconds</text>
+  <text x="546" y="336" text-anchor="middle" font-size="11" fill="#0f4a43">What changed in the latest release?</text>
+  <text x="546" y="356" text-anchor="middle" font-size="11" fill="#0f4a43">Is this library still maintained?</text>
+  <text x="546" y="376" text-anchor="middle" font-size="11" fill="#0f4a43">When does the next season air?</text>
+  <text x="546" y="396" text-anchor="middle" font-size="11" fill="#0f4a43">Why is this stock moving today?</text>
+
+  <!-- Axes -->
+  <line x1="80" y1="424" x2="80" y2="88" stroke="#73726c" stroke-width="1.2" marker-end="url(#arr)"/>
+  <text x="66" y="252" text-anchor="middle" font-size="11" fill="#73726c" transform="rotate(-90 66 252)">More reasoning needed</text>
+
+  <line x1="100" y1="444" x2="684" y2="444" stroke="#73726c" stroke-width="1.2" marker-end="url(#arr)"/>
+  <text x="392" y="466" text-anchor="middle" font-size="11" fill="#73726c">More fresh or outside information needed</text>
+
+  <defs>
+    <marker id="arr" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M2 1L8 5L2 9" fill="none" stroke="#73726c" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+    </marker>
+  </defs>
+
+</svg>

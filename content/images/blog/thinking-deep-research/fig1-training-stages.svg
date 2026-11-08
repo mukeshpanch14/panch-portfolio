@@ -1,0 +1,70 @@
+<svg width="720" height="410" viewBox="0 0 720 410" xmlns="http://www.w3.org/2000/svg" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif">
+
+  <rect width="720" height="410" fill="#fafaf9" rx="12"/>
+
+  <text x="360" y="36" text-anchor="middle" font-size="15" font-weight="600" fill="#1c1c1a">Where thinking comes from: a third stage of training</text>
+  <text x="360" y="56" text-anchor="middle" font-size="12" fill="#73726c">Pre-training gives knowledge, post-training gives manners, RL gives problem-solving habits.</text>
+
+  <!-- Stage 1 -->
+  <rect x="28" y="80" width="200" height="124" rx="8" fill="#ede9fe" stroke="#7c3aed" stroke-width="1"/>
+  <text x="128" y="102" text-anchor="middle" font-size="10" font-weight="600" fill="#6d28d9" letter-spacing="1">STAGE 1</text>
+  <text x="128" y="122" text-anchor="middle" font-size="13" font-weight="600" fill="#4c1d95">Pre-training</text>
+  <text x="128" y="146" text-anchor="middle" font-size="11" fill="#4c1d95">Predict the next token over</text>
+  <text x="128" y="162" text-anchor="middle" font-size="11" fill="#4c1d95">internet-scale text</text>
+  <text x="128" y="188" text-anchor="middle" font-size="11" fill="#6d28d9">Result: a lossy zip of the web</text>
+
+  <!-- Stage 2 -->
+  <rect x="260" y="80" width="200" height="124" rx="8" fill="#d0ede9" stroke="#1a7a6e" stroke-width="1"/>
+  <text x="360" y="102" text-anchor="middle" font-size="10" font-weight="600" fill="#1a7a6e" letter-spacing="1">STAGE 2</text>
+  <text x="360" y="122" text-anchor="middle" font-size="13" font-weight="600" fill="#0f4a43">Post-training</text>
+  <text x="360" y="146" text-anchor="middle" font-size="11" fill="#0f4a43">Imitate curated example</text>
+  <text x="360" y="162" text-anchor="middle" font-size="11" fill="#0f4a43">conversations</text>
+  <text x="360" y="188" text-anchor="middle" font-size="11" fill="#1a7a6e">Result: a helpful assistant</text>
+
+  <!-- Stage 3 -->
+  <rect x="492" y="80" width="200" height="124" rx="8" fill="#fef3c7" stroke="#d97706" stroke-width="1"/>
+  <text x="592" y="102" text-anchor="middle" font-size="10" font-weight="600" fill="#b45309" letter-spacing="1">STAGE 3</text>
+  <text x="592" y="122" text-anchor="middle" font-size="13" font-weight="600" fill="#78350f">Reinforcement learning</text>
+  <text x="592" y="146" text-anchor="middle" font-size="11" fill="#78350f">Practice on problems with</text>
+  <text x="592" y="162" text-anchor="middle" font-size="11" fill="#78350f">checkable answers</text>
+  <text x="592" y="188" text-anchor="middle" font-size="11" fill="#b45309">Result: its own strategies</text>
+
+  <line x1="228" y1="142" x2="258" y2="142" stroke="#73726c" stroke-width="1.5" marker-end="url(#arr)"/>
+  <line x1="460" y1="142" x2="490" y2="142" stroke="#73726c" stroke-width="1.5" marker-end="url(#arr)"/>
+
+  <!-- Inference strip -->
+  <text x="360" y="244" text-anchor="middle" font-size="12" font-weight="600" fill="#1c1c1a">At answer time, the model spends tokens working before it replies</text>
+
+  <rect x="28" y="264" width="120" height="92" rx="8" fill="#f1efe8" stroke="#a8a79f" stroke-width="1"/>
+  <text x="88" y="306" text-anchor="middle" font-size="12" font-weight="600" fill="#1c1c1a">Prompt</text>
+  <text x="88" y="324" text-anchor="middle" font-size="11" fill="#73726c">your question</text>
+
+  <rect x="176" y="264" width="380" height="92" rx="8" fill="#ffffff" stroke="#d97706" stroke-width="1" stroke-dasharray="5 3"/>
+  <text x="366" y="284" text-anchor="middle" font-size="11" font-weight="600" fill="#b45309">Thinking tokens</text>
+  <rect x="192" y="294" width="108" height="24" rx="12" fill="#fef3c7"/>
+  <text x="246" y="310" text-anchor="middle" font-size="11" fill="#78350f">try an approach</text>
+  <rect x="312" y="294" width="108" height="24" rx="12" fill="#fef3c7"/>
+  <text x="366" y="310" text-anchor="middle" font-size="11" fill="#78350f">check the result</text>
+  <rect x="432" y="294" width="108" height="24" rx="12" fill="#fef3c7"/>
+  <text x="486" y="310" text-anchor="middle" font-size="11" fill="#78350f">"wait, that's off"</text>
+  <rect x="252" y="324" width="108" height="24" rx="12" fill="#fef3c7"/>
+  <text x="306" y="340" text-anchor="middle" font-size="11" fill="#78350f">backtrack</text>
+  <rect x="372" y="324" width="108" height="24" rx="12" fill="#fef3c7"/>
+  <text x="426" y="340" text-anchor="middle" font-size="11" fill="#78350f">verify, then commit</text>
+
+  <rect x="584" y="264" width="108" height="92" rx="8" fill="#f1efe8" stroke="#a8a79f" stroke-width="1"/>
+  <text x="638" y="306" text-anchor="middle" font-size="12" font-weight="600" fill="#1c1c1a">Answer</text>
+  <text x="638" y="324" text-anchor="middle" font-size="11" fill="#73726c">what you see</text>
+
+  <line x1="148" y1="310" x2="174" y2="310" stroke="#73726c" stroke-width="1.5" marker-end="url(#arr)"/>
+  <line x1="556" y1="310" x2="582" y2="310" stroke="#73726c" stroke-width="1.5" marker-end="url(#arr)"/>
+
+  <text x="360" y="386" text-anchor="middle" font-size="11" fill="#73726c">Nobody wrote these moves into the model. RL rewarded right answers, and these habits got the answers right.</text>
+
+  <defs>
+    <marker id="arr" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M2 1L8 5L2 9" fill="none" stroke="#73726c" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+    </marker>
+  </defs>
+
+</svg>
